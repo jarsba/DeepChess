@@ -5,4 +5,6 @@ Projektityö Tietorakenteet ja algoritmit harjoitustyöhön. Projekti forkattu s
 #### Dokumentaatio
 
 | Palautus | Dokumentti |
+| --- | ---- |
 | Palautus I | [Määrittelydokumentti]() |
+| Palautus I | [Viikko-raportti I]() |
