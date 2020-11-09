@@ -1,5 +1,6 @@
 #!/bin/bash
 ./gradlew shadowJar
-cd build
-cd libs
-java -jar chess-all.jar
+
+token=`cat token.txt`
+
+java -jar build/libs/chess-all.jar --lichess --token=$token

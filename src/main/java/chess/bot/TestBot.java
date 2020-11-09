@@ -25,7 +25,7 @@ public class TestBot implements ChessBot {
     
     /**
      * @param gs Current gamestate
-     * @return UCI String representation of a mvoe
+     * @return UCI String representation of a move
      */
     @Override
     public String nextMove(GameState gs) {
