@@ -10,7 +10,7 @@ Shakkisäännöt puuttuvat, muuten keskeiset tietorakenteet kutakuinkin valmiit
 
 #### Mitä opin?
 
-Aloittamaan koodauksen aikasemmin tällä viikolla
+-
 
 #### Mikä on epäselvää?
 
