@@ -6,7 +6,7 @@ Tein dokumentaation ohjelmalle ja tein tutkimustyötä shakkitekoälyjä varten.
 
 #### Ohjelma
 
-Olen tehnyt keskeisiä toiminnallisuuksia
+Olen tehnyt keskeisiä toiminnallisuuksia.
 
 #### Mitä opin?
 
