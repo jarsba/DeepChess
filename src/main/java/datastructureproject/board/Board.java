@@ -113,7 +113,7 @@ public class Board {
 
         return filteredPieces;
     }
-    
+
 
     public List<Square> getPossibleMoves(int row, int column, Piece piece) {
 
