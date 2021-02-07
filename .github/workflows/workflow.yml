@@ -1,5 +1,4 @@
-name: Java CI with Gradle
-
+name: testing
 on:
   push:
     branches: [ main ]
