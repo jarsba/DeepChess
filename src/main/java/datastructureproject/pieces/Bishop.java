@@ -33,7 +33,7 @@ public class Bishop implements Piece {
         int minDistanceFromZero = Math.min(row, column);
 
         for (int i = 1; i <= minDistanceFromZero; i++) {
-                possibleMoves.add(new Square(row-i, column-i));
+            possibleMoves.add(new Square(row-i, column-i));
         }
 
         // Row decrease, column increase

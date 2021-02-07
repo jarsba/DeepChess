@@ -96,6 +96,24 @@ public class Board {
         return filteredPieces;
     }
 
+    public Map<Square, Piece> filterPiecesBySideAndType(Side side, PieceType pieceType) {
+
+        Map<Square, Piece> filteredPieces = new HashMap<>();
+
+        for (int row = 0; row < this.getPositions().length; row++) {
+            for (int column = 0; column < this.getPositions()[0].length; column++) {
+                Piece piece = this.getPieceAt(row, column);
+                if (piece != null) {
+                    if (piece.getSide() == side && piece.getPieceType() == pieceType) {
+                        filteredPieces.put(new Square(row, column), piece);
+                    }
+                }
+            }
+        }
+
+        return filteredPieces;
+    }
+    
 
     public List<Square> getPossibleMoves(int row, int column, Piece piece) {
 
