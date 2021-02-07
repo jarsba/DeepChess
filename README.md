@@ -1,6 +1,6 @@
 # DeepChess
 
-![Codecov](https://github.com/jarsba/DeepChess/workflows/Java%20CI%20with%20Gradle/badge.svg)
+![Codecov](https://github.com/jarsba/DeepChess/workflows/testing/badge.svg)
 
 
 Projektityö Tietorakenteet ja algoritmit harjoitustyöhön. Projekti forkattu shakki-pohjasta.
