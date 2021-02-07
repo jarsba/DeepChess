@@ -1,7 +1,6 @@
 # DeepChess
 
-![Codecov](https://github.com/jarsba/DeepChess/workflows/testing/badge.svg)
-
+[![codecov](https://codecov.io/gh/jarsba/DeepChess/branch/master/graph/badge.svg?token=YT430ZDL1Z)](https://codecov.io/gh/jarsba/DeepChess)
 
 Projektityö Tietorakenteet ja algoritmit harjoitustyöhön. Projekti forkattu shakki-pohjasta.
 
