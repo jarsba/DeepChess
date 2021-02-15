@@ -52,6 +52,8 @@ public class Board {
         return this.positions[row][column];
     }
 
+    public Boolean hasPiece(int row, int column) { return this.positions[row][column] != null;}
+
     public void setPieceAt(int row, int column, Piece piece) {
         this.positions[row][column] = piece;
     }
