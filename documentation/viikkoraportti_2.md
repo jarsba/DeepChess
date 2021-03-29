@@ -18,4 +18,4 @@ Sääntölogiikka kohta valmis, puuttuvia osia ovat vielä ainakin linnoittautum
 
 #### Mitä teen seuraavaksi?
 
-Jatkan sääntölogiikan loppuun. Sen jälkeen testaan sitä pelaamalla Lichessissä Stockfish-bottiani vastaan valitsemalla sattumanvaraisen siirron ja tarkistan että sekä pelisykli että siirron valinta toimii onnistuneesti. Lisää myös testejä, koska osa ohjelmasta on testaamatonta tällä hetkellä. Sen jälkeen siirryn tekemään siirron valintaan liittyviä heuristiikka-algoritmeja.
+Jatkan sääntölogiikan loppuun. Sen jälkeen testaan sitä pelaamalla Lichessissä Stockfish-bottiani vastaan valitsemalla sattumanvaraisen siirron ja tarkistan että pelisykli ja siirron valinta toimivat onnistuneesti. Lisään myös testejä, koska osa ohjelmasta on testaamatonta tällä hetkellä. Sen jälkeen siirryn tekemään siirron valintaan liittyviä heuristiikka-algoritmeja.
