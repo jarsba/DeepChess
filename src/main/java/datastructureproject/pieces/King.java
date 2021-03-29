@@ -1,5 +1,6 @@
 package datastructureproject.pieces;
 
+import datastructureproject.board.Board;
 import datastructureproject.board.Square;
 
 import java.util.ArrayList;
@@ -24,6 +25,8 @@ public class King implements Piece {
         return this.side;
     }
 
+
+    // Doesn't consider board position
     public static List<Square> getPossibleMoves(int row, int column) {
         ArrayList<Square> possibleMoves = new ArrayList<>();
 
@@ -38,6 +41,28 @@ public class King implements Piece {
 
         return possibleMoves;
 
+    }
+
+    // Does consider board positions, but not situations where the piece can't move because of pinning etc.
+    public static List<Square> getPossibleMoves(int row, int column, Board board) {
+        ArrayList<Square> possibleMoves = new ArrayList<>();
+        Side side = board.getPieceAt(row, column).getSide();
+        for (int i = row - 1; i <= row + 1; i++) {
+            for (int j = column - 1; j <= column + 1; j++) {
+                Square possibleSquare = new Square(i, j);
+                if (possibleSquare.isValidPosition() && (row != i || column != j)) {
+                    // Check if square has piece
+                    if(board.hasPiece(i, j)) {
+                        if(!board.getPieceAt(i, j).getSide().equals(side)) {
+
+                        }
+                    } else {
+                        possibleMoves.add(possibleSquare);
+                    }
+                }
+            }
+        }
+        return possibleMoves;
     }
 
     public String getUnicodeCharacter() {

@@ -70,16 +70,6 @@ public class Board {
         }
     }
 
-    public List<Square> getPossibleMoves(int row, int column) {
-        Piece piece = this.getPieceAt(row, column);
-
-        if (piece != null) {
-            return null;
-        } else {
-            return getPossibleMoves(row, column, piece);
-        }
-    }
-
     public Map<Square, Piece> filterPiecesBySide(Side side) {
 
         Map<Square, Piece> filteredPieces = new HashMap<>();
@@ -114,27 +104,6 @@ public class Board {
         }
 
         return filteredPieces;
-    }
-
-
-    public List<Square> getPossibleMoves(int row, int column, Piece piece) {
-
-        switch (piece.getPieceType()) {
-            case BISHOP:
-                return Bishop.getPossibleMoves(row,column);
-            case ROOK:
-                return Rook.getPossibleMoves(row, column);
-            case PAWN:
-                return Pawn.getPossibleMoves(row, column, piece.getSide());
-            case KNIGHT:
-                return Knight.getPossibleMoves(row, column);
-            case QUEEN:
-                return Queen.getPossibleMoves(row, column);
-            case KING:
-                return King.getPossibleMoves(row, column);
-        }
-
-        return null;
     }
 
     @Override

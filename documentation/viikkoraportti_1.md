@@ -2,20 +2,20 @@
 
 #### Aikaansaannokset
 
-Tein dokumentaation ohjelmalle ja tein tutkimustyötä shakkitekoälyjä varten.
+Jatkan ohjelmaa viime periodista ja sovin vasta tällä viikolla jatkosta. Ohjelma ei tällä viikolla vielä edistynyt.
 
 #### Ohjelma
 
-Olen tehnyt keskeisiä toiminnallisuuksia.
+&dash;
 
 #### Mitä opin?
 
-Opin tällä viikolla hieman Markovin päätösprosesseista ja vahvistusoppimisen käytöstä shakkitekoälyissä.
+&dash;
 
 #### Mikä on epäselvää?
 
-Ei vielä mikään.
+&dash;
 
 #### Mitä teen seuraavaksi?
 
-Implementoin minimax-algoritmin koodiin.
+Jatkan sääntölogiikan kanssa.

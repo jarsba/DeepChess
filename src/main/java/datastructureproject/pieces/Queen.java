@@ -1,5 +1,6 @@
 package datastructureproject.pieces;
 
+import datastructureproject.board.Board;
 import datastructureproject.board.Square;
 
 import java.util.ArrayList;
@@ -23,11 +24,22 @@ public class Queen implements Piece {
         return this.side;
     }
 
+    // Doesn't consider board position
     public static List<Square> getPossibleMoves(int row, int column) {
         ArrayList<Square> possibleMoves = new ArrayList<>();
 
         possibleMoves.addAll(Rook.getPossibleMoves(row, column));
         possibleMoves.addAll(Bishop.getPossibleMoves(row, column));
+
+        return possibleMoves;
+    }
+
+    // Does consider board positions, but not situations where the piece can't move because of pinning etc.
+    public static List<Square> getPossibleMoves(int row, int column, Board board) {
+        ArrayList<Square> possibleMoves = new ArrayList<>();
+
+        possibleMoves.addAll(Rook.getPossibleMoves(row, column, board));
+        possibleMoves.addAll(Bishop.getPossibleMoves(row, column, board));
 
         return possibleMoves;
     }

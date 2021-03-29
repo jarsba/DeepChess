@@ -1,5 +1,6 @@
 package datastructureproject.pieces;
 
+import datastructureproject.board.Board;
 import datastructureproject.board.Square;
 
 import java.util.ArrayList;
@@ -23,7 +24,52 @@ public class Knight implements Piece {
         return this.side;
     }
 
+
+    // Doesn't consider board position
     public static List<Square> getPossibleMoves(int row, int column) {
+
+        ArrayList<Square> possibleMoves = new ArrayList<>();
+
+        Square topLeft = new Square(row + 2, column - 1);
+        Square topRight = new Square(row + 2, column + 1);
+        Square rightTop = new Square(row + 1, column + 2);
+        Square rightBottom = new Square(row - 1, column + 2);
+        Square bottomLeft = new Square(row - 2, column - 1);
+        Square bottomRight = new Square(row - 2, column + 1);
+        Square leftTop = new Square(row + 1, column - 2);
+        Square leftBottom = new Square(row - 1, column - 2);
+
+        if (topLeft.isValidPosition()) {
+            possibleMoves.add(topLeft);
+        }
+        if (topRight.isValidPosition()) {
+            possibleMoves.add(topRight);
+        }
+        if (rightTop.isValidPosition()) {
+            possibleMoves.add(rightTop);
+        }
+        if (rightBottom.isValidPosition()) {
+            possibleMoves.add(rightBottom);
+        }
+        if (bottomLeft.isValidPosition()) {
+            possibleMoves.add(bottomLeft);
+        }
+        if (bottomRight.isValidPosition()) {
+            possibleMoves.add(bottomRight);
+        }
+        if (leftTop.isValidPosition()) {
+            possibleMoves.add(leftTop);
+        }
+        if (leftBottom.isValidPosition()) {
+            possibleMoves.add(leftBottom);
+        }
+
+        return possibleMoves;
+
+    }
+
+    // Does consider board positions, but not situations where the piece can't move because of pinning etc.
+    public static List<Square> getPossibleMoves(int row, int column, Board board) {
 
         ArrayList<Square> possibleMoves = new ArrayList<>();
 

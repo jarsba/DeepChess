@@ -1,5 +1,6 @@
 package datastructureproject.pieces;
 
+import datastructureproject.board.Board;
 import datastructureproject.board.Square;
 
 import java.util.ArrayList;
@@ -23,7 +24,52 @@ public class Pawn implements Piece {
         return this.side;
     }
 
+    // Doesn't consider board position
     public static List<Square> getPossibleMoves(int row, int column, Side side) {
+        ArrayList<Square> possibleMoves = new ArrayList<>();
+
+        if (side == Side.WHITE) {
+            if (7 - row >= 1) {
+
+                possibleMoves.add(new Square(row + 1, column));
+
+                if (column > 0) {
+                    possibleMoves.add(new Square(row + 1, column - 1));
+                }
+
+                if (column < 7) {
+                    possibleMoves.add(new Square(row + 1, column + 1));
+                }
+            }
+
+            if (row == 1) {
+                possibleMoves.add(new Square(row + 2, column));
+            }
+        } else {
+            if (row >= 1) {
+
+                possibleMoves.add(new Square(row - 1, column));
+
+                if (column > 0) {
+                    possibleMoves.add(new Square(row - 1, column - 1));
+                }
+
+                if (column < 7) {
+                    possibleMoves.add(new Square(row - 1, column + 1));
+                }
+            }
+
+            if (row == 6) {
+                possibleMoves.add(new Square(row - 2, column));
+            }
+        }
+
+        return possibleMoves;
+
+    }
+
+    // Does consider board positions, but not situations where the piece can't move because of pinning etc.
+    public static List<Square> getPossibleMoves(int row, int column, Side side, Board board) {
         ArrayList<Square> possibleMoves = new ArrayList<>();
 
         if (side == Side.WHITE) {

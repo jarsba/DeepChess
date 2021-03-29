@@ -1,6 +1,8 @@
 package datastructureproject.pieces;
 
+import datastructureproject.board.Board;
 import datastructureproject.board.Square;
+import datastructureproject.MoveUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +26,7 @@ public class Bishop implements Piece {
         return this.side;
     }
 
+    // Doesn't consider board position
     public static List<Square> getPossibleMoves(int row, int column) {
 
         ArrayList<Square> possibleMoves = new ArrayList<>();
@@ -57,6 +60,80 @@ public class Bishop implements Piece {
         int minDistanceFromEight = Math.min(7 - row, 7 - column);
 
         for (int i = 1; i <= minDistanceFromEight; i++) {
+            possibleMoves.add(new Square(row+i, column+i));
+        }
+
+
+        return possibleMoves;
+    }
+
+    // Does consider board positions, but not situations where the piece can't move because of pinning etc.
+    public static List<Square> getPossibleMoves(int row, int column, Board board) {
+
+        Side side = board.getPieceAt(row, column).getSide();
+
+        ArrayList<Square> possibleMoves = new ArrayList<>();
+
+        // Row decrease, column decrease
+
+        int minDistanceFromZero = Math.min(row, column);
+
+        for (int i = 1; i <= minDistanceFromZero; i++) {
+            if(board.hasPiece(row-1, column-1)) {
+                if(board.getPieceAt(row-1, column-1).getSide().equals(side)) {
+                    break;
+                } else {
+                    possibleMoves.add(new Square(row-i, column-i));
+                    break;
+                }
+            }
+            possibleMoves.add(new Square(row-i, column-i));
+        }
+
+        // Row decrease, column increase
+        int minDistanceFromZeroOrEight = Math.min(row, 7 - column);
+
+        for (int i = 1; i <= minDistanceFromZeroOrEight; i++) {
+            if(board.hasPiece(row-1, column+1)) {
+                if(board.getPieceAt(row-1, column+1).getSide().equals(side)) {
+                    break;
+                } else {
+                    possibleMoves.add(new Square(row-i, column+i));
+                    break;
+                }
+            }
+            possibleMoves.add(new Square(row-i, column+i));
+        }
+
+        // Row increase, column decrease
+
+        int minDistanceFromEightOrZero = Math.min(7 - row, column);
+
+        for (int i = 1; i <= minDistanceFromEightOrZero; i++) {
+            if(board.hasPiece(row+1, column-1)) {
+                if(board.getPieceAt(row+1, column-1).getSide().equals(side)) {
+                    break;
+                } else {
+                    possibleMoves.add(new Square(row+i, column-i));
+                    break;
+                }
+            }
+            possibleMoves.add(new Square(row+i, column-i));
+        }
+
+        // Row increase, column increase
+
+        int minDistanceFromEight = Math.min(7 - row, 7 - column);
+
+        for (int i = 1; i <= minDistanceFromEight; i++) {
+            if(board.hasPiece(row+1, column+1)) {
+                if(board.getPieceAt(row+1, column+1).getSide().equals(side)) {
+                    break;
+                } else {
+                    possibleMoves.add(new Square(row+i, column+i));
+                    break;
+                }
+            }
             possibleMoves.add(new Square(row+i, column+i));
         }
 

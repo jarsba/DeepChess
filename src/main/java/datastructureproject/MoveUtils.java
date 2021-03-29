@@ -2,7 +2,7 @@ package datastructureproject;
 
 import datastructureproject.board.Board;
 import datastructureproject.board.Square;
-import datastructureproject.exceptions.TooManyPiecesOnBoard;
+import datastructureproject.exceptions.*;
 import datastructureproject.pieces.*;
 import datastructureproject.pieces.Piece;
 import datastructureproject.pieces.PieceType;
@@ -21,31 +21,60 @@ public class MoveUtils {
 
     }
 
-    public List<Square> getPossibleMoves(Board board, int srcRow, int srcColumn) {
-        Piece piece = board.getPieceAt(srcRow, srcColumn);
-        PieceType type = piece.getPieceType();
-        Side side = piece.getSide();
-        List<Square> possibleSquares = PieceUtils.getPossibleMovesWithPieceType(srcRow, srcColumn, type, side);
-        // TODO: Finish function
+    public List<Square> getPossibleMoves(int row, int column, Piece piece) {
+        switch (piece.getPieceType()) {
+            case BISHOP:
+                return Bishop.getPossibleMoves(row,column, board);
+            case ROOK:
+                return Rook.getPossibleMoves(row, column, board);
+            case PAWN:
+                return Pawn.getPossibleMoves(row, column, piece.getSide(), board);
+            case KNIGHT:
+                return Knight.getPossibleMoves(row, column, board);
+            case QUEEN:
+                return Queen.getPossibleMoves(row, column, board);
+            case KING:
+                return King.getPossibleMoves(row, column, board);
+        }
+
         return null;
     }
 
-    public Boolean isBlockingCheck(int srcRow, int srcColumn, Side side) throws TooManyPiecesOnBoard {
+    public List<Square> getPossibleMoves(int row, int column) {
+        Piece piece = board.getPieceAt(row, column);
+
+        if (piece == null) {
+            return null;
+        } else {
+            return getPossibleMoves(row, column, piece);
+        }
+    }
+
+    public Boolean isBlockingCheck(int srcRow, int srcColumn, Side side) throws TooManyPiecesOnBoard, PieceNotFoundOnBoard {
         Map<Square, Piece> kingSquareMap = board.filterPiecesBySideAndType(side, PieceType.KING);
-        if (kingSquareMap.keySet().size() != 1) {
-            throw new TooManyPiecesOnBoard("Couldn't find a king on the board!");
+        if (kingSquareMap.keySet().size() == 0) {
+            throw new PieceNotFoundOnBoard("Couldn't find a king on the board!");
+        } else if (kingSquareMap.keySet().size() > 1) {
+            throw new TooManyPiecesOnBoard("Found too many kings on the board!");
         }
 
         Square kingSquare = kingSquareMap.keySet().stream().iterator().next();
 
-        List<Square> possibleSquares = getSquaresBetween(srcRow, srcColumn, kingSquare.getRow(), kingSquare.getColumn());
+        int kingRow = kingSquare.getRow();
+        int kingColumn = kingSquare.getColumn();
 
-        // King is not "on the line"
-        if (possibleSquares.size() == 0) {
+        if (kingRow == srcRow && kingColumn == srcColumn) {
             return false;
         }
 
-        // Check if any other pieces between the line
+        List<Square> possibleSquares = getSquaresBetween(srcRow, srcColumn, kingRow, kingColumn);
+
+        // King is not "on the line" and king is not next to the piece
+        if (possibleSquares.size() == 0 && (Math.abs(srcRow-kingRow) > 1 || Math.abs(srcColumn-kingColumn) > 1)) {
+            return false;
+        }
+
+        // Check if any other pieces between the line before checking if any piece is attacking
         for (Square square : possibleSquares) {
             Boolean hasPiece = board.hasPiece(square.getRow(), square.getColumn());
             if (hasPiece) {
@@ -53,21 +82,162 @@ public class MoveUtils {
             }
         }
 
-        if (srcRow == kingSquare.getRow()) {
+        // Check if attacking piece found on the line
+        if (srcRow == kingRow) {
 
-        } else if (srcColumn == kingSquare.getColumn()) {
-            // TODO: Finish function
+            // Check for pieces that can attack on the same row
+            if (srcColumn > kingColumn) {
+                for (int i = srcColumn+1; i <= 8; i++) {
+                    if(board.hasPiece(srcRow, i)) {
+                        Piece piece = board.getPieceAt(srcRow, i);
+                        if (piece.getSide().equals(side)) {
+                            break;
+                        } else {
+                            PieceType pieceType = piece.getPieceType();
+                            if(pieceType.equals(PieceType.QUEEN) || pieceType.equals(PieceType.ROOK)) {
+                                return true;
+                            } else {
+                                break;
+                            }
+                        }
+                    }
+                }
+            } else {
+                for (int i = srcColumn-1; i >= 0; i--) {
+                    if(board.hasPiece(srcRow, i)) {
+                        Piece piece = board.getPieceAt(srcRow, i);
+                        if (piece.getSide().equals(side)) {
+                            break;
+                        } else {
+                            PieceType pieceType = piece.getPieceType();
+                            if(pieceType.equals(PieceType.QUEEN) || pieceType.equals(PieceType.ROOK)) {
+                                return true;
+                            } else {
+                                break;
+                            }
+                        }
+                    }
+                }
 
-        } else if (srcColumn+srcRow == kingSquare.getRow()+ kingSquare.getColumn()) {
-            // TODO: Finish function
+            }
+        } else if (srcColumn == kingColumn) {
 
-        } else if (Math.abs(srcRow-kingSquare.getRow()) == Math.abs(srcColumn-kingSquare.getColumn())) {
-            // TODO: Finish function
+            // Check for pieces that can attack on the same column, identical to previous case except on different axis
+            if (srcRow > kingRow) {
+                for (int i = srcRow+1; i <= 8; i++) {
+                    if(board.hasPiece(i, srcColumn)) {
+                        Piece piece = board.getPieceAt(i, srcColumn);
+                        if (piece.getSide().equals(side)) {
+                            break;
+                        } else {
+                            PieceType pieceType = piece.getPieceType();
+                            if(pieceType.equals(PieceType.QUEEN) || pieceType.equals(PieceType.ROOK)) {
+                                return true;
+                            } else {
+                                break;
+                            }
+                        }
+                    }
+                }
+            } else {
+                for (int i = srcRow - 1; i >= 0; i--) {
+                    if (board.hasPiece(i, srcColumn)) {
+                        Piece piece = board.getPieceAt(i, srcColumn);
+                        if (piece.getSide().equals(side)) {
+                            break;
+                        } else {
+                            PieceType pieceType = piece.getPieceType();
+                            if (pieceType.equals(PieceType.QUEEN) || pieceType.equals(PieceType.ROOK)) {
+                                return true;
+                            } else {
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
 
+        } else if (srcRow+srcColumn == kingRow+kingColumn) {
+
+            // Check for pieces that can attack on the descending diagonal
+            if (srcRow > kingRow) {
+                int minDistanceFromLimit = Math.min(Math.abs(srcRow-7), srcColumn);
+                for (int i = 1; i <= minDistanceFromLimit; i++) {
+                    if (board.hasPiece(srcRow+i, srcColumn-i)) {
+                        Piece piece = board.getPieceAt(srcRow+i, srcColumn-i);
+                        if (piece.getSide().equals(side)) {
+                            break;
+                        } else {
+                            PieceType pieceType = piece.getPieceType();
+                            if (pieceType.equals(PieceType.QUEEN) || pieceType.equals(PieceType.BISHOP)) {
+                                return true;
+                            } else {
+                                break;
+                            }
+                        }
+                    }
+                }
+            } else {
+                int minDistanceFromLimit = Math.min(srcRow, Math.abs(srcColumn-7));
+                for (int i = 1; i <= minDistanceFromLimit; i++) {
+                    if (board.hasPiece(srcRow-i, srcColumn+1)) {
+                        Piece piece = board.getPieceAt(srcRow-i, srcColumn+i);
+                        if (piece.getSide().equals(side)) {
+                            break;
+                        } else {
+                            PieceType pieceType = piece.getPieceType();
+                            if (pieceType.equals(PieceType.QUEEN) || pieceType.equals(PieceType.BISHOP)) {
+                                return true;
+                            } else {
+                                break;
+                            }
+                        }
+                    }
+                }
+
+            }
+
+        } else if (Math.abs(srcRow-kingRow) == Math.abs(srcColumn-kingColumn)) {
+
+            // Check for pieces that can attack on the ascending diagonal
+            if (srcRow > kingRow) {
+                int minDistanceFromLimit = Math.min((7-srcRow), (7-srcColumn));
+                for (int i = 1; i <= minDistanceFromLimit; i++) {
+                    if (board.hasPiece(srcRow+i, srcColumn+1)) {
+                        Piece piece = board.getPieceAt(srcRow+i, srcColumn+i);
+                        if (piece.getSide().equals(side)) {
+                            break;
+                        } else {
+                            PieceType pieceType = piece.getPieceType();
+                            if (pieceType.equals(PieceType.QUEEN) || pieceType.equals(PieceType.BISHOP)) {
+                                return true;
+                            } else {
+                                break;
+                            }
+                        }
+                    }
+                }
+            } else {
+                int minDistanceFromLimit = Math.min(srcRow, srcColumn);
+                for (int i = 1; i <= minDistanceFromLimit; i++) {
+                    if (board.hasPiece(srcRow-i, srcColumn-1)) {
+                        Piece piece = board.getPieceAt(srcRow-i, srcColumn-i);
+                        if (piece.getSide().equals(side)) {
+                            break;
+                        } else {
+                            PieceType pieceType = piece.getPieceType();
+                            if (pieceType.equals(PieceType.QUEEN) || pieceType.equals(PieceType.BISHOP)) {
+                                return true;
+                            } else {
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
         }
 
-        // TODO: Finish function
-        return null;
+        return false;
     }
 
     public List<Square> getSquaresBetween(int srcRow, int srcColumn, int destRow, int destColumn) {
@@ -90,7 +260,7 @@ public class MoveUtils {
             return squaresBetween;
         }
 
-        // Pieces on downward slope
+        // Pieces on descending diagonal
         if (srcColumn+srcRow == destColumn+destRow) {
             int newColumn = Math.max(srcColumn, destColumn)-1;
             for (int i = Math.min(srcRow, destRow)+1; i < Math.max(srcRow, destRow); i++ ) {
@@ -100,7 +270,7 @@ public class MoveUtils {
             return squaresBetween;
         }
 
-        // Pieces on upward slope
+        // Pieces on ascending diagonal
         if (Math.abs(srcRow-destRow) == Math.abs(srcColumn-destColumn)) {
             int newColumn = Math.min(srcColumn, destColumn)+1;
             for (int i = Math.min(srcRow, destRow); i < Math.max(srcRow, destRow); i++) {
@@ -111,6 +281,19 @@ public class MoveUtils {
         }
 
         return squaresBetween;
+    }
+
+    public List<Square> getProtectorPieces(int row, int column, Side side) {
+        // TODO: finish function
+        List<Square> squareList = new ArrayList<>();
+        return squareList;
+    }
+
+    public Boolean checkIfPieceIsProtected(int row, int column) {
+        // TODO: finish function
+        Side side = board.getPieceAt(row, column).getSide();
+
+        return false;
     }
 
     public Boolean checkMove(int srcRow, int srcColumn, int destRow, int destColumn) {
@@ -128,12 +311,6 @@ public class MoveUtils {
         return Boolean.FALSE;
     }
 
-    public Boolean checkIfKingIsPinned(int srcRow, int srcColumn, int destRow, int destColumn) {
-        Map<Square, Piece> moves = board.filterPiecesBySideAndType(turn, PieceType.KING);
-        Square kingSquare = moves.keySet().stream().iterator().next();
-        // TODO: finish
-        return true;
-    }
 
     public void endTurn() {
 
