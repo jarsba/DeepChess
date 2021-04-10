@@ -70,7 +70,7 @@ public class Knight implements Piece {
 
     // Does consider board positions, but not situations where the piece can't move because of pinning etc.
     public static List<Square> getPossibleMoves(int row, int column, Board board) {
-
+        Side side = board.getPieceAt(row, column).getSide();
         ArrayList<Square> possibleMoves = new ArrayList<>();
 
         Square topLeft = new Square(row + 2, column - 1);
@@ -83,32 +83,79 @@ public class Knight implements Piece {
         Square leftBottom = new Square(row - 1, column - 2);
 
         if (topLeft.isValidPosition()) {
-            possibleMoves.add(topLeft);
+            if(board.hasPiece(topLeft.getRow(), topLeft.getColumn())) {
+                if(!board.getPieceAt(topLeft.getRow(), topLeft.getColumn()).getSide().equals(side)) {
+                    possibleMoves.add(topLeft);
+                }
+            } else {
+                possibleMoves.add(topLeft);
+            }
         }
         if (topRight.isValidPosition()) {
-            possibleMoves.add(topRight);
+            if(board.hasPiece(topRight.getRow(), topRight.getColumn())) {
+                if(!board.getPieceAt(topRight.getRow(), topRight.getColumn()).getSide().equals(side)) {
+                    possibleMoves.add(topRight);
+                }
+            } else {
+                possibleMoves.add(topRight);
+            }
         }
         if (rightTop.isValidPosition()) {
-            possibleMoves.add(rightTop);
+            if(board.hasPiece(rightTop.getRow(), rightTop.getColumn())) {
+                if(!board.getPieceAt(rightTop.getRow(), rightTop.getColumn()).getSide().equals(side)) {
+                    possibleMoves.add(rightTop);
+                }
+            } else {
+                possibleMoves.add(rightTop);
+            }
         }
         if (rightBottom.isValidPosition()) {
-            possibleMoves.add(rightBottom);
+            if(board.hasPiece(rightBottom.getRow(), rightBottom.getColumn())) {
+                if(!board.getPieceAt(rightBottom.getRow(), rightBottom.getColumn()).getSide().equals(side)) {
+                    possibleMoves.add(rightBottom);
+                }
+            } else {
+                possibleMoves.add(rightBottom);
+            }
         }
         if (bottomLeft.isValidPosition()) {
-            possibleMoves.add(bottomLeft);
+            if(board.hasPiece(bottomLeft.getRow(), bottomLeft.getColumn())) {
+                if(!board.getPieceAt(bottomLeft.getRow(), bottomLeft.getColumn()).getSide().equals(side)) {
+                    possibleMoves.add(bottomLeft);
+                }
+            } else {
+                possibleMoves.add(bottomLeft);
+            }
         }
         if (bottomRight.isValidPosition()) {
-            possibleMoves.add(bottomRight);
+            if(board.hasPiece(bottomRight.getRow(), bottomRight.getColumn())) {
+                if(!board.getPieceAt(bottomRight.getRow(), bottomRight.getColumn()).getSide().equals(side)) {
+                    possibleMoves.add(bottomRight);
+                }
+            } else {
+                possibleMoves.add(bottomRight);
+            }
         }
         if (leftTop.isValidPosition()) {
-            possibleMoves.add(leftTop);
+            if(board.hasPiece(leftTop.getRow(), leftTop.getColumn())) {
+                if(!board.getPieceAt(leftTop.getRow(), leftTop.getColumn()).getSide().equals(side)) {
+                    possibleMoves.add(leftTop);
+                }
+            } else {
+                possibleMoves.add(leftTop);
+            }
         }
         if (leftBottom.isValidPosition()) {
-            possibleMoves.add(leftBottom);
+            if(board.hasPiece(leftBottom.getRow(), leftBottom.getColumn())) {
+                if(!board.getPieceAt(leftBottom.getRow(), leftBottom.getColumn()).getSide().equals(side)) {
+                    possibleMoves.add(leftBottom);
+                }
+            } else {
+                possibleMoves.add(leftBottom);
+            }
         }
 
         return possibleMoves;
-
     }
 
     public String getUnicodeCharacter() {

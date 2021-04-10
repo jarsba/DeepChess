@@ -1,5 +1,6 @@
 package datastructureproject.pieces;
 
+import datastructureproject.MoveUtils;
 import datastructureproject.board.Board;
 import datastructureproject.board.Square;
 
@@ -46,24 +47,59 @@ public class Rook implements Piece {
     }
 
     // Does consider board positions, but not situations where the piece can't move because of pinning etc.
-    public static List<Square> getPossibleMoves(int row, int column, Board board) {
-
+    public static List<Square> getPossibleMoves(int row, int column, MoveUtils moveUtils) {
         ArrayList<Square> possibleMoves = new ArrayList<>();
+        Board board = moveUtils.getBoard();
+        Side side = board.getPieceAt(row, column).getSide();
 
-        for (int i = 0; i < 8; i++) {
-            if (i != column) {
-                possibleMoves.add(new Square(row, i));
+        for (int i = row + 1; i <= 7; i++) {
+            if(board.hasPiece(i, column)) {
+                if(board.getPieceAt(i, column).getSide().equals(side)) {
+                    break;
+                } else {
+                    possibleMoves.add(new Square(i, column));
+                    break;
+                }
             }
+            possibleMoves.add(new Square(i, column));
         }
 
-        for (int i = 0; i < 8; i++) {
-            if (i != row) {
-                possibleMoves.add(new Square(i, column));
+        for (int i = row - 1; i >= 0; i--) {
+            if(board.hasPiece(i, column)) {
+                if(board.getPieceAt(i, column).getSide().equals(side)) {
+                    break;
+                } else {
+                    possibleMoves.add(new Square(i, column));
+                    break;
+                }
             }
+            possibleMoves.add(new Square(i, column));
         }
 
-        return possibleMoves;
+        for (int i = column + 1; i <= 7; i++) {
+            if(board.hasPiece(row, i)) {
+                if(board.getPieceAt(row, i).getSide().equals(side)) {
+                    break;
+                } else {
+                    possibleMoves.add(new Square(row, i));
+                    break;
+                }
+            }
+            possibleMoves.add(new Square(row, i));
+        }
 
+        for (int i = column - 1; i >= 0; i--) {
+            if(board.hasPiece(row, i)) {
+                if(board.getPieceAt(row, i).getSide().equals(side)) {
+                    break;
+                } else {
+                    possibleMoves.add(new Square(row, i));
+                    break;
+                }
+            }
+            possibleMoves.add(new Square(row, i));
+        }
+        return new ArrayList<Square>();
     }
 
     public String getUnicodeCharacter() {

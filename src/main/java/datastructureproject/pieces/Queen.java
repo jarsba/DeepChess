@@ -37,9 +37,121 @@ public class Queen implements Piece {
     // Does consider board positions, but not situations where the piece can't move because of pinning etc.
     public static List<Square> getPossibleMoves(int row, int column, Board board) {
         ArrayList<Square> possibleMoves = new ArrayList<>();
+        Side side = board.getPieceAt(row, column).getSide();
 
-        possibleMoves.addAll(Rook.getPossibleMoves(row, column, board));
-        possibleMoves.addAll(Bishop.getPossibleMoves(row, column, board));
+        // Rook moves
+
+        for (int i = row + 1; i <= 7; i++) {
+            if(board.hasPiece(i, column)) {
+                if(board.getPieceAt(i, column).getSide().equals(side)) {
+                    break;
+                } else {
+                    possibleMoves.add(new Square(i, column));
+                    break;
+                }
+            }
+            possibleMoves.add(new Square(i, column));
+        }
+
+        for (int i = row - 1; i >= 0; i--) {
+            if(board.hasPiece(i, column)) {
+                if(board.getPieceAt(i, column).getSide().equals(side)) {
+                    break;
+                } else {
+                    possibleMoves.add(new Square(i, column));
+                    break;
+                }
+            }
+            possibleMoves.add(new Square(i, column));
+        }
+
+        for (int i = column + 1; i <= 7; i++) {
+            if(board.hasPiece(row, i)) {
+                if(board.getPieceAt(row, i).getSide().equals(side)) {
+                    break;
+                } else {
+                    possibleMoves.add(new Square(row, i));
+                    break;
+                }
+            }
+            possibleMoves.add(new Square(row, i));
+        }
+
+        for (int i = column - 1; i >= 0; i--) {
+            if(board.hasPiece(row, i)) {
+                if(board.getPieceAt(row, i).getSide().equals(side)) {
+                    break;
+                } else {
+                    possibleMoves.add(new Square(row, i));
+                    break;
+                }
+            }
+            possibleMoves.add(new Square(row, i));
+        }
+
+        // Knight moves
+        // Row decrease, column decrease
+        int minDistanceFromZero = Math.min(row, column);
+
+        for (int i = 1; i <= minDistanceFromZero; i++) {
+            if(board.hasPiece(row-1, column-1)) {
+                if(board.getPieceAt(row-1, column-1).getSide().equals(side)) {
+                    break;
+                } else {
+                    possibleMoves.add(new Square(row-i, column-i));
+                    break;
+                }
+            }
+            possibleMoves.add(new Square(row-i, column-i));
+        }
+
+        // Row decrease, column increase
+        int minDistanceFromZeroOrEight = Math.min(row, 7 - column);
+
+        for (int i = 1; i <= minDistanceFromZeroOrEight; i++) {
+            if(board.hasPiece(row-1, column+1)) {
+                if(board.getPieceAt(row-1, column+1).getSide().equals(side)) {
+                    break;
+                } else {
+                    possibleMoves.add(new Square(row-i, column+i));
+                    break;
+                }
+            }
+            possibleMoves.add(new Square(row-i, column+i));
+        }
+
+        // Row increase, column decrease
+
+        int minDistanceFromEightOrZero = Math.min(7 - row, column);
+
+        for (int i = 1; i <= minDistanceFromEightOrZero; i++) {
+            if(board.hasPiece(row+1, column-1)) {
+                if(board.getPieceAt(row+1, column-1).getSide().equals(side)) {
+                    break;
+                } else {
+                    possibleMoves.add(new Square(row+i, column-i));
+                    break;
+                }
+            }
+            possibleMoves.add(new Square(row+i, column-i));
+        }
+
+        // Row increase, column increase
+
+        int minDistanceFromEight = Math.min(7 - row, 7 - column);
+
+        for (int i = 1; i <= minDistanceFromEight; i++) {
+            if(board.hasPiece(row+1, column+1)) {
+                if(board.getPieceAt(row+1, column+1).getSide().equals(side)) {
+                    break;
+                } else {
+                    possibleMoves.add(new Square(row+i, column+i));
+                    break;
+                }
+            }
+            possibleMoves.add(new Square(row+i, column+i));
+        }
+
 
         return possibleMoves;
     }

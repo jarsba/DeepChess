@@ -1,7 +1,9 @@
 package datastructureproject.pieces;
 
+import datastructureproject.MoveUtils;
 import datastructureproject.board.Board;
 import datastructureproject.board.Square;
+import datastructureproject.exceptions.PieceInWrongSquareException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +35,7 @@ public class King implements Piece {
         for (int i = row - 1; i <= row + 1; i++) {
             for (int j = column - 1; j <= column + 1; j++) {
                 Square possibleSquare = new Square(i, j);
-                if (possibleSquare.isValidPosition() && (row != i | column != j)) {
+                if (possibleSquare.isValidPosition() && (row != i && column != j)) {
                     possibleMoves.add(possibleSquare);
                 }
             }
@@ -44,17 +46,20 @@ public class King implements Piece {
     }
 
     // Does consider board positions, but not situations where the piece can't move because of pinning etc.
-    public static List<Square> getPossibleMoves(int row, int column, Board board) {
+    public static List<Square> getPossibleMoves(int row, int column, MoveUtils moveUtils, Boolean canCastle) {
         ArrayList<Square> possibleMoves = new ArrayList<>();
+        Board board = moveUtils.getBoard();
         Side side = board.getPieceAt(row, column).getSide();
         for (int i = row - 1; i <= row + 1; i++) {
             for (int j = column - 1; j <= column + 1; j++) {
                 Square possibleSquare = new Square(i, j);
-                if (possibleSquare.isValidPosition() && (row != i || column != j)) {
+                if (possibleSquare.isValidPosition() && (row != i && column != j)) {
                     // Check if square has piece
                     if(board.hasPiece(i, j)) {
                         if(!board.getPieceAt(i, j).getSide().equals(side)) {
-
+                            if (!moveUtils.checkIfPieceIsProtected(i, j)) {
+                                possibleMoves.add(possibleSquare);
+                            }
                         }
                     } else {
                         possibleMoves.add(possibleSquare);
@@ -62,6 +67,16 @@ public class King implements Piece {
                 }
             }
         }
+
+        if(canCastle) {
+            if(!board.hasPiece(row, column+1) && !board.hasPiece(row, column+2)) {
+                possibleMoves.add(new Square(row, column+2));
+            }
+            if(!board.hasPiece(row, column-1) && !board.hasPiece(row, column-2) && !board.hasPiece(row, column-3)) {
+                possibleMoves.add(new Square(row, column-2));
+            }
+        }
+
         return possibleMoves;
     }
 

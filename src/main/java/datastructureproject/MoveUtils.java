@@ -15,10 +15,24 @@ import java.util.Map;
 public class MoveUtils {
 
     private Board board = new Board();
-    private Side turn = Side.WHITE;
+    private Side side = Side.WHITE;
+    private Boolean isCastlingAllowed = true;
+    private Boolean isKingInCheck = false;
 
     public MoveUtils() {
 
+    }
+
+    public Board getBoard() {
+        return this.board;
+    }
+
+    public Boolean getIsCastlingAllowed() {
+        return this.isCastlingAllowed;
+    }
+
+    public void setIsCastlingAllowed(Boolean value) {
+        this.isCastlingAllowed = value;
     }
 
     public List<Square> getPossibleMoves(int row, int column, Piece piece) {
@@ -26,15 +40,15 @@ public class MoveUtils {
             case BISHOP:
                 return Bishop.getPossibleMoves(row,column, board);
             case ROOK:
-                return Rook.getPossibleMoves(row, column, board);
+                return Rook.getPossibleMoves(row, column, this);
             case PAWN:
-                return Pawn.getPossibleMoves(row, column, piece.getSide(), board);
+                return Pawn.getPossibleMoves(row, column, piece.getSide(), this);
             case KNIGHT:
                 return Knight.getPossibleMoves(row, column, board);
             case QUEEN:
                 return Queen.getPossibleMoves(row, column, board);
             case KING:
-                return King.getPossibleMoves(row, column, board);
+                return King.getPossibleMoves(row, column, this, isKingInCheck);
         }
 
         return null;
@@ -50,12 +64,12 @@ public class MoveUtils {
         }
     }
 
-    public Boolean isBlockingCheck(int srcRow, int srcColumn, Side side) throws TooManyPiecesOnBoard, PieceNotFoundOnBoard {
+    public Boolean isBlockingCheck(int srcRow, int srcColumn, Side side) throws TooManyPiecesOnBoardException, PieceNotFoundOnBoardException {
         Map<Square, Piece> kingSquareMap = board.filterPiecesBySideAndType(side, PieceType.KING);
         if (kingSquareMap.keySet().size() == 0) {
-            throw new PieceNotFoundOnBoard("Couldn't find a king on the board!");
+            throw new PieceNotFoundOnBoardException("Couldn't find a king on the board!");
         } else if (kingSquareMap.keySet().size() > 1) {
-            throw new TooManyPiecesOnBoard("Found too many kings on the board!");
+            throw new TooManyPiecesOnBoardException("Found too many kings on the board!");
         }
 
         Square kingSquare = kingSquareMap.keySet().stream().iterator().next();
@@ -286,15 +300,26 @@ public class MoveUtils {
     public List<Square> getProtectorPieces(int row, int column, Side side) {
         // TODO: finish function
         List<Square> squareList = new ArrayList<>();
+
+
         return squareList;
     }
 
     public Boolean checkIfPieceIsProtected(int row, int column) {
         // TODO: finish function
         Side side = board.getPieceAt(row, column).getSide();
+        return false;
+    }
+
+    public Boolean checkIfSquareAttacked(int row, int column) {
+        Side oppositeSide = side.getOppositeSide();
+        Map<Square, Piece> oppositePieces = this.board.filterPiecesBySide(oppositeSide);
+        // TODO: finish function
 
         return false;
     }
+
+
 
     public Boolean checkMove(int srcRow, int srcColumn, int destRow, int destColumn) {
         // TODO: finish
@@ -304,11 +329,17 @@ public class MoveUtils {
     public Boolean checkIfOwnPiece(int srcRow, int srcColumn) {
         Piece piece = board.getPieceAt(srcRow, srcColumn);
         if (piece != null) {
-            if (piece.getSide() == turn) {
+            if (piece.getSide() == side) {
                 return true;
             }
         }
         return Boolean.FALSE;
+    }
+
+    public Boolean isKingInCheck() {
+        // TODO: finish
+        return this.isKingInCheck;
+
     }
 
 

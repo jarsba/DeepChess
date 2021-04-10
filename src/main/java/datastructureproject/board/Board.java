@@ -16,6 +16,10 @@ public class Board {
         initializePositions();
     }
 
+    public Board(Piece[][] boardPositions) {
+        this.positions = boardPositions;
+    }
+
     public Piece[][] getPositions() {
         return positions;
     }
@@ -106,17 +110,22 @@ public class Board {
         return filteredPieces;
     }
 
+    public Board copyBoard() throws CloneNotSupportedException {
+        Board copyBoard = (Board) this.clone();
+        return copyBoard;
+    }
+
     @Override
     public String toString() {
         StringBuilder boardString = new StringBuilder("\n----- BOARD -----\n\n");
         boardString.append("     a   b   c   d   e   f   g   h     \n");
         boardString.append("   ---------------------------------   \n");
         for (int row = 0; row < 8; row++) {
-            boardString.append(8-row + "  ");
+            boardString.append(8 - row).append("  ");
             for (int column = 0; column < 8; column++) {
                 boardString.append("| ").append(this.getPieceAt(row, column) == null ? " " : this.getPieceAt(row, column)).append(" ");
             }
-            boardString.append("|").append("  " + (8-row)).append("\n");
+            boardString.append("|").append("  ").append(8 - row).append("\n");
         }
         boardString.append("   ---------------------------------   \n");
         boardString.append("     a   b   c   d   e   f   g   h     \n");
