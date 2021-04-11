@@ -116,7 +116,7 @@ public class Pawn implements Piece {
     }
 
     // Necessary for checking if square is attacked in MoveUtils
-    public static List<Square> getAttackingMoves(int row, int column, Side side, MoveUtils moveUtils) {
+    public static List<Square> getAttackingMoves(int row, int column, Side side) {
         ArrayList<Square> possibleMoves = new ArrayList<>();
 
         if (side == Side.WHITE) {

@@ -3,9 +3,9 @@ package datastructureproject.bots;
 import chess.bot.ChessBot;
 import chess.engine.GameState;
 
-public class MinimaxBot implements ChessBot {
+public class RandomBot implements ChessBot {
 
-    public MinimaxBot() {
+    public RandomBot() {
 
     }
 

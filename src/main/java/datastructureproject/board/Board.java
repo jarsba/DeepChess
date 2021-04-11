@@ -110,11 +110,6 @@ public class Board {
         return filteredPieces;
     }
 
-    public Board copyBoard() throws CloneNotSupportedException {
-        Board copyBoard = (Board) this.clone();
-        return copyBoard;
-    }
-
     @Override
     public String toString() {
         StringBuilder boardString = new StringBuilder("\n----- BOARD -----\n\n");
