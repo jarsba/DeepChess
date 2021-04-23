@@ -13,7 +13,7 @@ import java.util.List;
 public class King implements Piece {
 
     private final PieceType pieceType = PieceType.KING;
-    private Side side;
+    private final Side side;
 
     public King(Side side) {
         this.side = side;
@@ -48,9 +48,8 @@ public class King implements Piece {
     }
 
     // Does consider board positions, but not situations where the piece can't move because of pinning etc.
-    public static List<Square> getPossibleMoves(int row, int column, MoveUtils moveUtils, Boolean canQueenSideCastle, Boolean canKingSideCastle) {
+    public static List<Square> getPossibleMoves(int row, int column, Board board, Boolean canQueenSideCastle, Boolean canKingSideCastle) {
         ArrayList<Square> possibleMoves = new ArrayList<>();
-        Board board = moveUtils.getBoard();
         Side side = board.getPieceAt(row, column).getSide();
         for (int i = row - 1; i <= row + 1; i++) {
             for (int j = column - 1; j <= column + 1; j++) {
@@ -59,9 +58,7 @@ public class King implements Piece {
                     // Check if square has piece
                     if(board.hasPiece(i, j)) {
                         if(!board.getPieceAt(i, j).getSide().equals(side)) {
-                            if (!moveUtils.checkIfSquareAttacked(i, j)) {
-                                possibleMoves.add(possibleSquare);
-                            }
+                            possibleMoves.add(possibleSquare);
                         }
                     } else {
                         possibleMoves.add(possibleSquare);
@@ -89,6 +86,14 @@ public class King implements Piece {
             return "\u2654";
         } else {
             return "\u265A";
+        }
+    }
+
+    public String getPieceNotion() {
+        if (this.side.equals(Side.WHITE)) {
+            return "K";
+        } else {
+            return "k";
         }
     }
 

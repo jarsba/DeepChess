@@ -24,6 +24,11 @@ public class Board {
         return positions;
     }
 
+    public void setPositions(Piece[][] positions) {
+        this.positions = positions;
+    }
+
+
     private void initializePositions() {
         this.setPieceAt(0, 0, new Rook(Side.WHITE));
         this.setPieceAt(0, 1, new Knight(Side.WHITE));
@@ -71,6 +76,8 @@ public class Board {
         if (pieceToMove != null) {
             this.setPieceAt(destRow, destColumn, pieceToMove);
             removePieceAt(srcRow, srcColumn);
+        } else {
+            System.out.println("Piece was not found from the board!");
         }
     }
 
@@ -108,6 +115,18 @@ public class Board {
         }
 
         return filteredPieces;
+    }
+
+    public Board copyBoard() {
+
+        Piece[][] newPositions = new Piece[8][8];
+        for (int row = 0; row < 8; row++) {
+            for (int column = 0; column < 8; column++) {
+                newPositions[row][column] = this.positions[row][column];
+            }
+        }
+        Board newBoard = new Board(newPositions);
+        return newBoard;
     }
 
     @Override

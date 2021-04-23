@@ -164,6 +164,14 @@ public class Queen implements Piece {
         }
     }
 
+    public String getPieceNotion() {
+        if (this.side.equals(Side.WHITE)) {
+            return "Q";
+        } else {
+            return "q";
+        }
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;

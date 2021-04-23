@@ -47,9 +47,8 @@ public class Rook implements Piece {
     }
 
     // Does consider board positions, but not situations where the piece can't move because of pinning etc.
-    public static List<Square> getPossibleMoves(int row, int column, MoveUtils moveUtils) {
+    public static List<Square> getPossibleMoves(int row, int column, Board board) {
         ArrayList<Square> possibleMoves = new ArrayList<>();
-        Board board = moveUtils.getBoard();
         Side side = board.getPieceAt(row, column).getSide();
 
         for (int i = row + 1; i <= 7; i++) {
@@ -99,7 +98,7 @@ public class Rook implements Piece {
             }
             possibleMoves.add(new Square(row, i));
         }
-        return new ArrayList<Square>();
+        return possibleMoves;
     }
 
     public String getUnicodeCharacter() {
@@ -107,6 +106,14 @@ public class Rook implements Piece {
             return "\u2656";
         } else {
             return "\u265C";
+        }
+    }
+
+    public String getPieceNotion() {
+        if (this.side.equals(Side.WHITE)) {
+            return "R";
+        } else {
+            return "r";
         }
     }
 

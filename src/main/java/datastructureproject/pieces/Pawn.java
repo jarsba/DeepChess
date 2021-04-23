@@ -70,9 +70,8 @@ public class Pawn implements Piece {
     }
 
     // Does consider board positions, but not situations where the piece can't move because of pinning etc.
-    public static List<Square> getPossibleMoves(int row, int column, Side side, MoveUtils moveUtils) {
+    public static List<Square> getPossibleMoves(int row, int column, Side side, Board board) {
         ArrayList<Square> possibleMoves = new ArrayList<>();
-        Board board = moveUtils.getBoard();
 
         if (side == Side.WHITE) {
             if (7 - row >= 1) {
@@ -150,6 +149,14 @@ public class Pawn implements Piece {
             return "\u2659";
         } else {
             return "\u265F";
+        }
+    }
+
+    public String getPieceNotion() {
+        if (this.side.equals(Side.WHITE)) {
+            return "P";
+        } else {
+            return "p";
         }
     }
 

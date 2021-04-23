@@ -166,6 +166,14 @@ public class Knight implements Piece {
         }
     }
 
+    public String getPieceNotion() {
+        if (this.side.equals(Side.WHITE)) {
+            return "N";
+        } else {
+            return "n";
+        }
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;

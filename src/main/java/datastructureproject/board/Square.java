@@ -40,6 +40,12 @@ public class Square implements Comparable<Square> {
     }
 
     @Override
+    public String toString() {
+        return String.format("Square(%s, %s)", this.row, this.column);
+    }
+
+
+    @Override
     public boolean equals(Object obj) {
         if (this == obj)
             return true;

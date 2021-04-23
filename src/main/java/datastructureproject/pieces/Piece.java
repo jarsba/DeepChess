@@ -8,4 +8,5 @@ public interface Piece {
     PieceType getPieceType();
     Side getSide();
     String getUnicodeCharacter();
+    String getPieceNotion();
 }
