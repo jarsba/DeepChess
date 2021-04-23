@@ -16,7 +16,7 @@ public class RandomBot implements ChessBot {
 
     public RandomBot() {
         this.board = new Board();
-        this.moveUtils = new MoveUtils(board);
+        this.moveUtils = new MoveUtils();
         this.random = new Random();
     }
 
@@ -26,11 +26,11 @@ public class RandomBot implements ChessBot {
      */
     @Override
     public String nextMove(GameState gs) {
-        BotUtils.parseGameState(gs, this.board);
+        BotUtils.parseGameState(gs, this.board, this.moveUtils);
 
-        List<Move> moves = this.moveUtils.getAllPossibleMoves();
+        List<Move> moves = this.moveUtils.getAllPossibleMoves(board);
         Move selectedMove = moves.get(random.nextInt(moves.size()));
-        moveUtils.makeMove(selectedMove);
+        moveUtils.makeMove(selectedMove, board);
 
         return selectedMove.toUCIString();
     }

@@ -16,7 +16,6 @@ import java.util.Map;
 
 public class MoveUtils {
 
-    private Board board;
     private Side side;
     private Boolean kingSideCastlingAllowed = true;
     private Boolean queenSideCastlingAllowed = true;
@@ -25,32 +24,15 @@ public class MoveUtils {
 
     }
     public MoveUtils(Side side) {
-        this.board = new Board();
         this.side = side;
     }
 
-    public MoveUtils(Board board) {
-        this.board = new Board();
-    }
-
-    public MoveUtils(Board board, Side side) {
-        this.board = board;
-        this.side = side;
-    }
-
-    public Board getBoard() {
-        return this.board;
-    }
-    public void setBoard(Board board) {
-        this.board = board;
-    }
     public Side getSide() {
         return this.side;
     }
     public void setSide(Side side) {
         this.side = side;
     }
-
 
     public Boolean getKingSideCastlingAllowed() {
         return this.kingSideCastlingAllowed;
@@ -68,43 +50,6 @@ public class MoveUtils {
         this.queenSideCastlingAllowed = value;
     }
 
-
-
-    public List<Square> getPossibleMovesForPiece(int row, int column, Piece piece) {
-        switch (piece.getPieceType()) {
-            case BISHOP:
-                return Bishop.getPossibleMoves(row,column, this.board);
-            case ROOK:
-                return Rook.getPossibleMoves(row, column, this.board);
-            case PAWN:
-                return Pawn.getPossibleMoves(row, column, piece.getSide(), this.board);
-            case KNIGHT:
-                return Knight.getPossibleMoves(row, column, this.board);
-            case QUEEN:
-                return Queen.getPossibleMoves(row, column, this.board);
-            case KING:
-                return King.getPossibleMoves(row, column, this.board, queenSideCastlingAllowed, kingSideCastlingAllowed);
-        }
-        return null;
-    }
-
-    public List<Square> getPossibleAttackingMovesForPiece(int row, int column, Piece piece) {
-        switch (piece.getPieceType()) {
-            case BISHOP:
-                return Bishop.getPossibleMoves(row, column, this.board);
-            case ROOK:
-                return Rook.getPossibleMoves(row, column, this.board);
-            case PAWN:
-                return Pawn.getAttackingMoves(row, column, piece.getSide());
-            case KNIGHT:
-                return Knight.getPossibleMoves(row, column, this.board);
-            case QUEEN:
-                return Queen.getPossibleMoves(row, column, this.board);
-            case KING:
-                return King.getPossibleMoves(row, column, this.board, queenSideCastlingAllowed, kingSideCastlingAllowed);
-        }
-        return null;
-    }
 
     public List<Square> getPossibleMovesForPiece(int row, int column, Piece piece, Board board) {
         switch (piece.getPieceType()) {
@@ -371,34 +316,6 @@ public class MoveUtils {
         return checkIfSquareAttacked(kingSquare.getRow(), kingSquare.getColumn(), board, side);
     }
 
-    public Boolean checkIfSquareAttacked(int row, int column)  {
-        Side oppositeSide = side.getOppositeSide();
-        Board boardCopy = new Board(board.getPositions());
-        boardCopy.removePieceAt(row, column);
-        Map<Square, Piece> oppositePieces = boardCopy.filterPiecesBySide(oppositeSide);
-
-        List<Square> possibleMoves = new ArrayList<>();
-
-        for (Map.Entry<Square, Piece> entry : oppositePieces.entrySet()) {
-            Square square = entry.getKey();
-            Piece piece = entry.getValue();
-
-            if(isPieceBlockingCheck(square.getRow(), square.getColumn(), oppositeSide, boardCopy)) {
-                continue;
-            }
-
-            possibleMoves.addAll(getPossibleAttackingMovesForPiece(square.getRow(), square.getColumn(), piece, board));
-        }
-
-        for (Square square : possibleMoves) {
-            if (row == square.getRow() && column == square.getColumn()) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     public Boolean checkIfSquareAttacked(int row, int column, Board board, Side side)  {
         Side oppositeSide = side.getOppositeSide();
 
@@ -427,7 +344,7 @@ public class MoveUtils {
     }
 
 
-    public Boolean checkIfOwnPiece(int srcRow, int srcColumn) {
+    public Boolean checkIfOwnPiece(int srcRow, int srcColumn, Board board) {
         Piece piece = board.getPieceAt(srcRow, srcColumn);
         if (piece != null) {
             if (piece.getSide() == side) {
@@ -437,19 +354,19 @@ public class MoveUtils {
         return Boolean.FALSE;
     }
 
-    public List<Move> getAllPossibleMoves() {
+    public List<Move> getAllPossibleMoves(Board board) {
 
         List<Move> possibleMoves = new ArrayList<>();
-        Map<Square, Piece> pieceMap = this.board.filterPiecesBySide(this.side);
+        Map<Square, Piece> pieceMap = board.filterPiecesBySide(this.side);
 
         for (Map.Entry<Square, Piece> entry : pieceMap.entrySet()) {
             Square square = entry.getKey();
             Piece piece = entry.getValue();
 
-            if (!isPieceBlockingCheck(square.getRow(), square.getColumn(), this.side, this.board)) {
-                List<Square> possibleMovesForPiece = getPossibleMovesForPiece(square.getRow(), square.getColumn(), piece);
+            if (!isPieceBlockingCheck(square.getRow(), square.getColumn(), this.side, board)) {
+                List<Square> possibleMovesForPiece = getPossibleMovesForPiece(square.getRow(), square.getColumn(), piece, board);
                 for (Square endSquare : possibleMovesForPiece) {
-                    Board newBoard = this.board.copyBoard();
+                    Board newBoard = board.copyBoard();
                     newBoard.movePiece(square.getRow(), square.getColumn(), endSquare.getRow(), endSquare.getColumn());
                     if(!checkIfPositionInvalid(newBoard, this.side)) {
                         System.out.println(newBoard);
@@ -465,10 +382,10 @@ public class MoveUtils {
         return possibleMoves;
     }
 
-    public void makeMove(Move move) {
+    public void makeMove(Move move, Board board) {
         Square startSquare = move.getStartSquare();
         Square endSquare = move.getEndSquare();
-        Piece piece = this.board.getPieceAt(startSquare.getRow(), startSquare.getColumn());
+        Piece piece = board.getPieceAt(startSquare.getRow(), startSquare.getColumn());
         if (piece.getPieceType().equals(PieceType.KING)) {
             this.kingSideCastlingAllowed = false;
             this.queenSideCastlingAllowed = false;
@@ -488,6 +405,6 @@ public class MoveUtils {
                 }
             }
         }
-        this.board.movePiece(startSquare.getRow(), startSquare.getColumn(), endSquare.getRow(), endSquare.getColumn());
+        board.movePiece(startSquare.getRow(), startSquare.getColumn(), endSquare.getRow(), endSquare.getColumn());
     }
 }

@@ -33,7 +33,7 @@ public class MoveUtilsTest {
     @Before
     public void setUp() {
         this.board = new Board();
-        this.moveUtils = new MoveUtils(board, Side.WHITE);
+        this.moveUtils = new MoveUtils(Side.WHITE);
     }
 
     @After
@@ -50,7 +50,7 @@ public class MoveUtilsTest {
 
     @Test
     public void rightPossibleMovesFromStart() throws PieceNotFoundOnBoardException {
-        List<Move> possibleMovesFromStart = moveUtils.getAllPossibleMoves();
+        List<Move> possibleMovesFromStart = moveUtils.getAllPossibleMoves(board);
         assert possibleMovesFromStart.size() == 20;
 
     }
