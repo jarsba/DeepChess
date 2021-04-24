@@ -174,6 +174,14 @@ public class Knight implements Piece {
         }
     }
 
+    public static Piece fromPieceNotation(String pieceNotation) {
+        if (pieceNotation.equals("N")) {
+            return new Knight(Side.WHITE);
+        } else {
+            return new Knight(Side.BLACK);
+        }
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;

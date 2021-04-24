@@ -2,6 +2,7 @@ package datastructureproject.board;
 
 import datastructureproject.pieces.Rook;
 
+import java.util.Locale;
 import java.util.Map;
 
 public class Square implements Comparable<Square> {
@@ -16,19 +17,36 @@ public class Square implements Comparable<Square> {
     }
 
     public int getRow() {
-        return row;
+        return this.row;
     }
 
     public int getColumn() {
-        return column;
+        return this.column;
     }
 
     public boolean isValidPosition() {
+        return this.column >= 0 && this.column < 8 && this.row >= 0 && this.row < 8;
+    }
+
+    public static boolean isValidPosition(int row, int column) {
         return column >= 0 && column < 8 && row >= 0 && row < 8;
     }
 
     public String getAlgebraicNotation() {
-        return String.format("%s%d", (char) (this.column + 'a'), this.row);
+        return String.format("%s%d", (char) (this.column + 'a'), this.row+1);
+    }
+
+    public static Square fromAlgebraicNotation(String algebraicNotationString) {
+        if(algebraicNotationString.length() != 2) {
+            System.out.println(algebraicNotationString);
+            throw new Error("String length incorrect");
+        }
+
+        algebraicNotationString = algebraicNotationString.toLowerCase();
+
+        int column = algebraicNotationString.charAt(0) - 'a';
+        int row = Integer.parseInt(algebraicNotationString.substring(1,2))-1;
+        return new Square(row, column);
     }
 
     @Override
@@ -41,7 +59,7 @@ public class Square implements Comparable<Square> {
 
     @Override
     public String toString() {
-        return String.format("Square(%s, %s)", this.row, this.column);
+        return String.format("Square(%s)", this.getAlgebraicNotation());
     }
 
 

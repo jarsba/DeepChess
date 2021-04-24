@@ -94,8 +94,8 @@ public class Queen implements Piece {
         int minDistanceFromZero = Math.min(row, column);
 
         for (int i = 1; i <= minDistanceFromZero; i++) {
-            if(board.hasPiece(row-1, column-1)) {
-                if(board.getPieceAt(row-1, column-1).getSide().equals(side)) {
+            if(board.hasPiece(row-i, column-i)) {
+                if(board.getPieceAt(row-i, column-i).getSide().equals(side)) {
                     break;
                 } else {
                     possibleMoves.add(new Square(row-i, column-i));
@@ -109,8 +109,8 @@ public class Queen implements Piece {
         int minDistanceFromZeroOrEight = Math.min(row, 7 - column);
 
         for (int i = 1; i <= minDistanceFromZeroOrEight; i++) {
-            if(board.hasPiece(row-1, column+1)) {
-                if(board.getPieceAt(row-1, column+1).getSide().equals(side)) {
+            if(board.hasPiece(row-i, column+i)) {
+                if(board.getPieceAt(row-i, column+i).getSide().equals(side)) {
                     break;
                 } else {
                     possibleMoves.add(new Square(row-i, column+i));
@@ -125,8 +125,8 @@ public class Queen implements Piece {
         int minDistanceFromEightOrZero = Math.min(7 - row, column);
 
         for (int i = 1; i <= minDistanceFromEightOrZero; i++) {
-            if(board.hasPiece(row+1, column-1)) {
-                if(board.getPieceAt(row+1, column-1).getSide().equals(side)) {
+            if(board.hasPiece(row+i, column-i)) {
+                if(board.getPieceAt(row+i, column-i).getSide().equals(side)) {
                     break;
                 } else {
                     possibleMoves.add(new Square(row+i, column-i));
@@ -141,8 +141,8 @@ public class Queen implements Piece {
         int minDistanceFromEight = Math.min(7 - row, 7 - column);
 
         for (int i = 1; i <= minDistanceFromEight; i++) {
-            if(board.hasPiece(row+1, column+1)) {
-                if(board.getPieceAt(row+1, column+1).getSide().equals(side)) {
+            if(board.hasPiece(row+i, column+i)) {
+                if(board.getPieceAt(row+i, column+i).getSide().equals(side)) {
                     break;
                 } else {
                     possibleMoves.add(new Square(row+i, column+i));
@@ -171,6 +171,16 @@ public class Queen implements Piece {
             return "q";
         }
     }
+
+    public static Piece fromPieceNotation(String pieceNotation) {
+        System.out.println(pieceNotation);
+        if (pieceNotation.equals("Q")) {
+            return new Queen(Side.WHITE);
+        } else {
+            return new Queen(Side.BLACK);
+        }
+    }
+
 
     @Override
     public int hashCode() {

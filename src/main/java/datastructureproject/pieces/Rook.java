@@ -117,6 +117,14 @@ public class Rook implements Piece {
         }
     }
 
+    public static Piece fromPieceNotation(String pieceNotation) {
+        if (pieceNotation.equals("R")) {
+            return new Rook(Side.WHITE);
+        } else {
+            return new Rook(Side.BLACK);
+        }
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;

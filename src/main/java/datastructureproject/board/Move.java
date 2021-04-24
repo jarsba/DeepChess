@@ -26,7 +26,7 @@ public class Move {
     public Square getEndSquare() {
         return this.endSquare;
     }
-
+    public Piece getPromotionPiece() { return this.promotionPiece; }
     public void setPromotionPiece(Piece piece) {
         this.promotionPiece = piece;
     }
@@ -43,6 +43,31 @@ public class Move {
     @Override
     public String toString() {
         return String.format("Move<%s, %s>", startSquare, endSquare);
+    }
+
+    public static Move fromUCIString(String string) {
+
+        Square startSquare = Square.fromAlgebraicNotation(string.substring(0, 2));
+        Square endSquare = Square.fromAlgebraicNotation(string.substring(2, 4));
+
+        if (string.length() == 4) {
+            return new Move(startSquare, endSquare);
+        } else if(string.length() == 5) {
+            // Lichess don't return promotion-piece type in capital if promotion is done to white
+            Piece promotionPiece;
+            if(endSquare.getRow() == 7) {
+                // Promotion piece for white
+                promotionPiece = Piece.fromPieceNotation(string.substring(4, 5).toUpperCase());
+            } else if (endSquare.getRow() == 0) {
+                // Promotion piece for black
+                promotionPiece = Piece.fromPieceNotation(string.substring(4, 5).toLowerCase());
+            } else {
+                throw new Error(String.format("Promotion done to wrong square: row %s, column %s", endSquare.getRow(), endSquare.getColumn() ));
+            }
+            return new Move(startSquare, endSquare, promotionPiece);
+        } else {
+            throw new Error("Could not recognize UCI string format");
+        }
     }
 
     public String toUCIString() {

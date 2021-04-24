@@ -97,6 +97,14 @@ public class King implements Piece {
         }
     }
 
+    public static Piece fromPieceNotation(String pieceNotation) {
+        if (pieceNotation.equals("K")) {
+            return new King(Side.WHITE);
+        } else {
+            return new King(Side.BLACK);
+        }
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;

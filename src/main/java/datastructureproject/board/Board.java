@@ -29,7 +29,7 @@ public class Board {
     }
 
 
-    private void initializePositions() {
+    public void initializePositions() {
         this.setPieceAt(0, 0, new Rook(Side.WHITE));
         this.setPieceAt(0, 1, new Knight(Side.WHITE));
         this.setPieceAt(0, 2, new Bishop(Side.WHITE));
@@ -61,7 +61,13 @@ public class Board {
         return this.positions[row][column];
     }
 
-    public Boolean hasPiece(int row, int column) { return this.positions[row][column] != null;}
+    public Boolean hasPiece(int row, int column) {
+        if(Square.isValidPosition(row, column)) {
+            return this.positions[row][column] != null;
+        } else {
+            throw new Error(String.format("Tried to get piece outside the board: row %s, column %s", row, column));
+        }
+    }
 
     public void setPieceAt(int row, int column, Piece piece) {
         this.positions[row][column] = piece;
@@ -75,11 +81,28 @@ public class Board {
         Piece pieceToMove = getPieceAt(srcRow, srcColumn);
         if (pieceToMove != null) {
             this.setPieceAt(destRow, destColumn, pieceToMove);
-            removePieceAt(srcRow, srcColumn);
+            this.removePieceAt(srcRow, srcColumn);
         } else {
-            System.out.println("Piece was not found from the board!");
+            throw new Error("Piece was not found from the board!");
         }
     }
+
+    public void makeMove(Move move) {
+        Square startSquare = move.getStartSquare();
+        Square endSquare = move.getEndSquare();
+        this.movePiece(startSquare.getRow(), startSquare.getColumn(), endSquare.getRow(), endSquare.getColumn());
+        if(move.getPromotionPiece() != null) {
+            this.setPieceAt(endSquare.getRow(), endSquare.getColumn(), move.getPromotionPiece());
+        }
+    }
+
+    public void makePromotionMove(Move move, Piece promoteTo) {
+        Square startSquare = move.getStartSquare();
+        Square endSquare = move.getEndSquare();
+        this.movePiece(startSquare.getRow(), startSquare.getColumn(), endSquare.getRow(), endSquare.getColumn());
+        this.setPieceAt(endSquare.getRow(), endSquare.getColumn(), promoteTo);
+    }
+
 
     public Map<Square, Piece> filterPiecesBySide(Side side) {
 
@@ -134,12 +157,12 @@ public class Board {
         StringBuilder boardString = new StringBuilder("\n----- BOARD -----\n\n");
         boardString.append("     a   b   c   d   e   f   g   h     \n");
         boardString.append("   ---------------------------------   \n");
-        for (int row = 0; row < 8; row++) {
-            boardString.append(8 - row).append("  ");
+        for (int row = 7; row >= 0; row--) {
+            boardString.append(row+1).append("  ");
             for (int column = 0; column < 8; column++) {
                 boardString.append("| ").append(this.getPieceAt(row, column) == null ? " " : this.getPieceAt(row, column)).append(" ");
             }
-            boardString.append("|").append("  ").append(8 - row).append("\n");
+            boardString.append("|").append("  ").append(row+1).append("\n");
         }
         boardString.append("   ---------------------------------   \n");
         boardString.append("     a   b   c   d   e   f   g   h     \n");

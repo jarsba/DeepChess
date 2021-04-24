@@ -64,7 +64,7 @@ public class MoveUtils {
             case QUEEN:
                 return Queen.getPossibleMoves(row, column, board);
             case KING:
-                return King.getPossibleMoves(row, column, board, queenSideCastlingAllowed, kingSideCastlingAllowed);
+                return King.getPossibleMoves(row, column, board, this.queenSideCastlingAllowed, this.kingSideCastlingAllowed);
         }
         return null;
     }
@@ -116,7 +116,7 @@ public class MoveUtils {
         // Check for pieces that can attack on the same row
         if (srcRow == kingRow) {
             if (srcColumn > kingColumn) {
-                for (int i = srcColumn+1; i <= 8; i++) {
+                for (int i = srcColumn+1; i < 8; i++) {
                     if(board.hasPiece(srcRow, i)) {
                         Piece piece = board.getPieceAt(srcRow, i);
                         if (piece.getSide().equals(side)) {
@@ -153,7 +153,7 @@ public class MoveUtils {
         } else if (srcColumn == kingColumn) {
 
             if (srcRow > kingRow) {
-                for (int i = srcRow+1; i <= 8; i++) {
+                for (int i = srcRow+1; i < 8; i++) {
                     if(board.hasPiece(i, srcColumn)) {
                         Piece piece = board.getPieceAt(i, srcColumn);
                         if (piece.getSide().equals(side)) {
@@ -208,7 +208,7 @@ public class MoveUtils {
             } else {
                 int minDistanceFromLimit = Math.min(srcRow, Math.abs(srcColumn-7));
                 for (int i = 1; i <= minDistanceFromLimit; i++) {
-                    if (board.hasPiece(srcRow-i, srcColumn+1)) {
+                    if (board.hasPiece(srcRow-i, srcColumn+i)) {
                         Piece piece = board.getPieceAt(srcRow-i, srcColumn+i);
                         if (piece.getSide().equals(side)) {
                             break;
@@ -230,7 +230,7 @@ public class MoveUtils {
             if (srcRow > kingRow) {
                 int minDistanceFromLimit = Math.min((7-srcRow), (7-srcColumn));
                 for (int i = 1; i <= minDistanceFromLimit; i++) {
-                    if (board.hasPiece(srcRow+i, srcColumn+1)) {
+                    if (board.hasPiece(srcRow+i, srcColumn+i)) {
                         Piece piece = board.getPieceAt(srcRow+i, srcColumn+i);
                         if (piece.getSide().equals(side)) {
                             break;
@@ -247,7 +247,7 @@ public class MoveUtils {
             } else {
                 int minDistanceFromLimit = Math.min(srcRow, srcColumn);
                 for (int i = 1; i <= minDistanceFromLimit; i++) {
-                    if (board.hasPiece(srcRow-i, srcColumn-1)) {
+                    if (board.hasPiece(srcRow-i, srcColumn-i)) {
                         Piece piece = board.getPieceAt(srcRow-i, srcColumn-i);
                         if (piece.getSide().equals(side)) {
                             break;
@@ -318,7 +318,6 @@ public class MoveUtils {
 
     public Boolean checkIfSquareAttacked(int row, int column, Board board, Side side)  {
         Side oppositeSide = side.getOppositeSide();
-
         Map<Square, Piece> oppositePieces = board.filterPiecesBySide(oppositeSide);
 
         List<Square> possibleMoves = new ArrayList<>();
@@ -331,7 +330,8 @@ public class MoveUtils {
                 continue;
             }
 
-            possibleMoves.addAll(getPossibleAttackingMovesForPiece(square.getRow(), square.getColumn(), piece, board));
+            List<Square> possibleMovesForPiece = getPossibleAttackingMovesForPiece(square.getRow(), square.getColumn(), piece, board);
+            possibleMoves.addAll(possibleMovesForPiece);
         }
 
         for (Square square : possibleMoves) {
@@ -369,7 +369,6 @@ public class MoveUtils {
                     Board newBoard = board.copyBoard();
                     newBoard.movePiece(square.getRow(), square.getColumn(), endSquare.getRow(), endSquare.getColumn());
                     if(!checkIfPositionInvalid(newBoard, this.side)) {
-                        System.out.println(newBoard);
                         possibleMoves.add(new Move(square, endSquare));
                     }
                 }

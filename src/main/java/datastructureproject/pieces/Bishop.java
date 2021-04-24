@@ -77,8 +77,8 @@ public class Bishop implements Piece {
         int minDistanceFromZero = Math.min(row, column);
 
         for (int i = 1; i <= minDistanceFromZero; i++) {
-            if(board.hasPiece(row-1, column-1)) {
-                if (!board.getPieceAt(row - 1, column - 1).getSide().equals(side)) {
+            if(board.hasPiece(row-i, column-i)) {
+                if (!board.getPieceAt(row - i, column - i).getSide().equals(side)) {
                     possibleMoves.add(new Square(row - i, column - i));
                 }
                 break;
@@ -90,8 +90,8 @@ public class Bishop implements Piece {
         int minDistanceFromZeroOrEight = Math.min(row, 7 - column);
 
         for (int i = 1; i <= minDistanceFromZeroOrEight; i++) {
-            if(board.hasPiece(row-1, column+1)) {
-                if (!board.getPieceAt(row - 1, column + 1).getSide().equals(side)) {
+            if(board.hasPiece(row-i, column+i)) {
+                if (!board.getPieceAt(row - i, column + i).getSide().equals(side)) {
                     possibleMoves.add(new Square(row - i, column + i));
                 }
                 break;
@@ -104,8 +104,8 @@ public class Bishop implements Piece {
         int minDistanceFromEightOrZero = Math.min(7 - row, column);
 
         for (int i = 1; i <= minDistanceFromEightOrZero; i++) {
-            if(board.hasPiece(row+1, column-1)) {
-                if (!board.getPieceAt(row + 1, column - 1).getSide().equals(side)) {
+            if(board.hasPiece(row+i, column-i)) {
+                if (!board.getPieceAt(row + i, column - i).getSide().equals(side)) {
                     possibleMoves.add(new Square(row + i, column - i));
                 }
                 break;
@@ -118,8 +118,8 @@ public class Bishop implements Piece {
         int minDistanceFromEight = Math.min(7 - row, 7 - column);
 
         for (int i = 1; i <= minDistanceFromEight; i++) {
-            if(board.hasPiece(row+1, column+1)) {
-                if (!board.getPieceAt(row + 1, column + 1).getSide().equals(side)) {
+            if(board.hasPiece(row+i, column+i)) {
+                if (!board.getPieceAt(row + i, column + i).getSide().equals(side)) {
                     possibleMoves.add(new Square(row + i, column + i));
                 }
                 break;
@@ -144,6 +144,14 @@ public class Bishop implements Piece {
             return "B";
         } else {
             return "b";
+        }
+    }
+
+    public static Piece fromPieceNotation(String pieceNotation) {
+        if (pieceNotation.equals("B")) {
+            return new Bishop(Side.WHITE);
+        } else {
+            return new Bishop(Side.BLACK);
         }
     }
     

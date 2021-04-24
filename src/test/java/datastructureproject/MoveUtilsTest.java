@@ -51,6 +51,11 @@ public class MoveUtilsTest {
     @Test
     public void rightPossibleMovesFromStart() throws PieceNotFoundOnBoardException {
         List<Move> possibleMovesFromStart = moveUtils.getAllPossibleMoves(board);
+
+        for (Move move : possibleMovesFromStart) {
+            System.out.println(move.toUCIString());
+        }
+
         assert possibleMovesFromStart.size() == 20;
 
     }

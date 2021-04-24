@@ -160,6 +160,14 @@ public class Pawn implements Piece {
         }
     }
 
+    public static Piece fromPieceNotation(String pieceNotation) {
+        if (pieceNotation.equals("P")) {
+            return new Pawn(Side.WHITE);
+        } else {
+            return new Pawn(Side.BLACK);
+        }
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
