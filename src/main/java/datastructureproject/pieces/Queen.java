@@ -173,7 +173,6 @@ public class Queen implements Piece {
     }
 
     public static Piece fromPieceNotation(String pieceNotation) {
-        System.out.println(pieceNotation);
         if (pieceNotation.equals("Q")) {
             return new Queen(Side.WHITE);
         } else {

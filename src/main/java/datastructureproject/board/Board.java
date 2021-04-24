@@ -24,11 +24,6 @@ public class Board {
         return positions;
     }
 
-    public void setPositions(Piece[][] positions) {
-        this.positions = positions;
-    }
-
-
     public void initializePositions() {
         this.setPieceAt(0, 0, new Rook(Side.WHITE));
         this.setPieceAt(0, 1, new Knight(Side.WHITE));
@@ -90,10 +85,79 @@ public class Board {
     public void makeMove(Move move) {
         Square startSquare = move.getStartSquare();
         Square endSquare = move.getEndSquare();
-        this.movePiece(startSquare.getRow(), startSquare.getColumn(), endSquare.getRow(), endSquare.getColumn());
-        if(move.getPromotionPiece() != null) {
-            this.setPieceAt(endSquare.getRow(), endSquare.getColumn(), move.getPromotionPiece());
+
+        if(this.checkIfCastlingMove(move)) {
+            this.makeCastlingMove(move);
+        } else {
+            this.movePiece(startSquare.getRow(), startSquare.getColumn(), endSquare.getRow(), endSquare.getColumn());
+            if(move.getPromotionPiece() != null) {
+                this.setPieceAt(endSquare.getRow(), endSquare.getColumn(), move.getPromotionPiece());
+            }
         }
+    }
+
+    public void makeCastlingMove(Move move) {
+        Square startSquare = move.getStartSquare();
+        Square endSquare = move.getEndSquare();
+
+        if(startSquare.getRow() == 0 && startSquare.getColumn() == 4 && endSquare.getRow() == 0 && endSquare.getColumn() == 2) {
+            Piece kingPiece = getPieceAt(0, 4);
+            Piece rookPiece = getPieceAt(0, 0);
+            if (!this.hasPiece(0, 1) && !this.hasPiece(0, 2) && !this.hasPiece(0, 3) && kingPiece.getPieceType() == PieceType.KING && kingPiece.getSide() == Side.WHITE && rookPiece.getPieceType() == PieceType.ROOK && rookPiece.getSide() == Side.WHITE) {
+                this.movePiece(startSquare.getRow(), startSquare.getColumn(), endSquare.getRow(), endSquare.getColumn());
+                this.movePiece(0, 0, 0, 3);
+            } else {
+                throw new Error(String.format("Cannot castle move %s", move));
+            }
+        } else if (startSquare.getRow() == 0 && startSquare.getColumn() == 4 && endSquare.getRow() == 0 && endSquare.getColumn() == 6) {
+            Piece kingPiece = getPieceAt(0, 4);
+            Piece rookPiece = getPieceAt(0, 7);
+            if (!this.hasPiece(0, 5) && !this.hasPiece(0, 6) && kingPiece.getPieceType() == PieceType.KING && kingPiece.getSide() == Side.WHITE && rookPiece.getPieceType() == PieceType.ROOK && rookPiece.getSide() == Side.WHITE) {
+                this.movePiece(startSquare.getRow(), startSquare.getColumn(), endSquare.getRow(), endSquare.getColumn());
+                this.movePiece(0, 7, 0, 5);
+            } else {
+                throw new Error(String.format("Cannot castle move %s", move));
+            }
+        } else if (startSquare.getRow() == 7 && startSquare.getColumn() == 4 && endSquare.getRow() == 7 && endSquare.getColumn() == 2) {
+            Piece kingPiece = getPieceAt(7, 4);
+            Piece rookPiece = getPieceAt(7, 0);
+            if (!this.hasPiece(7, 1) && !this.hasPiece(7, 2) && !this.hasPiece(7, 3) && kingPiece.getPieceType() == PieceType.KING && kingPiece.getSide() == Side.BLACK && rookPiece.getPieceType() == PieceType.ROOK && rookPiece.getSide() == Side.BLACK) {
+                this.movePiece(startSquare.getRow(), startSquare.getColumn(), endSquare.getRow(), endSquare.getColumn());
+                this.movePiece(7, 0, 7, 3);
+            } else {
+                throw new Error(String.format("Cannot castle move %s", move));
+            }
+        } else if (startSquare.getRow() == 7 && startSquare.getColumn() == 4 && endSquare.getRow() == 7 && endSquare.getColumn() == 6) {
+            Piece kingPiece = getPieceAt(7, 4);
+            Piece rookPiece = getPieceAt(7, 7);
+            if (!this.hasPiece(7, 5) && !this.hasPiece(7, 6) && kingPiece.getPieceType() == PieceType.KING && kingPiece.getSide() == Side.BLACK && rookPiece.getPieceType() == PieceType.ROOK && rookPiece.getSide() == Side.BLACK) {
+                this.movePiece(startSquare.getRow(), startSquare.getColumn(), endSquare.getRow(), endSquare.getColumn());
+                this.movePiece(7, 7, 7, 5);
+            } else {
+                throw new Error(String.format("Cannot castle move %s", move));
+            }
+        } else {
+            System.out.println(this);
+            throw new Error(String.format("Cannot castle move %s", move));
+        }
+    }
+
+    public Boolean checkIfCastlingMove(Move move) {
+        Square startSquare = move.getStartSquare();
+        Square endSquare = move.getEndSquare();
+
+        if(startSquare.getRow() == 0 && startSquare.getColumn() == 4 && endSquare.getRow() == 0 && endSquare.getColumn() == 2) {
+            return true;
+        } else if (startSquare.getRow() == 0 && startSquare.getColumn() == 4 && endSquare.getRow() == 0 && endSquare.getColumn() == 6) {
+            return true;
+        } else if (startSquare.getRow() == 7 && startSquare.getColumn() == 4 && endSquare.getRow() == 7 && endSquare.getColumn() == 2) {
+            return true;
+        } else if (startSquare.getRow() == 7 && startSquare.getColumn() == 4 && endSquare.getRow() == 7 && endSquare.getColumn() == 6) {
+            return true;
+        }
+
+        return false;
+
     }
 
     public void makePromotionMove(Move move, Piece promoteTo) {

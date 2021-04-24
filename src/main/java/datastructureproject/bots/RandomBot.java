@@ -30,11 +30,9 @@ public class RandomBot implements ChessBot {
     @Override
     public String nextMove(GameState gs) {
         BotUtils.parseGameState(gs, this.board, this.moveUtils, this.pastMoves);
-        System.out.println(board);
-        System.out.printf("PLAYING FOR %s", this.moveUtils.getSide());
         List<Move> moves = this.moveUtils.getAllPossibleMoves(this.board);
-        System.out.printf("MOVES: %s", moves);
         if(moves.size() == 0) {
+            System.out.println("Could not find any moves");
             return null;
         }
         Move selectedMove = moves.get(random.nextInt(moves.size()));

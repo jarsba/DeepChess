@@ -27,7 +27,7 @@ public class BotUtils {
         }
 
         // Check if past moves are stored from previous game and empty past moves if that is the case
-        if(pastMoves.size() > 0 && pastMoves.size() > gsMoves.size()+1) {
+        if(pastMoves.size() > 1 && gsMoves.size() <= 1) {
             pastMoves.clear();
         }
 
@@ -48,8 +48,6 @@ public class BotUtils {
                     if(gsMove.equals(pastMove)) {
                         continue;
                     } else {
-                        System.out.println(gsMoves);
-                        System.out.println(pastMoves);
                         throw new Error("gsMoves and pastMoves histories differ!");
                     }
                 } else {
@@ -61,7 +59,6 @@ public class BotUtils {
                     pastMoves.add(gsMove);
                 }
             }
-            System.out.println(board);
         }
     }
 }

@@ -49,7 +49,7 @@ public class MoveUtilsTest {
     }
 
     @Test
-    public void rightPossibleMovesFromStart() throws PieceNotFoundOnBoardException {
+    public void rightPossibleMovesFromStart() {
         List<Move> possibleMovesFromStart = moveUtils.getAllPossibleMoves(board);
 
         for (Move move : possibleMovesFromStart) {

@@ -326,9 +326,9 @@ public class MoveUtils {
             Square square = entry.getKey();
             Piece piece = entry.getValue();
 
-            if(isPieceBlockingCheck(square.getRow(), square.getColumn(), oppositeSide, board)) {
+            /*if(isPieceBlockingCheck(square.getRow(), square.getColumn(), oppositeSide, board)) {
                 continue;
-            }
+            }*/
 
             List<Square> possibleMovesForPiece = getPossibleAttackingMovesForPiece(square.getRow(), square.getColumn(), piece, board);
             possibleMoves.addAll(possibleMovesForPiece);
@@ -351,10 +351,12 @@ public class MoveUtils {
                 return true;
             }
         }
-        return Boolean.FALSE;
+        return false;
     }
 
     public List<Move> getAllPossibleMoves(Board board) {
+
+        Boolean kingInCheck = checkIfPositionInvalid(board, this.side);
 
         List<Move> possibleMoves = new ArrayList<>();
         Map<Square, Piece> pieceMap = board.filterPiecesBySide(this.side);
