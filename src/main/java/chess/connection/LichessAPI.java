@@ -135,6 +135,7 @@ public class LichessAPI {
             String line = eventStream.next();
 
             if (!line.isEmpty()) {
+                logger.logMessage(line);
                 Event event = Event.parseFromJson(line);
 
                 logger.logMessage("New event: " + event.type + " id: " + event.id);
@@ -142,13 +143,17 @@ public class LichessAPI {
                 switch (event.type) {
                     case Challenge:
                         logger.logMessage("Accepting challenge: " + event.id);
-                        System.out.println(acceptChallenge(event.id));
+                        logger.logMessage(String.format("HTTP status: %d", acceptChallenge(event.id)));
                         break;
                     case GameStart:
                         this.gameId = event.id;
 
                         openGame();
 
+                        break;
+
+                    case GameFinish:
+                        createChallenge("DeepBot");
                         break;
                     default:
                         break;
@@ -185,6 +190,33 @@ public class LichessAPI {
             java.util.logging.Logger.getLogger(LichessAPI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    /**
+     * Creates a new challege
+     */
+    public void createChallenge(String username) {
+
+        logger.logMessage("Creating challenge towards: " + username);
+
+        HTTPIO eventStream = httpFactory.createNew()
+                .post("https://lichess.org/api/challenge/" + username, null)
+                .setHeaders(headers)
+                .connect();
+
+        if (eventStream.getHTTPStatus() != 200) {
+            logger.logError("Lichess returned Error code " + eventStream.getHTTPStatus()
+                    + ": your Lichess token might be invalid.");
+
+            return;
+        }
+
+        try {
+            eventStream.close();
+        } catch (IOException ex) {
+            java.util.logging.Logger.getLogger(LichessAPI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
 
     /**
      * Process gameplay events from a given Iterator, update the game state and call bot

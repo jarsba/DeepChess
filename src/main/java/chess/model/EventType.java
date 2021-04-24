@@ -11,4 +11,5 @@ package chess.model;
 public enum EventType {
     Challenge,
     GameStart,
+    GameFinish,
 }

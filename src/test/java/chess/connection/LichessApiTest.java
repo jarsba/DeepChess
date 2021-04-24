@@ -5,20 +5,19 @@
  */
 package chess.connection;
 
-import chess.bot.TestBot;
+import chess.bot.StockFishBot;
 import chess.engine.GameState;
 import chess.model.Profile;
 import chess.model.Testdata;
 import static chess.model.Testdata.profileJson;
 import static chess.model.Testdata.gameNotStartedJSON;
-import java.io.BufferedReader;
+
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.function.Predicate;
-import java.util.stream.Stream;
+
 import logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -29,7 +28,7 @@ import static org.junit.Assert.*;
 
 public class LichessApiTest {
 
-    private TestBot bot;
+    private StockFishBot bot;
     private Logger logger;
     private LichessAPI api;
     private MockHTTPIOFactory httpFactory;
@@ -47,7 +46,7 @@ public class LichessApiTest {
 
     @Before
     public void setUp() {
-        this.bot = new TestBot();
+        this.bot = new StockFishBot();
         this.logger = new Logger().useMemory();
         this.httpFactory = new MockHTTPIOFactory();
         this.api = new LichessAPI(bot, "fake-token", logger, httpFactory);

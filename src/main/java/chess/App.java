@@ -4,7 +4,7 @@
 package chess;
 
 import chess.bot.ChessBot;
-import chess.bot.TestBot;
+import chess.bot.StockFishBot;
 import chess.connection.LichessAPI;
 import chess.model.Profile;
 import chess.connection.*;
@@ -35,7 +35,7 @@ public class App {
         You need to place your bot implementation to the variable below.
         Make sure it implements the interface ChessBot, and don't change the variable name!
         */
-        ChessBot bot = new TestBot(); // Your bot here!
+        ChessBot bot = new StockFishBot(); // Your bot here!
 
         if (isLichess) {
             if (token == null) {
@@ -44,6 +44,7 @@ public class App {
             LichessAPI api = new LichessAPI(bot, token);
             Profile myProfile = api.getAccount();
             System.out.println("Profile ID: " + myProfile.id);
+            api.createChallenge("DeepBot");
             api.beginEventLoop();
             
         } else {

@@ -1,6 +1,6 @@
 package chess.connection;
 
-import chess.bot.TestBot;
+import chess.bot.StockFishBot;
 import chess.engine.GameState;
 
 import static org.junit.Assert.assertEquals;
@@ -10,18 +10,18 @@ import java.io.InputStreamReader;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Assert.*;
+
 import java.io.ByteArrayInputStream;
 
 public class XBoardHandlerTest {
-    private TestBot bot;
+    private StockFishBot bot;
     private BufferedReader in;
     public XBoardHandlerTest() {
     }
 
     @Before
     public void setUp() {
-        this.bot = new TestBot();   
+        this.bot = new StockFishBot();
     }
     
     @After
