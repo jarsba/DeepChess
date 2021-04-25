@@ -1,10 +1,10 @@
 package datastructureproject.bots;
 
 import chess.engine.GameState;
-import chess.model.Side;
 import datastructureproject.MoveUtils;
 import datastructureproject.board.Board;
 import datastructureproject.board.Move;
+import datastructureproject.pieces.Side;
 
 import java.util.List;
 
@@ -13,28 +13,38 @@ import java.util.List;
 
 public class BotUtils {
 
-    public static void parseGameState(GameState gs, Board board, MoveUtils moveUtils, List<Move> pastMoves) {
+    public static datastructureproject.pieces.Side getSideFromGameState(GameState gs) {
+        if(gs.playing.equals(chess.model.Side.WHITE)) {
+            return datastructureproject.pieces.Side.WHITE;
+        } else {
+            return datastructureproject.pieces.Side.BLACK;
+        }
+    }
+
+    public static void parseGameState(GameState gs, Board board, MoveUtils moveUtils, List<Move> pastMoves, Side side) {
         List<String> gsMoves = gs.moves;
 
-        if (moveUtils.getSide() == null) {
-            moveUtils.setSide(gs.playing.equals(Side.WHITE) ? datastructureproject.pieces.Side.WHITE : datastructureproject.pieces.Side.BLACK);
+        if (side == null) {
+            side = getSideFromGameState(gs);
         }
 
         // If new game, make sure we have clear board and set correct side for moveUtils
         if(gs.moves.size() == 0) {
             board.initializePositions();
             pastMoves.clear();
+            side = getSideFromGameState(gs);
         }
 
         // Check if past moves are stored from previous game and empty past moves if that is the case
         if(pastMoves.size() > 1 && gsMoves.size() <= 1) {
             pastMoves.clear();
+            side = getSideFromGameState(gs);
         }
 
         if(gs.moves.size() != pastMoves.size()) {
             for (int i = 0; i < gs.moves.size(); i++) {
                 boolean ownMove;
-                if (moveUtils.getSide().equals(datastructureproject.pieces.Side.WHITE)) {
+                if (side.equals(datastructureproject.pieces.Side.WHITE)) {
                     ownMove = i % 2 == 0;
                 } else {
                     ownMove = i % 2 != 0;

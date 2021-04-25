@@ -1,10 +1,5 @@
 package datastructureproject.pieces;
 
-import datastructureproject.board.Board;
-import datastructureproject.board.Square;
-
-import java.util.List;
-
 public interface Piece {
     PieceType getPieceType();
     Side getSide();

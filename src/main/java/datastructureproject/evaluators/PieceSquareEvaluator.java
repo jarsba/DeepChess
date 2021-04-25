@@ -8,7 +8,7 @@ import datastructureproject.pieces.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PieceSquareEvaluator {
+public class PieceSquareEvaluator implements Evaluator {
 
     Map<Piece, Double> pieceScoreTable = new HashMap<>();
 

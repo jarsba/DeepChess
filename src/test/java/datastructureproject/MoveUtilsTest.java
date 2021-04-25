@@ -33,7 +33,7 @@ public class MoveUtilsTest {
     @Before
     public void setUp() {
         this.board = new Board();
-        this.moveUtils = new MoveUtils(Side.WHITE);
+        this.moveUtils = new MoveUtils();
     }
 
     @After
@@ -50,7 +50,7 @@ public class MoveUtilsTest {
 
     @Test
     public void rightPossibleMovesFromStart() {
-        List<Move> possibleMovesFromStart = moveUtils.getAllPossibleMoves(board);
+        List<Move> possibleMovesFromStart = moveUtils.getAllPossibleMoves(board, Side.WHITE);
 
         for (Move move : possibleMovesFromStart) {
             System.out.println(move.toUCIString());

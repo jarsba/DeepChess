@@ -5,6 +5,7 @@ import chess.engine.GameState;
 import datastructureproject.MoveUtils;
 import datastructureproject.board.Board;
 import datastructureproject.board.Move;
+import datastructureproject.pieces.Side;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,7 @@ public class RandomBot implements ChessBot {
     private Board board;
     private MoveUtils moveUtils;
     private List<Move> pastMoves;
+    private Side side;
     Random random;
 
     public RandomBot() {
@@ -29,8 +31,8 @@ public class RandomBot implements ChessBot {
      */
     @Override
     public String nextMove(GameState gs) {
-        BotUtils.parseGameState(gs, this.board, this.moveUtils, this.pastMoves);
-        List<Move> moves = this.moveUtils.getAllPossibleMoves(this.board);
+        BotUtils.parseGameState(gs, this.board, this.moveUtils, this.pastMoves, this.side);
+        List<Move> moves = this.moveUtils.getAllPossibleMoves(this.board, this.side);
         if(moves.size() == 0) {
             System.out.println("Could not find any moves");
             return null;

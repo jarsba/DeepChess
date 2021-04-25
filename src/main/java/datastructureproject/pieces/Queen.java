@@ -1,6 +1,7 @@
 package datastructureproject.pieces;
 
 import datastructureproject.board.Board;
+import datastructureproject.board.Move;
 import datastructureproject.board.Square;
 
 import java.util.ArrayList;
@@ -25,18 +26,21 @@ public class Queen implements Piece {
     }
 
     // Doesn't consider board position
-    public static List<Square> getPossibleMoves(int row, int column) {
-        ArrayList<Square> possibleMoves = new ArrayList<>();
+    public static List<Move> getPossibleMoves(Square startSquare) {
+        ArrayList<Move> possibleMoves = new ArrayList<>();
 
-        possibleMoves.addAll(Rook.getPossibleMoves(row, column));
-        possibleMoves.addAll(Bishop.getPossibleMoves(row, column));
+        possibleMoves.addAll(Rook.getPossibleMoves(startSquare));
+        possibleMoves.addAll(Bishop.getPossibleMoves(startSquare));
 
         return possibleMoves;
     }
 
     // Does consider board positions, but not situations where the piece can't move because of pinning etc.
-    public static List<Square> getPossibleMoves(int row, int column, Board board) {
-        ArrayList<Square> possibleMoves = new ArrayList<>();
+    public static List<Move> getPossibleMoves(Square startSquare, Board board) {
+        int row = startSquare.getRow();
+        int column = startSquare.getColumn();
+
+        ArrayList<Move> possibleMoves = new ArrayList<>();
         Side side = board.getPieceAt(row, column).getSide();
 
         // Rook moves
@@ -46,11 +50,11 @@ public class Queen implements Piece {
                 if(board.getPieceAt(i, column).getSide().equals(side)) {
                     break;
                 } else {
-                    possibleMoves.add(new Square(i, column));
+                    possibleMoves.add(new Move(startSquare, new Square(i, column)));
                     break;
                 }
             }
-            possibleMoves.add(new Square(i, column));
+            possibleMoves.add(new Move(startSquare,new Square(i, column)));
         }
 
         for (int i = row - 1; i >= 0; i--) {
@@ -58,11 +62,11 @@ public class Queen implements Piece {
                 if(board.getPieceAt(i, column).getSide().equals(side)) {
                     break;
                 } else {
-                    possibleMoves.add(new Square(i, column));
+                    possibleMoves.add(new Move(startSquare,new Square(i, column)));
                     break;
                 }
             }
-            possibleMoves.add(new Square(i, column));
+            possibleMoves.add(new Move(startSquare,new Square(i, column)));
         }
 
         for (int i = column + 1; i <= 7; i++) {
@@ -70,11 +74,11 @@ public class Queen implements Piece {
                 if(board.getPieceAt(row, i).getSide().equals(side)) {
                     break;
                 } else {
-                    possibleMoves.add(new Square(row, i));
+                    possibleMoves.add(new Move(startSquare,new Square(row, i)));
                     break;
                 }
             }
-            possibleMoves.add(new Square(row, i));
+            possibleMoves.add(new Move(startSquare,new Square(row, i)));
         }
 
         for (int i = column - 1; i >= 0; i--) {
@@ -82,11 +86,11 @@ public class Queen implements Piece {
                 if(board.getPieceAt(row, i).getSide().equals(side)) {
                     break;
                 } else {
-                    possibleMoves.add(new Square(row, i));
+                    possibleMoves.add(new Move(startSquare,new Square(row, i)));
                     break;
                 }
             }
-            possibleMoves.add(new Square(row, i));
+            possibleMoves.add(new Move(startSquare,new Square(row, i)));
         }
 
         // Knight moves
@@ -98,11 +102,11 @@ public class Queen implements Piece {
                 if(board.getPieceAt(row-i, column-i).getSide().equals(side)) {
                     break;
                 } else {
-                    possibleMoves.add(new Square(row-i, column-i));
+                    possibleMoves.add(new Move(startSquare,new Square(row-i, column-i)));
                     break;
                 }
             }
-            possibleMoves.add(new Square(row-i, column-i));
+            possibleMoves.add(new Move(startSquare,new Square(row-i, column-i)));
         }
 
         // Row decrease, column increase
@@ -113,11 +117,11 @@ public class Queen implements Piece {
                 if(board.getPieceAt(row-i, column+i).getSide().equals(side)) {
                     break;
                 } else {
-                    possibleMoves.add(new Square(row-i, column+i));
+                    possibleMoves.add(new Move(startSquare,new Square(row-i, column+i)));
                     break;
                 }
             }
-            possibleMoves.add(new Square(row-i, column+i));
+            possibleMoves.add(new Move(startSquare,new Square(row-i, column+i)));
         }
 
         // Row increase, column decrease
@@ -129,11 +133,11 @@ public class Queen implements Piece {
                 if(board.getPieceAt(row+i, column-i).getSide().equals(side)) {
                     break;
                 } else {
-                    possibleMoves.add(new Square(row+i, column-i));
+                    possibleMoves.add(new Move(startSquare,new Square(row+i, column-i)));
                     break;
                 }
             }
-            possibleMoves.add(new Square(row+i, column-i));
+            possibleMoves.add(new Move(startSquare,new Square(row+i, column-i)));
         }
 
         // Row increase, column increase
@@ -145,11 +149,11 @@ public class Queen implements Piece {
                 if(board.getPieceAt(row+i, column+i).getSide().equals(side)) {
                     break;
                 } else {
-                    possibleMoves.add(new Square(row+i, column+i));
+                    possibleMoves.add(new Move(startSquare,new Square(row+i, column+i)));
                     break;
                 }
             }
-            possibleMoves.add(new Square(row+i, column+i));
+            possibleMoves.add(new Move(startSquare,new Square(row+i, column+i)));
         }
 
 

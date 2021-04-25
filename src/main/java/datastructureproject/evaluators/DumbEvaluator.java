@@ -6,7 +6,7 @@ import datastructureproject.pieces.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DumbEvaluator {
+public class DumbEvaluator implements Evaluator {
 
     Map<Piece, Double> pieceScoreTable = new HashMap<>();
 

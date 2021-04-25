@@ -1,6 +1,7 @@
 package datastructureproject.pieces;
 
 import datastructureproject.board.Board;
+import datastructureproject.board.Move;
 import datastructureproject.board.Square;
 
 import java.util.ArrayList;
@@ -26,9 +27,11 @@ public class Knight implements Piece {
 
 
     // Doesn't consider board position
-    public static List<Square> getPossibleMoves(int row, int column) {
+    public static List<Move> getPossibleMoves(Square startSquare) {
+        int row = startSquare.getRow();
+        int column = startSquare.getColumn();
 
-        ArrayList<Square> possibleMoves = new ArrayList<>();
+        ArrayList<Move> possibleMoves = new ArrayList<>();
 
         Square topLeft = new Square(row + 2, column - 1);
         Square topRight = new Square(row + 2, column + 1);
@@ -40,28 +43,28 @@ public class Knight implements Piece {
         Square leftBottom = new Square(row - 1, column - 2);
 
         if (topLeft.isValidPosition()) {
-            possibleMoves.add(topLeft);
+            possibleMoves.add(new Move(startSquare, topLeft));
         }
         if (topRight.isValidPosition()) {
-            possibleMoves.add(topRight);
+            possibleMoves.add(new Move(startSquare,topRight));
         }
         if (rightTop.isValidPosition()) {
-            possibleMoves.add(rightTop);
+            possibleMoves.add(new Move(startSquare,rightTop));
         }
         if (rightBottom.isValidPosition()) {
-            possibleMoves.add(rightBottom);
+            possibleMoves.add(new Move(startSquare,rightBottom));
         }
         if (bottomLeft.isValidPosition()) {
-            possibleMoves.add(bottomLeft);
+            possibleMoves.add(new Move(startSquare,bottomLeft));
         }
         if (bottomRight.isValidPosition()) {
-            possibleMoves.add(bottomRight);
+            possibleMoves.add(new Move(startSquare,bottomRight));
         }
         if (leftTop.isValidPosition()) {
-            possibleMoves.add(leftTop);
+            possibleMoves.add(new Move(startSquare,leftTop));
         }
         if (leftBottom.isValidPosition()) {
-            possibleMoves.add(leftBottom);
+            possibleMoves.add(new Move(startSquare,leftBottom));
         }
 
         return possibleMoves;
@@ -69,9 +72,13 @@ public class Knight implements Piece {
     }
 
     // Does consider board positions, but not situations where the piece can't move because of pinning etc.
-    public static List<Square> getPossibleMoves(int row, int column, Board board) {
+    public static List<Move> getPossibleMoves(Square startSquare, Board board) {
+
+        int row = startSquare.getRow();
+        int column = startSquare.getColumn();
+
         Side side = board.getPieceAt(row, column).getSide();
-        ArrayList<Square> possibleMoves = new ArrayList<>();
+        ArrayList<Move> possibleMoves = new ArrayList<>();
 
         Square topLeft = new Square(row + 2, column - 1);
         Square topRight = new Square(row + 2, column + 1);
@@ -85,73 +92,73 @@ public class Knight implements Piece {
         if (topLeft.isValidPosition()) {
             if(board.hasPiece(topLeft.getRow(), topLeft.getColumn())) {
                 if(!board.getPieceAt(topLeft.getRow(), topLeft.getColumn()).getSide().equals(side)) {
-                    possibleMoves.add(topLeft);
+                    possibleMoves.add(new Move(startSquare, topLeft));
                 }
             } else {
-                possibleMoves.add(topLeft);
+                possibleMoves.add(new Move(startSquare, topLeft));
             }
         }
         if (topRight.isValidPosition()) {
             if(board.hasPiece(topRight.getRow(), topRight.getColumn())) {
                 if(!board.getPieceAt(topRight.getRow(), topRight.getColumn()).getSide().equals(side)) {
-                    possibleMoves.add(topRight);
+                    possibleMoves.add(new Move(startSquare, topRight));
                 }
             } else {
-                possibleMoves.add(topRight);
+                possibleMoves.add(new Move(startSquare, topRight));
             }
         }
         if (rightTop.isValidPosition()) {
             if(board.hasPiece(rightTop.getRow(), rightTop.getColumn())) {
                 if(!board.getPieceAt(rightTop.getRow(), rightTop.getColumn()).getSide().equals(side)) {
-                    possibleMoves.add(rightTop);
+                    possibleMoves.add(new Move(startSquare, rightTop));
                 }
             } else {
-                possibleMoves.add(rightTop);
+                possibleMoves.add(new Move(startSquare, rightTop));
             }
         }
         if (rightBottom.isValidPosition()) {
             if(board.hasPiece(rightBottom.getRow(), rightBottom.getColumn())) {
                 if(!board.getPieceAt(rightBottom.getRow(), rightBottom.getColumn()).getSide().equals(side)) {
-                    possibleMoves.add(rightBottom);
+                    possibleMoves.add(new Move(startSquare, rightBottom));
                 }
             } else {
-                possibleMoves.add(rightBottom);
+                possibleMoves.add(new Move(startSquare, rightBottom));
             }
         }
         if (bottomLeft.isValidPosition()) {
             if(board.hasPiece(bottomLeft.getRow(), bottomLeft.getColumn())) {
                 if(!board.getPieceAt(bottomLeft.getRow(), bottomLeft.getColumn()).getSide().equals(side)) {
-                    possibleMoves.add(bottomLeft);
+                    possibleMoves.add(new Move(startSquare, bottomLeft));
                 }
             } else {
-                possibleMoves.add(bottomLeft);
+                possibleMoves.add(new Move(startSquare, bottomLeft));
             }
         }
         if (bottomRight.isValidPosition()) {
             if(board.hasPiece(bottomRight.getRow(), bottomRight.getColumn())) {
                 if(!board.getPieceAt(bottomRight.getRow(), bottomRight.getColumn()).getSide().equals(side)) {
-                    possibleMoves.add(bottomRight);
+                    possibleMoves.add(new Move(startSquare, bottomRight));
                 }
             } else {
-                possibleMoves.add(bottomRight);
+                possibleMoves.add(new Move(startSquare, bottomRight));
             }
         }
         if (leftTop.isValidPosition()) {
             if(board.hasPiece(leftTop.getRow(), leftTop.getColumn())) {
                 if(!board.getPieceAt(leftTop.getRow(), leftTop.getColumn()).getSide().equals(side)) {
-                    possibleMoves.add(leftTop);
+                    possibleMoves.add(new Move(startSquare, leftTop));
                 }
             } else {
-                possibleMoves.add(leftTop);
+                possibleMoves.add(new Move(startSquare, leftTop));
             }
         }
         if (leftBottom.isValidPosition()) {
             if(board.hasPiece(leftBottom.getRow(), leftBottom.getColumn())) {
                 if(!board.getPieceAt(leftBottom.getRow(), leftBottom.getColumn()).getSide().equals(side)) {
-                    possibleMoves.add(leftBottom);
+                    possibleMoves.add(new Move(startSquare, leftBottom));
                 }
             } else {
-                possibleMoves.add(leftBottom);
+                possibleMoves.add(new Move(startSquare, leftBottom));
             }
         }
 

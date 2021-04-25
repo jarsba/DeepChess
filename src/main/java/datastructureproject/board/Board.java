@@ -10,6 +10,42 @@ import java.util.Map;
 public class Board {
 
     private Piece[][] positions;
+    private Boolean whiteKingSideCastlingAllowed = true;
+    private Boolean whiteQueenSideCastlingAllowed = true;
+    private Boolean blackKingSideCastlingAllowed = true;
+    private Boolean blackQueenSideCastlingAllowed = true;
+
+    public Boolean getWhiteKingSideCastlingAllowed() {
+        return whiteKingSideCastlingAllowed;
+    }
+
+    public void setWhiteKingSideCastlingAllowed(Boolean whiteKingSideCastlingAllowed) {
+        this.whiteKingSideCastlingAllowed = whiteKingSideCastlingAllowed;
+    }
+
+    public Boolean getWhiteQueenSideCastlingAllowed() {
+        return whiteQueenSideCastlingAllowed;
+    }
+
+    public void setWhiteQueenSideCastlingAllowed(Boolean whiteQueenSideCastlingAllowed) {
+        this.whiteQueenSideCastlingAllowed = whiteQueenSideCastlingAllowed;
+    }
+
+    public Boolean getBlackKingSideCastlingAllowed() {
+        return blackKingSideCastlingAllowed;
+    }
+
+    public void setBlackKingSideCastlingAllowed(Boolean blackKingSideCastlingAllowed) {
+        this.blackKingSideCastlingAllowed = blackKingSideCastlingAllowed;
+    }
+
+    public Boolean getBlackQueenSideCastlingAllowed() {
+        return blackQueenSideCastlingAllowed;
+    }
+
+    public void setBlackQueenSideCastlingAllowed(Boolean blackQueenSideCastlingAllowed) {
+        this.blackQueenSideCastlingAllowed = blackQueenSideCastlingAllowed;
+    }
 
     public Board() {
         positions = new Piece[8][8];
@@ -61,6 +97,17 @@ public class Board {
             return this.positions[row][column] != null;
         } else {
             throw new Error(String.format("Tried to get piece outside the board: row %s, column %s", row, column));
+        }
+    }
+
+    public Side getPieceSideFromSquare(Square square) {
+        int row = square.getRow();
+        int column = square.getColumn();
+        Piece piece = getPieceAt(row, column);
+        if(piece == null) {
+            throw new Error(String.format("Couldn't find a piece: row %s, column %s", row, column));
+        } else {
+            return piece.getSide();
         }
     }
 

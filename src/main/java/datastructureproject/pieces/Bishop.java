@@ -1,6 +1,7 @@
 package datastructureproject.pieces;
 
 import datastructureproject.board.Board;
+import datastructureproject.board.Move;
 import datastructureproject.board.Square;
 import datastructureproject.MoveUtils;
 
@@ -27,16 +28,18 @@ public class Bishop implements Piece {
     }
 
     // Doesn't consider board position
-    public static List<Square> getPossibleMoves(int row, int column) {
+    public static List<Move> getPossibleMoves(Square startSquare) {
+        int row = startSquare.getRow();
+        int column = startSquare.getColumn();
 
-        ArrayList<Square> possibleMoves = new ArrayList<>();
+        ArrayList<Move> possibleMoves = new ArrayList<>();
 
         // Row decrease, column decrease
 
         int minDistanceFromZero = Math.min(row, column);
 
         for (int i = 1; i <= minDistanceFromZero; i++) {
-            possibleMoves.add(new Square(row-i, column-i));
+            possibleMoves.add(new Move(startSquare, new Square(row-i, column-i)));
         }
 
         // Row decrease, column increase
@@ -44,7 +47,7 @@ public class Bishop implements Piece {
         int minDistanceFromZeroOrEight = Math.min(row, 7 - column);
 
         for (int i = 1; i <= minDistanceFromZeroOrEight; i++) {
-            possibleMoves.add(new Square(row-i, column+i));
+            possibleMoves.add(new Move(startSquare, new Square(row-i, column+i)));
         }
 
         // Row increase, column decrease
@@ -52,7 +55,7 @@ public class Bishop implements Piece {
         int minDistanceFromEightOrZero = Math.min(7 - row, column);
 
         for (int i = 1; i <= minDistanceFromEightOrZero; i++) {
-            possibleMoves.add(new Square(row+i, column-i));
+            possibleMoves.add(new Move(startSquare, new Square(row+i, column-i)));
         }
 
         // Row increase, column increase
@@ -60,7 +63,7 @@ public class Bishop implements Piece {
         int minDistanceFromEight = Math.min(7 - row, 7 - column);
 
         for (int i = 1; i <= minDistanceFromEight; i++) {
-            possibleMoves.add(new Square(row+i, column+i));
+            possibleMoves.add(new Move(startSquare, new Square(row+i, column+i)));
         }
 
 
@@ -68,8 +71,10 @@ public class Bishop implements Piece {
     }
 
     // Does consider board positions, but not situations where the piece can't move because of pinning etc.
-    public static List<Square> getPossibleMoves(int row, int column, Board board) {
-        ArrayList<Square> possibleMoves = new ArrayList<>();
+    public static List<Move> getPossibleMoves(Square startSquare, Board board) {
+        int row = startSquare.getRow();
+        int column = startSquare.getColumn();
+        ArrayList<Move> possibleMoves = new ArrayList<>();
         Side side = board.getPieceAt(row, column).getSide();
 
         // Row decrease, column decrease
@@ -79,11 +84,11 @@ public class Bishop implements Piece {
         for (int i = 1; i <= minDistanceFromZero; i++) {
             if(board.hasPiece(row-i, column-i)) {
                 if (!board.getPieceAt(row - i, column - i).getSide().equals(side)) {
-                    possibleMoves.add(new Square(row - i, column - i));
+                    possibleMoves.add(new Move(startSquare, new Square(row - i, column - i)));
                 }
                 break;
             }
-            possibleMoves.add(new Square(row-i, column-i));
+            possibleMoves.add(new Move(startSquare, new Square(row-i, column-i)));
         }
 
         // Row decrease, column increase
@@ -92,11 +97,11 @@ public class Bishop implements Piece {
         for (int i = 1; i <= minDistanceFromZeroOrEight; i++) {
             if(board.hasPiece(row-i, column+i)) {
                 if (!board.getPieceAt(row - i, column + i).getSide().equals(side)) {
-                    possibleMoves.add(new Square(row - i, column + i));
+                    possibleMoves.add(new Move(startSquare, new Square(row - i, column + i)));
                 }
                 break;
             }
-            possibleMoves.add(new Square(row-i, column+i));
+            possibleMoves.add(new Move(startSquare, new Square(row-i, column+i)));
         }
 
         // Row increase, column decrease
@@ -106,11 +111,11 @@ public class Bishop implements Piece {
         for (int i = 1; i <= minDistanceFromEightOrZero; i++) {
             if(board.hasPiece(row+i, column-i)) {
                 if (!board.getPieceAt(row + i, column - i).getSide().equals(side)) {
-                    possibleMoves.add(new Square(row + i, column - i));
+                    possibleMoves.add(new Move(startSquare, new Square(row + i, column - i)));
                 }
                 break;
             }
-            possibleMoves.add(new Square(row+i, column-i));
+            possibleMoves.add(new Move(startSquare, new Square(row+i, column-i)));
         }
 
         // Row increase, column increase
@@ -120,11 +125,11 @@ public class Bishop implements Piece {
         for (int i = 1; i <= minDistanceFromEight; i++) {
             if(board.hasPiece(row+i, column+i)) {
                 if (!board.getPieceAt(row + i, column + i).getSide().equals(side)) {
-                    possibleMoves.add(new Square(row + i, column + i));
+                    possibleMoves.add(new Move(startSquare, new Square(row + i, column + i)));
                 }
                 break;
             }
-            possibleMoves.add(new Square(row+i, column+i));
+            possibleMoves.add(new Move(startSquare, new Square(row+i, column+i)));
         }
 
 
