@@ -87,7 +87,7 @@ public class PieceSquareEvaluator {
         // Iterate table in reverse row order, same column order and flip all signs
         for (int i = 7; i >= 0; i--) {
             for (int j = 0; j < table[0].length; j++) {
-                flippedTable[7 - i][j] = table[i][j] * -1;
+                flippedTable[i][j] = table[7 - i][j] * -1;
             }
         }
 
