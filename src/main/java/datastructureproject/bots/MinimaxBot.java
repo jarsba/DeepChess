@@ -49,6 +49,7 @@ public class MinimaxBot implements ChessBot {
 
 
     public double minimax(Board board, int depth, Side side) {
+
         if (side.equals(Side.WHITE)) {
             // TODO: return min
             return 0.0;

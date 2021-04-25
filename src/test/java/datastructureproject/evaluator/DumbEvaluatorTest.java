@@ -1,21 +1,15 @@
 package datastructureproject.evaluator;
 
-import datastructureproject.MoveUtils;
 import datastructureproject.board.Board;
-import datastructureproject.board.Move;
-import datastructureproject.evaluators.Evaluator;
-import datastructureproject.exceptions.PieceNotFoundOnBoardException;
-import datastructureproject.pieces.Side;
+import datastructureproject.evaluators.DumbEvaluator;
 import org.junit.*;
 
-import java.util.List;
+public class DumbEvaluatorTest {
 
-public class EvaluatorTest {
-
-    Evaluator evaluator;
+    DumbEvaluator evaluator;
     Board board;
 
-    public EvaluatorTest() {
+    public DumbEvaluatorTest() {
     }
 
     @BeforeClass
@@ -29,7 +23,7 @@ public class EvaluatorTest {
 
     @Before
     public void setUp() {
-        this.evaluator = new Evaluator();
+        this.evaluator = new DumbEvaluator();
         this.board = new Board();
     }
 
