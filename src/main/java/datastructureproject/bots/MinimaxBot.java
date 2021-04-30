@@ -112,7 +112,7 @@ public class MinimaxBot implements ChessBot {
             for (Move move : moves) {
                 Board newBoard = this.board.copyBoard();
                 moveUtils.makeMove(move, newBoard);
-                evaluation = Math.max(evaluation, this.minimax(newBoard, depth - 1, side.getOppositeSide()));
+                evaluation = Math.min(evaluation, this.minimax(newBoard, depth - 1, side.getOppositeSide()));
             }
 
             return evaluation;
