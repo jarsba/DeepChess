@@ -14,7 +14,7 @@ Opin oliosuunnittelusta ja lautojen evaluoinnista
 
 #### Mikä on epäselvää?
 
--
+&dash;
 
 #### Mitä teen seuraavaksi?
 
