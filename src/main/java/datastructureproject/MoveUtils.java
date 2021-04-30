@@ -317,7 +317,12 @@ public class MoveUtils {
             Square square = entry.getKey();
             Piece piece = entry.getValue();
 
-            /*if(isPieceBlockingCheck(square.getRow(), square.getColumn(), oppositeSide, board)) {
+            /*
+
+            Caused problems when found a move for pinning opponents piece that tried to check, illegal in chess
+            Don't know if should remove entirely from the function or move it later in function
+
+            if(isPieceBlockingCheck(square.getRow(), square.getColumn(), oppositeSide, board)) {
                 continue;
             }*/
 
