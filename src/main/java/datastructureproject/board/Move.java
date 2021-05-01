@@ -3,7 +3,7 @@ package datastructureproject.board;
 import com.github.bhlangonijr.chesslib.Constants;
 import datastructureproject.pieces.Piece;
 
-public class Move {
+public class Move implements Comparable<Move> {
 
     private final Square startSquare;
     private final Square endSquare;
@@ -89,6 +89,25 @@ public class Move {
         datastructureproject.board.Move otherMove = (datastructureproject.board.Move) obj;
         return this.hashCode() == otherMove.hashCode();
     }
+
+    public int compareTo(Move otherMove) {
+        Square startSquare = this.getStartSquare();
+        Square otherStartSquare = otherMove.getStartSquare();
+
+        Square endSquare = this.getEndSquare();
+        Square otherEndSquare = otherMove.getEndSquare();
+
+        if(startSquare.compareTo(otherStartSquare) != 0) {
+            return startSquare.compareTo(otherStartSquare);
+        }
+
+        if(endSquare.compareTo(otherEndSquare) != 0) {
+            return endSquare.compareTo(otherEndSquare);
+        }
+
+        return 0;
+
+    };
 
 
 }

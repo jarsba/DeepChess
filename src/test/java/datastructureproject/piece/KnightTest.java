@@ -1,5 +1,6 @@
 package datastructureproject.piece;
 
+import datastructureproject.board.Move;
 import datastructureproject.board.Square;
 import datastructureproject.pieces.King;
 import datastructureproject.pieces.Knight;
@@ -38,10 +39,11 @@ public class KnightTest {
 
     @Test
     public void knightHasPossibleMovesFromCorner() {
-        List<Square> moves = Knight.getPossibleMoves(0,0);
-        List<Square> correctMoves = Arrays.asList(
-                new Square(2,1),
-                new Square(1,2)
+        Square startSquare = new Square(0,0);
+        List<Move> moves = Knight.getPossibleMoves(startSquare);
+        List<Move> correctMoves = Arrays.asList(
+                new Move(startSquare, new Square(2,1)),
+                new Move(startSquare, new Square(1,2))
         );
 
         Collections.sort(moves);
@@ -53,16 +55,17 @@ public class KnightTest {
 
     @Test
     public void knightHasPossibleMovesFromCenter() {
-        List<Square> moves = Knight.getPossibleMoves(4,4);
-        List<Square> correctMoves = Arrays.asList(
-                new Square(2,3),
-                new Square(2,5),
-                new Square(3,2),
-                new Square(3,6),
-                new Square(5,2),
-                new Square(5,6),
-                new Square(6,3),
-                new Square(6,5)
+        Square startSquare = new Square(4,4);
+        List<Move> moves = Knight.getPossibleMoves(startSquare);
+        List<Move> correctMoves = Arrays.asList(
+                new Move(startSquare, new Square(2,3)),
+                new Move(startSquare, new Square(2,5)),
+                new Move(startSquare, new Square(3,2)),
+                new Move(startSquare, new Square(3,6)),
+                new Move(startSquare, new Square(5,2)),
+                new Move(startSquare, new Square(5,6)),
+                new Move(startSquare, new Square(6,3)),
+                new Move(startSquare, new Square(6,5))
         );
 
         Collections.sort(moves);

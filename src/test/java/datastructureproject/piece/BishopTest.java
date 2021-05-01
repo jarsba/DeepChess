@@ -1,6 +1,7 @@
 package datastructureproject.piece;
 
 import datastructureproject.board.Board;
+import datastructureproject.board.Move;
 import datastructureproject.board.Square;
 import datastructureproject.pieces.Bishop;
 import datastructureproject.pieces.Queen;
@@ -39,15 +40,16 @@ public class BishopTest {
 
     @Test
     public void bishopHasPossibleMovesFromCorner() {
-        List<Square> moves = Bishop.getPossibleMoves(0,0);
-        List<Square> correctMoves = Arrays.asList(
-                new Square(1,1),
-                new Square(2,2),
-                new Square(3,3),
-                new Square(4,4),
-                new Square(5,5),
-                new Square(6,6),
-                new Square(7,7)
+        Square startSquare = new Square(0,0);
+        List<Move> moves = Bishop.getPossibleMoves(startSquare);
+        List<Move> correctMoves = Arrays.asList(
+                new Move(startSquare, new Square(1,1)),
+                new Move(startSquare, new Square(2,2)),
+                new Move(startSquare, new Square(3,3)),
+                new Move(startSquare, new Square(4,4)),
+                new Move(startSquare, new Square(5,5)),
+                new Move(startSquare, new Square(6,6)),
+                new Move(startSquare, new Square(7,7))
         );
         Collections.sort(moves);
         Collections.sort(correctMoves);
@@ -59,21 +61,23 @@ public class BishopTest {
 
     @Test
     public void bishopHasPossibleMovesFromCenter() {
-        List<Square> moves = Bishop.getPossibleMoves(4,4);
-        List<Square> correctMoves = Arrays.asList(
-                new Square(3,3),
-                new Square(2,2),
-                new Square(1,1),
-                new Square(0,0),
-                new Square(3,5),
-                new Square(2,6),
-                new Square(1,7),
-                new Square(5,3),
-                new Square(6,2),
-                new Square(7,1),
-                new Square(5,5),
-                new Square(7,7),
-                new Square(6,6)
+        Square startSquare = new Square(4,4);
+
+        List<Move> moves = Bishop.getPossibleMoves(startSquare);
+        List<Move> correctMoves = Arrays.asList(
+                new Move(startSquare, new Square(3,3)),
+                new Move(startSquare, new Square(2,2)),
+                new Move(startSquare, new Square(1,1)),
+                new Move(startSquare, new Square(0,0)),
+                new Move(startSquare, new Square(3,5)),
+                new Move(startSquare, new Square(2,6)),
+                new Move(startSquare, new Square(1,7)),
+                new Move(startSquare, new Square(5,3)),
+                new Move(startSquare, new Square(6,2)),
+                new Move(startSquare, new Square(7,1)),
+                new Move(startSquare, new Square(5,5)),
+                new Move(startSquare, new Square(7,7)),
+                new Move(startSquare, new Square(6,6))
         );
         Collections.sort(moves);
         Collections.sort(correctMoves);

@@ -55,7 +55,7 @@ public class KingTest {
 
     @Test
     public void kingHasPossibleMovesFromCenter() {
-        Square startSquare = new Square(0, 0);
+        Square startSquare = new Square(4, 4);
 
         List<Move> moves = King.getPossibleMoves(startSquare);
         List<Move> correctMoves = Arrays.asList(
