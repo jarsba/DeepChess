@@ -57,7 +57,6 @@ public class MoveUtilsTest {
         }
 
         assert possibleMovesFromStart.size() == 20;
-
     }
 
 }

@@ -24,21 +24,15 @@ public class BotUtils {
     public static void parseGameState(GameState gs, Board board, MoveUtils moveUtils, List<Move> pastMoves, Side side) {
         List<String> gsMoves = gs.moves;
 
-        if (side == null) {
-            side = getSideFromGameState(gs);
-        }
-
         // If new game, make sure we have clear board and set correct side for moveUtils
         if(gs.moves.size() == 0) {
             board.initializePositions();
             pastMoves.clear();
-            side = getSideFromGameState(gs);
         }
 
         // Check if past moves are stored from previous game and empty past moves if that is the case
         if(pastMoves.size() > 1 && gsMoves.size() <= 1) {
             pastMoves.clear();
-            side = getSideFromGameState(gs);
         }
 
         if(gs.moves.size() != pastMoves.size()) {
@@ -61,11 +55,7 @@ public class BotUtils {
                         throw new Error("gsMoves and pastMoves histories differ!");
                     }
                 } else {
-                    if(ownMove) {
-                        moveUtils.makeMove(gsMove, board);
-                    } else {
-                        board.makeMove(gsMove);
-                    }
+                    moveUtils.makeMove(gsMove, board);
                     pastMoves.add(gsMove);
                 }
             }

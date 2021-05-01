@@ -7,27 +7,26 @@ import datastructureproject.board.Board;
 import datastructureproject.board.Move;
 import datastructureproject.evaluators.DumbEvaluator;
 import datastructureproject.evaluators.Evaluator;
+import datastructureproject.evaluators.PieceSquareEvaluator;
 import datastructureproject.pieces.Side;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
-public class MinimaxBot implements ChessBot {
+public class AlphaBetaBot implements ChessBot {
 
     private Board board;
     private MoveUtils moveUtils;
     private List<Move> pastMoves;
-    // Implement interface for easy evaluator swapping
     private Evaluator evaluator;
     private Side side;
     private final int depth = 3;
 
-    public MinimaxBot() {
+    public AlphaBetaBot() {
         this.board = new Board();
         this.moveUtils = new MoveUtils();
         this.pastMoves = new ArrayList<>();
-        this.evaluator = new DumbEvaluator();
+        this.evaluator = new PieceSquareEvaluator();
     }
 
     /**
@@ -36,9 +35,10 @@ public class MinimaxBot implements ChessBot {
      */
     @Override
     public String nextMove(GameState gs) {
-        this.side = BotUtils.getSideFromGameState(gs);
-        BotUtils.parseGameState(gs, this.board, this.moveUtils, this.pastMoves, this.side);
 
+        this.side = BotUtils.getSideFromGameState(gs);
+
+        BotUtils.parseGameState(gs, this.board, this.moveUtils, this.pastMoves, this.side);
         List<Move> moves = this.moveUtils.getAllPossibleMoves(this.board, this.side);
 
         if(moves.size() == 0) {
@@ -52,7 +52,7 @@ public class MinimaxBot implements ChessBot {
         for (Move move : moves) {
             Board boardCopy = this.board.copyBoard();
             moveUtils.makeMove(move, boardCopy);
-            double evaluation = minimax(boardCopy, depth, side);
+            double evaluation = alphabeta(boardCopy, depth, side, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
             if (this.side.equals(Side.WHITE) && evaluation > bestMoveScore) {
                 bestMove = move;
                 bestMoveScore = evaluation;
@@ -68,8 +68,7 @@ public class MinimaxBot implements ChessBot {
     }
 
 
-    // Side represents is it white or blacks move next
-    public double minimax(Board board, int depth, Side side) {
+    public double alphabeta(Board board, int depth, Side side, double alpha, double beta) {
         if (side.equals(Side.WHITE)) {
             List<Move> moves = moveUtils.getAllPossibleMoves(board, side);
             if (moves.size() == 0) {
@@ -89,7 +88,11 @@ public class MinimaxBot implements ChessBot {
             for (Move move : moves) {
                 Board newBoard = board.copyBoard();
                 moveUtils.makeMove(move, newBoard);
-                evaluation = Math.max(evaluation, this.minimax(newBoard, depth - 1, side.getOppositeSide()));
+                evaluation = Math.max(evaluation, this.alphabeta(newBoard, depth - 1, side.getOppositeSide(), alpha, beta));
+                alpha = Math.max(alpha, evaluation);
+                if (alpha >= beta) {
+                    return evaluation;
+                }
             }
 
             return evaluation;
@@ -112,7 +115,11 @@ public class MinimaxBot implements ChessBot {
             for (Move move : moves) {
                 Board newBoard = board.copyBoard();
                 moveUtils.makeMove(move, newBoard);
-                evaluation = Math.min(evaluation, this.minimax(newBoard, depth - 1, side.getOppositeSide()));
+                evaluation = Math.min(evaluation, this.alphabeta(newBoard, depth - 1, side.getOppositeSide(), alpha, beta));
+                beta = Math.min(beta, evaluation);
+                if (alpha >= beta) {
+                    return evaluation;
+                }
             }
 
             return evaluation;

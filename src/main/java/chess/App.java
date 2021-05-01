@@ -8,6 +8,7 @@ import chess.bot.TestBot;
 import chess.connection.LichessAPI;
 import chess.model.Profile;
 import chess.connection.*;
+import datastructureproject.bots.AlphaBetaBot;
 import datastructureproject.bots.RandomBot;
 
 import java.io.BufferedReader;
@@ -38,7 +39,8 @@ public class App {
         Make sure it implements the interface ChessBot, and don't change the variable name!
         */
         //ChessBot bot = new TestBot(); // Your bot here!
-        ChessBot bot = new RandomBot();
+        // ChessBot bot = new RandomBot();
+        ChessBot bot = new AlphaBetaBot();
 
         if (isLichess) {
             if (token == null) {

@@ -9,10 +9,7 @@ import datastructureproject.pieces.Piece;
 import datastructureproject.pieces.PieceType;
 import datastructureproject.pieces.Side;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class MoveUtils {
 
@@ -34,8 +31,8 @@ public class MoveUtils {
                 return Queen.getPossibleMoves(startSquare, board);
             case KING:
                 Side side = board.getPieceSideFromSquare(startSquare);
-                Boolean queenSideCastlingAllowed = side.equals(Side.WHITE) ? board.getWhiteQueenSideCastlingAllowed() : board.getBlackQueenSideCastlingAllowed();
-                Boolean kingSideCastlingAllowed = side.equals(Side.WHITE) ? board.getWhiteKingSideCastlingAllowed() : board.getBlackKingSideCastlingAllowed();
+                Boolean queenSideCastlingAllowed = canQueenSideCastle(board, side);
+                Boolean kingSideCastlingAllowed = canKingSideCastle(board, side);
 
                 return King.getPossibleMoves(startSquare, board, queenSideCastlingAllowed, kingSideCastlingAllowed);
         }
@@ -55,17 +52,20 @@ public class MoveUtils {
             case QUEEN:
                 return Queen.getPossibleMoves(startSquare, board);
             case KING:
-                Side side = board.getPieceSideFromSquare(startSquare);
-                Boolean queenSideCastlingAllowed = side.equals(Side.WHITE) ? board.getWhiteQueenSideCastlingAllowed() : board.getBlackQueenSideCastlingAllowed();
-                Boolean kingSideCastlingAllowed = side.equals(Side.WHITE) ? board.getWhiteKingSideCastlingAllowed() : board.getBlackKingSideCastlingAllowed();
-                return King.getPossibleMoves(startSquare, board, queenSideCastlingAllowed, kingSideCastlingAllowed);
+                return King.getPossibleAttackingMoves(startSquare, board);
         }
         return null;
     }
 
     public Boolean isPieceBlockingCheck(int srcRow, int srcColumn, Side side, Board board) {
         Map<Square, Piece> kingSquareMap = board.filterPiecesBySideAndType(side, PieceType.KING);
-        Square kingSquare = kingSquareMap.keySet().stream().iterator().next();
+        Iterator<Square> kingSquareIterator = kingSquareMap.keySet().stream().iterator();
+        if (!kingSquareIterator.hasNext()) {
+            System.out.println("King was not found on the board");
+            return false;
+        }
+
+        Square kingSquare = kingSquareIterator.next();
 
         int kingRow = kingSquare.getRow();
         int kingColumn = kingSquare.getColumn();
@@ -289,7 +289,14 @@ public class MoveUtils {
     // Check if king from the side is attacked
     public Boolean checkIfPositionInvalid(Board board, Side side) {
         Map<Square, Piece> kingSquareMap = board.filterPiecesBySideAndType(side, PieceType.KING);
-        Square kingSquare = kingSquareMap.keySet().iterator().next();
+        Iterator<Square> kingSquareIterator = kingSquareMap.keySet().iterator();
+
+        if (!kingSquareIterator.hasNext()) {
+            return true;
+        }
+
+        Square kingSquare = kingSquareIterator.next();
+
         return checkIfSquareAttacked(kingSquare, board, side);
     }
 
@@ -359,22 +366,78 @@ public class MoveUtils {
             Square square = entry.getKey();
             Piece piece = entry.getValue();
 
-            if (!isPieceBlockingCheck(square.getRow(), square.getColumn(), side, board)) {
-                List<Move> possibleMovesForPiece = getPossibleMovesForPiece(square, piece, board);
-                for (Move possibleMove : possibleMovesForPiece) {
-                    Board newBoard = board.copyBoard();
-                    newBoard.makeMove(possibleMove);
-                    if(!checkIfPositionInvalid(newBoard, side)) {
-                        possibleMoves.add(possibleMove);
-                    }
+           // if (!isPieceBlockingCheck(square.getRow(), square.getColumn(), side, board)) {
+            List<Move> possibleMovesForPiece = getPossibleMovesForPiece(square, piece, board);
+            for (Move possibleMove : possibleMovesForPiece) {
+                Board newBoard = board.copyBoard();
+                newBoard.makeMove(possibleMove);
+                if(!checkIfPositionInvalid(newBoard, side)) {
+                    possibleMoves.add(possibleMove);
                 }
-
-            } else {
-                System.out.printf("Piece at row %s column %s blocking check%n", square.getRow(), square.getColumn());
             }
+
+            //} else {
+            //    System.out.printf("Piece at row %s column %s blocking check%n", square.getRow(), square.getColumn());
+            //}
         }
 
         return possibleMoves;
+    }
+
+    // Method for checking if castling allowed, needed for situations where rook is captured
+    public boolean canKingSideCastle(Board board, Side side) {
+        if(side.equals(Side.WHITE)) {
+            if(board.getWhiteKingSideCastlingAllowed()) {
+                if(board.hasPiece(0, 4) && board.hasPiece(0, 7) && !board.hasPiece(0, 5) && !board.hasPiece(0, 6)) {
+                    Piece kingPiece = board.getPieceAt(0,4);
+                    Piece rookPiece = board.getPieceAt(0, 7);
+                    if (kingPiece.getPieceType().equals(PieceType.KING) && kingPiece.getSide().equals(Side.WHITE) && rookPiece.getPieceType().equals(PieceType.ROOK) && rookPiece.getSide().equals(Side.WHITE)) {
+                        return true;
+                    }
+                }
+            }
+
+        } else {
+            if(board.getBlackKingSideCastlingAllowed()) {
+                if(board.hasPiece(7, 4) && board.hasPiece(7, 7) && !board.hasPiece(7, 5) && !board.hasPiece(7, 6)) {
+                    Piece kingPiece = board.getPieceAt(7,4);
+                    Piece rookPiece = board.getPieceAt(7, 7);
+                    if (kingPiece.getPieceType().equals(PieceType.KING) && kingPiece.getSide().equals(Side.BLACK) && rookPiece.getPieceType().equals(PieceType.ROOK) && rookPiece.getSide().equals(Side.BLACK)) {
+                        return true;
+                    }
+                }
+
+            }
+        }
+        return false;
+    }
+
+    // Method for checking if castling allowed, needed for situations where rook is captured
+    public boolean canQueenSideCastle(Board board, Side side) {
+        if(side.equals(Side.WHITE)) {
+            if(board.getWhiteQueenSideCastlingAllowed()) {
+                if(board.hasPiece(0, 4) && board.hasPiece(0, 0) && !board.hasPiece(0, 3) && !board.hasPiece(0, 2) && !board.hasPiece(0, 1)) {
+                    Piece kingPiece = board.getPieceAt(0,4);
+                    Piece rookPiece = board.getPieceAt(0, 0);
+                    if (kingPiece.getPieceType().equals(PieceType.KING) && kingPiece.getSide().equals(Side.WHITE) && rookPiece.getPieceType().equals(PieceType.ROOK) && rookPiece.getSide().equals(Side.WHITE)) {
+                        return true;
+                    }
+                }
+            }
+
+        } else {
+            if(board.getBlackQueenSideCastlingAllowed()) {
+                if(board.hasPiece(7, 4) && board.hasPiece(7, 0) && !board.hasPiece(7, 3) && !board.hasPiece(7, 2) && !board.hasPiece(7, 1)) {
+                    Piece kingPiece = board.getPieceAt(7,4);
+                    Piece rookPiece = board.getPieceAt(7, 0);
+                    if (kingPiece.getPieceType().equals(PieceType.KING) && kingPiece.getSide().equals(Side.BLACK) && rookPiece.getPieceType().equals(PieceType.ROOK) && rookPiece.getSide().equals(Side.BLACK)) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 
     public void makeMove(Move move, Board board) {
@@ -415,6 +478,26 @@ public class MoveUtils {
                 }
             }
         }
+
+        if(board.hasPiece(endSquare.getRow(), endSquare.getColumn())) {
+            Piece endPiece = board.getPieceAt(endSquare.getRow(), endSquare.getColumn());
+            if (endPiece.getPieceType().equals(PieceType.ROOK) && (kingSideCastlingAllowed || queenSideCastlingAllowed)) {
+                if(side.equals(Side.WHITE)) {
+                    if(endSquare.getRow() == 0 && endSquare.getColumn() == 0) {
+                        board.setWhiteQueenSideCastlingAllowed(false);
+                    } else if(endSquare.getRow() == 0 && endSquare.getColumn() == 7) {
+                        board.setWhiteKingSideCastlingAllowed(false);
+                    }
+                } else {
+                    if(endSquare.getRow() == 7 && endSquare.getColumn() == 0) {
+                        board.setBlackKingSideCastlingAllowed(false);
+                    } else if(endSquare.getRow() == 7 && endSquare.getColumn() == 7) {
+                        board.setBlackKingSideCastlingAllowed(false);
+                    }
+                }
+            }
+        }
+
         board.makeMove(move);
     }
 }

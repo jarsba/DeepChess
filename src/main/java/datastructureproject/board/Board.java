@@ -52,8 +52,12 @@ public class Board {
         initializePositions();
     }
 
-    public Board(Piece[][] boardPositions) {
+    public Board(Piece[][] boardPositions, Boolean whiteKingSideCastlingAllowed, Boolean whiteQueenSideCastlingAllowed, Boolean blackKingSideCastlingAllowed, Boolean blackQueenSideCastlingAllowed) {
         this.positions = boardPositions;
+        this.whiteKingSideCastlingAllowed = whiteKingSideCastlingAllowed;
+        this.whiteQueenSideCastlingAllowed = whiteQueenSideCastlingAllowed;
+        this.blackKingSideCastlingAllowed = blackKingSideCastlingAllowed;
+        this.blackQueenSideCastlingAllowed = blackQueenSideCastlingAllowed;
     }
 
     public Piece[][] getPositions() {
@@ -192,15 +196,18 @@ public class Board {
     public Boolean checkIfCastlingMove(Move move) {
         Square startSquare = move.getStartSquare();
         Square endSquare = move.getEndSquare();
+        Piece piece = this.getPieceAt(startSquare.getRow(), startSquare.getColumn());
 
-        if(startSquare.getRow() == 0 && startSquare.getColumn() == 4 && endSquare.getRow() == 0 && endSquare.getColumn() == 2) {
-            return true;
-        } else if (startSquare.getRow() == 0 && startSquare.getColumn() == 4 && endSquare.getRow() == 0 && endSquare.getColumn() == 6) {
-            return true;
-        } else if (startSquare.getRow() == 7 && startSquare.getColumn() == 4 && endSquare.getRow() == 7 && endSquare.getColumn() == 2) {
-            return true;
-        } else if (startSquare.getRow() == 7 && startSquare.getColumn() == 4 && endSquare.getRow() == 7 && endSquare.getColumn() == 6) {
-            return true;
+        if(piece.getPieceType().equals(PieceType.KING)) {
+            if(startSquare.getRow() == 0 && startSquare.getColumn() == 4 && endSquare.getRow() == 0 && endSquare.getColumn() == 2) {
+                return true;
+            } else if (startSquare.getRow() == 0 && startSquare.getColumn() == 4 && endSquare.getRow() == 0 && endSquare.getColumn() == 6) {
+                return true;
+            } else if (startSquare.getRow() == 7 && startSquare.getColumn() == 4 && endSquare.getRow() == 7 && endSquare.getColumn() == 2) {
+                return true;
+            } else if (startSquare.getRow() == 7 && startSquare.getColumn() == 4 && endSquare.getRow() == 7 && endSquare.getColumn() == 6) {
+                return true;
+            }
         }
 
         return false;
@@ -259,7 +266,8 @@ public class Board {
                 newPositions[row][column] = this.positions[row][column];
             }
         }
-        Board newBoard = new Board(newPositions);
+
+        Board newBoard = new Board(newPositions, this.whiteKingSideCastlingAllowed, this.whiteQueenSideCastlingAllowed, this.blackKingSideCastlingAllowed, this.blackQueenSideCastlingAllowed);
         return newBoard;
     }
 

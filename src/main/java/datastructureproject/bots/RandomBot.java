@@ -31,6 +31,7 @@ public class RandomBot implements ChessBot {
      */
     @Override
     public String nextMove(GameState gs) {
+        this.side = BotUtils.getSideFromGameState(gs);
         BotUtils.parseGameState(gs, this.board, this.moveUtils, this.pastMoves, this.side);
         List<Move> moves = this.moveUtils.getAllPossibleMoves(this.board, this.side);
         if(moves.size() == 0) {
