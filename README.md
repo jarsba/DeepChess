@@ -14,3 +14,4 @@ Projektityö Tietorakenteet ja algoritmit harjoitustyöhön. Projekti forkattu s
 | Palautus III | [Viikko-raportti III](https://github.com/jarsba/DeepChess/blob/master/documentation/viikkoraportti_3.md) |
 | Palautus IV | [Viikko-raportti IV](https://github.com/jarsba/DeepChess/blob/master/documentation/viikkoraportti_4.md) |
 | Palautus V | [Viikko-raportti V](https://github.com/jarsba/DeepChess/blob/master/documentation/viikkoraportti_5.md) |
+| Palautus VI | [Viikko-raportti VI](https://github.com/jarsba/DeepChess/blob/master/documentation/viikkoraportti_6.md) |
