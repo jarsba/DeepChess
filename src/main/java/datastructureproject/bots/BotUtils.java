@@ -25,13 +25,8 @@ public class BotUtils {
         List<String> gsMoves = gs.moves;
 
         // If new game, make sure we have clear board and set correct side for moveUtils
-        if(gs.moves.size() == 0) {
+        if(gs.moves.size() == 0 || gsMoves.size() == 1 && side.equals(Side.BLACK)) {
             board.initializePositions();
-            pastMoves.clear();
-        }
-
-        // Check if past moves are stored from previous game and empty past moves if that is the case
-        if(pastMoves.size() > 1 && gsMoves.size() <= 1) {
             pastMoves.clear();
         }
 

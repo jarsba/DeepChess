@@ -131,6 +131,22 @@ public class Rook implements Piece {
         }
     }
 
+    public int zobristIndex() {
+        if (this.side.equals(Side.WHITE)) {
+            return 4;
+        } else {
+            return 10;
+        }
+    }
+
+    public double pieceValue() {
+        if (this.side.equals(Side.WHITE)) {
+            return 500;
+        } else {
+            return -500;
+        }
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;

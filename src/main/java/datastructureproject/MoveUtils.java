@@ -3,6 +3,7 @@ package datastructureproject;
 import datastructureproject.board.Board;
 import datastructureproject.board.Move;
 import datastructureproject.board.Square;
+import datastructureproject.evaluators.PieceSquareEvaluator;
 import datastructureproject.exceptions.PieceNotFoundOnBoardException;
 import datastructureproject.pieces.*;
 import datastructureproject.pieces.Piece;
@@ -10,6 +11,7 @@ import datastructureproject.pieces.PieceType;
 import datastructureproject.pieces.Side;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class MoveUtils {
 
@@ -366,7 +368,7 @@ public class MoveUtils {
             Square square = entry.getKey();
             Piece piece = entry.getValue();
 
-           // if (!isPieceBlockingCheck(square.getRow(), square.getColumn(), side, board)) {
+            // if (!isPieceBlockingCheck(square.getRow(), square.getColumn(), side, board)) {
             List<Move> possibleMovesForPiece = getPossibleMovesForPiece(square, piece, board);
             for (Move possibleMove : possibleMovesForPiece) {
                 Board newBoard = board.copyBoard();
@@ -383,6 +385,61 @@ public class MoveUtils {
 
         return possibleMoves;
     }
+
+    public List<Move> orderMoves(List<Move> moves, Board board, Side side) {
+
+        Map<Move, Double> moveScores = new HashMap<>();
+
+        for (Move move : moves) {
+            double moveScore = 0;
+
+            Square startSquare = move.getStartSquare();
+            Square endSquare = move.getEndSquare();
+
+            Piece pieceToMove = board.getPieceAt(startSquare);
+
+            if(board.hasPiece(endSquare)) {
+                Piece capturePiece = board.getPieceAt(endSquare);
+                double capturePieceValue = capturePiece.pieceValue();
+                moveScore += capturePieceValue;
+
+            }
+
+            if (move.getPromotionPiece() != null) {
+                Piece promotionPiece = move.getPromotionPiece();
+                double promotionPieceValue = promotionPiece.pieceValue();
+                moveScore += promotionPieceValue;
+            }
+
+            int startSquareLocationScore = PieceSquareEvaluator.getLocationScore(pieceToMove, startSquare);
+            int endSquareLocationScore = PieceSquareEvaluator.getLocationScore(pieceToMove, endSquare);
+
+            moveScore += (endSquareLocationScore - startSquareLocationScore);
+
+            moveScores.put(move, moveScore);
+
+        }
+
+        HashMap<Move, Double> sortedHashMap
+                = moveScores.entrySet()
+                .stream()
+                .sorted(Comparator.comparing(Map.Entry::getValue))
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (e1, e2) -> e1, LinkedHashMap::new));
+
+
+
+        List<Move> sortedMoves = new ArrayList<>(sortedHashMap.keySet());
+
+        if(side.equals(Side.WHITE)) {
+            Collections.reverse(sortedMoves);
+        }
+
+        return sortedMoves;
+    }
+
 
     // Method for checking if castling allowed, needed for situations where rook is captured
     public boolean canKingSideCastle(Board board, Side side) {

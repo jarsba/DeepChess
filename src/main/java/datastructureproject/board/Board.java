@@ -96,11 +96,27 @@ public class Board {
         return this.positions[row][column];
     }
 
+    public Piece getPieceAt(Square square) {
+        int row = square.getRow();
+        int column = square.getColumn();
+        return this.positions[row][column];
+    }
+
     public Boolean hasPiece(int row, int column) {
         if(Square.isValidPosition(row, column)) {
             return this.positions[row][column] != null;
         } else {
             throw new Error(String.format("Tried to get piece outside the board: row %s, column %s", row, column));
+        }
+    }
+
+    public Boolean hasPiece(Square square) {
+        if(Square.isValidPosition(square)) {
+            int row = square.getRow();
+            int column = square.getColumn();
+            return this.positions[row][column] != null;
+        } else {
+            throw new Error(String.format("Tried to get piece outside the board: %s", square));
         }
     }
 

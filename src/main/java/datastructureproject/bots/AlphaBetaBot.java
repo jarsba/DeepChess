@@ -11,7 +11,9 @@ import datastructureproject.evaluators.PieceSquareEvaluator;
 import datastructureproject.pieces.Side;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AlphaBetaBot implements ChessBot {
 
@@ -45,14 +47,25 @@ public class AlphaBetaBot implements ChessBot {
             System.out.println("Could not find any moves");
             return null;
         }
+        
+        moves = moveUtils.orderMoves(moves, this.board, this.side);
 
-        Move bestMove = moves.get(0);
-        double bestMoveScore = 0.0;
+        Move bestMove = null;
+        double bestMoveScore;
+        
+        if (this.side.equals(Side.WHITE)) {
+            bestMoveScore = Double.NEGATIVE_INFINITY;
+        } else {
+            bestMoveScore = Double.POSITIVE_INFINITY;
+        }
+
+        Map<Move, Double> moveMap = new HashMap<>();
 
         for (Move move : moves) {
             Board boardCopy = this.board.copyBoard();
             moveUtils.makeMove(move, boardCopy);
-            double evaluation = alphabeta(boardCopy, depth, side, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+            double evaluation = alphabeta(boardCopy, depth, side.getOppositeSide(), Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+            moveMap.put(move, evaluation);
             if (this.side.equals(Side.WHITE) && evaluation > bestMoveScore) {
                 bestMove = move;
                 bestMoveScore = evaluation;
@@ -61,6 +74,8 @@ public class AlphaBetaBot implements ChessBot {
                 bestMoveScore = evaluation;
             }
         }
+
+        System.out.println(moveMap);
 
         moveUtils.makeMove(bestMove, this.board);
         pastMoves.add(bestMove);
@@ -71,6 +86,8 @@ public class AlphaBetaBot implements ChessBot {
     public double alphabeta(Board board, int depth, Side side, double alpha, double beta) {
         if (side.equals(Side.WHITE)) {
             List<Move> moves = moveUtils.getAllPossibleMoves(board, side);
+            moves = moveUtils.orderMoves(moves, board, side);
+
             if (moves.size() == 0) {
                 if (moveUtils.checkIfPositionInvalid(board, side)) {
                     return Double.NEGATIVE_INFINITY;
@@ -98,6 +115,8 @@ public class AlphaBetaBot implements ChessBot {
             return evaluation;
         } else {
             List<Move> moves = moveUtils.getAllPossibleMoves(board, side);
+            moves = moveUtils.orderMoves(moves, board, side);
+
             if (moves.size() == 0) {
                 if (moveUtils.checkIfPositionInvalid(board, side)) {
                     return Double.POSITIVE_INFINITY;

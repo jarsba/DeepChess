@@ -52,7 +52,7 @@ public class MinimaxBot implements ChessBot {
         for (Move move : moves) {
             Board boardCopy = this.board.copyBoard();
             moveUtils.makeMove(move, boardCopy);
-            double evaluation = minimax(boardCopy, depth, side);
+            double evaluation = minimax(boardCopy, depth, side.getOppositeSide());
             if (this.side.equals(Side.WHITE) && evaluation > bestMoveScore) {
                 bestMove = move;
                 bestMoveScore = evaluation;

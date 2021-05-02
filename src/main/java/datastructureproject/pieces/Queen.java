@@ -184,6 +184,21 @@ public class Queen implements Piece {
         }
     }
 
+    public int zobristIndex() {
+        if (this.side.equals(Side.WHITE)) {
+            return 5;
+        } else {
+            return 11;
+        }
+    }
+
+    public double pieceValue() {
+        if (this.side.equals(Side.WHITE)) {
+            return 900;
+        } else {
+            return -900;
+        }
+    }
 
     @Override
     public int hashCode() {

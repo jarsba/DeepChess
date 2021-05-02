@@ -20,12 +20,16 @@ public class DumbEvaluator implements Evaluator {
         pieceScoreTable.put(new Bishop(Side.WHITE), 500.0);
         pieceScoreTable.put(new Queen(Side.WHITE), 900.0);
         pieceScoreTable.put(new Knight(Side.WHITE), 300.0);
+        pieceScoreTable.put(new King(Side.WHITE), 10000.0);
+
 
         pieceScoreTable.put(new Pawn(Side.BLACK), -100.0);
         pieceScoreTable.put(new Rook(Side.BLACK), -500.0);
         pieceScoreTable.put(new Bishop(Side.BLACK), -500.0);
         pieceScoreTable.put(new Queen(Side.BLACK), -900.0);
         pieceScoreTable.put(new Knight(Side.BLACK), -300.0);
+        pieceScoreTable.put(new King(Side.BLACK), -10000.0);
+
     }
 
     public Double evaluateBoard(Board board) {

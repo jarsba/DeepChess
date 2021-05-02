@@ -32,6 +32,12 @@ public class Square implements Comparable<Square> {
         return column >= 0 && column < 8 && row >= 0 && row < 8;
     }
 
+    public static boolean isValidPosition(Square square) {
+        int row = square.getRow();
+        int column = square.getColumn();
+        return column >= 0 && column < 8 && row >= 0 && row < 8;
+    }
+
     public String getAlgebraicNotation() {
         return String.format("%s%d", (char) (this.column + 'a'), this.row+1);
     }

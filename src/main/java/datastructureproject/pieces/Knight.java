@@ -189,6 +189,22 @@ public class Knight implements Piece {
         }
     }
 
+    public int zobristIndex() {
+        if (this.side.equals(Side.WHITE)) {
+            return 2;
+        } else {
+            return 8;
+        }
+    }
+
+    public double pieceValue() {
+        if (this.side.equals(Side.WHITE)) {
+            return 300;
+        } else {
+            return -300;
+        }
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;

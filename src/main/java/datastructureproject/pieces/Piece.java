@@ -5,6 +5,8 @@ public interface Piece {
     Side getSide();
     String getUnicodeCharacter();
     String getPieceNotion();
+    int zobristIndex();
+    double pieceValue();
 
     static Piece fromPieceNotation(String pieceNotation) {
         switch (pieceNotation.toLowerCase()) {

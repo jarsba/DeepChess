@@ -3,6 +3,7 @@ package datastructureproject.evaluators;
 // Used Sebastian Lagues code as base https://github.com/SebLague/Chess-AI/blob/main/Assets/Scripts/Core/PieceSquareTable.cs
 
 import datastructureproject.board.Board;
+import datastructureproject.board.Square;
 import datastructureproject.pieces.*;
 
 import java.util.HashMap;
@@ -82,7 +83,7 @@ public class PieceSquareEvaluator implements Evaluator {
         this.initializeScoreTable();
     }
 
-    public int[][] flipTable(int[][] table) {
+    public static int[][] flipTable(int[][] table) {
         int[][] flippedTable = new int[8][8];
         // Iterate table in reverse row order, same column order and flip all signs
         for (int i = 7; i >= 0; i--) {
@@ -94,21 +95,39 @@ public class PieceSquareEvaluator implements Evaluator {
         return flippedTable;
     }
 
-    public int[][] getLocationScoreTable(Piece piece) {
-        switch (piece.getPieceType()) {
-            case BISHOP:
-                return bishopLocationScores;
-            case ROOK:
-                return rookLocationScores;
-            case PAWN:
-                return pawnLocationScores;
-            case KNIGHT:
-                return knightLocationScores;
-            case QUEEN:
-                return queenLocationScores;
-            case KING:
-                return kingLocationScores;
+    public static int[][] getLocationScoreTable(Piece piece) {
+        if(piece.getSide().equals(Side.WHITE)) {
+            switch (piece.getPieceType()) {
+                case BISHOP:
+                    return bishopLocationScores;
+                case ROOK:
+                    return rookLocationScores;
+                case PAWN:
+                    return pawnLocationScores;
+                case KNIGHT:
+                    return knightLocationScores;
+                case QUEEN:
+                    return queenLocationScores;
+                case KING:
+                    return kingLocationScores;
+            }
+        } else {
+            switch (piece.getPieceType()) {
+                case BISHOP:
+                    return flipTable(bishopLocationScores);
+                case ROOK:
+                    return flipTable(rookLocationScores);
+                case PAWN:
+                    return flipTable(pawnLocationScores);
+                case KNIGHT:
+                    return flipTable(knightLocationScores);
+                case QUEEN:
+                    return flipTable(queenLocationScores);
+                case KING:
+                    return flipTable(kingLocationScores);
+            }
         }
+
         return null;
     }
 
@@ -118,12 +137,22 @@ public class PieceSquareEvaluator implements Evaluator {
         pieceScoreTable.put(new Bishop(Side.WHITE), 500.0);
         pieceScoreTable.put(new Queen(Side.WHITE), 900.0);
         pieceScoreTable.put(new Knight(Side.WHITE), 300.0);
+        pieceScoreTable.put(new King(Side.WHITE), 10000.0);
 
         pieceScoreTable.put(new Pawn(Side.BLACK), -100.0);
         pieceScoreTable.put(new Rook(Side.BLACK), -500.0);
         pieceScoreTable.put(new Bishop(Side.BLACK), -500.0);
         pieceScoreTable.put(new Queen(Side.BLACK), -900.0);
         pieceScoreTable.put(new Knight(Side.BLACK), -300.0);
+        pieceScoreTable.put(new King(Side.BLACK), -10000.0);
+
+    }
+
+    public static int getLocationScore(Piece piece, Square square) {
+        int[][] locationScoreTable = getLocationScoreTable(piece);
+        int row = square.getRow();
+        int column = square.getColumn();
+        return locationScoreTable[row][column];
     }
 
     public Double evaluateBoard(Board board) {
@@ -141,12 +170,8 @@ public class PieceSquareEvaluator implements Evaluator {
 
                     int[][] locationScoreTable = getLocationScoreTable(piece);
 
-                    if(piece.getSide().equals(Side.WHITE)) {
-                        score += locationScoreTable[i][j];
-                    } else {
-                        int[][] flippedTable = flipTable(locationScoreTable);
-                        score += flippedTable[i][j];
-                    }
+                    score += locationScoreTable[i][j];
+
                 }
             }
         }

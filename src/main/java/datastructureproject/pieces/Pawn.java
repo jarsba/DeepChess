@@ -36,36 +36,36 @@ public class Pawn implements Piece {
         if (side == Side.WHITE) {
             if (7 - row >= 1) {
 
-                possibleMoves.add(new Move(startSquare,new Square(row + 1, column)));
+                possibleMoves.add(new Move(startSquare, new Square(row + 1, column)));
 
                 if (column > 0) {
-                    possibleMoves.add(new Move(startSquare,new Square(row + 1, column - 1)));
+                    possibleMoves.add(new Move(startSquare, new Square(row + 1, column - 1)));
                 }
 
                 if (column < 7) {
-                    possibleMoves.add(new Move(startSquare,new Square(row + 1, column + 1)));
+                    possibleMoves.add(new Move(startSquare, new Square(row + 1, column + 1)));
                 }
             }
 
             if (row == 1) {
-                possibleMoves.add(new Move(startSquare,new Square(row + 2, column)));
+                possibleMoves.add(new Move(startSquare, new Square(row + 2, column)));
             }
         } else {
             if (row >= 1) {
 
-                possibleMoves.add(new Move(startSquare,new Square(row - 1, column)));
+                possibleMoves.add(new Move(startSquare, new Square(row - 1, column)));
 
                 if (column > 0) {
-                    possibleMoves.add(new Move(startSquare,new Square(row - 1, column - 1)));
+                    possibleMoves.add(new Move(startSquare, new Square(row - 1, column - 1)));
                 }
 
                 if (column < 7) {
-                    possibleMoves.add(new Move(startSquare,new Square(row - 1, column + 1)));
+                    possibleMoves.add(new Move(startSquare, new Square(row - 1, column + 1)));
                 }
             }
 
             if (row == 6) {
-                possibleMoves.add(new Move(startSquare,new Square(row - 2, column)));
+                possibleMoves.add(new Move(startSquare, new Square(row - 2, column)));
             }
         }
 
@@ -86,77 +86,77 @@ public class Pawn implements Piece {
             if (7 - row >= 1) {
                 // Next move promotes
                 if (7 - row == 1) {
-                    if(!board.hasPiece(row + 1, column)) {
+                    if (!board.hasPiece(row + 1, column)) {
                         for (Piece promotionPiece : promotionPieces) {
-                            possibleMoves.add(new Move(startSquare,new Square(row + 1, column), promotionPiece));
+                            possibleMoves.add(new Move(startSquare, new Square(row + 1, column), promotionPiece));
                         }
                     }
 
                     if (column > 0 && board.hasPiece(row + 1, column - 1) && board.getPieceAt(row + 1, column - 1).getSide().getOppositeSide() == side) {
                         for (Piece promotionPiece : promotionPieces) {
-                            possibleMoves.add(new Move(startSquare,new Square(row + 1, column - 1), promotionPiece));
+                            possibleMoves.add(new Move(startSquare, new Square(row + 1, column - 1), promotionPiece));
                         }
                     }
 
                     if (column < 7 && board.hasPiece(row + 1, column + 1) && board.getPieceAt(row + 1, column + 1).getSide().getOppositeSide() == side) {
                         for (Piece promotionPiece : promotionPieces) {
-                            possibleMoves.add(new Move(startSquare,new Square(row + 1, column + 1), promotionPiece));
+                            possibleMoves.add(new Move(startSquare, new Square(row + 1, column + 1), promotionPiece));
                         }
                     }
                 } else {
-                    if(!board.hasPiece(row + 1, column)) {
-                        possibleMoves.add(new Move(startSquare,new Square(row + 1, column)));
+                    if (!board.hasPiece(row + 1, column)) {
+                        possibleMoves.add(new Move(startSquare, new Square(row + 1, column)));
                     }
 
                     if (column > 0 && board.hasPiece(row + 1, column - 1) && board.getPieceAt(row + 1, column - 1).getSide().getOppositeSide() == side) {
-                        possibleMoves.add(new Move(startSquare,new Square(row + 1, column - 1)));
+                        possibleMoves.add(new Move(startSquare, new Square(row + 1, column - 1)));
                     }
 
                     if (column < 7 && board.hasPiece(row + 1, column + 1) && board.getPieceAt(row + 1, column + 1).getSide().getOppositeSide() == side) {
-                        possibleMoves.add(new Move(startSquare,new Square(row + 1, column + 1)));
+                        possibleMoves.add(new Move(startSquare, new Square(row + 1, column + 1)));
                     }
                 }
             }
 
             if (row == 1 && !board.hasPiece(row + 1, column) && !board.hasPiece(row + 2, column)) {
-                possibleMoves.add(new Move(startSquare,new Square(row + 2, column)));
+                possibleMoves.add(new Move(startSquare, new Square(row + 2, column)));
             }
         } else {
             if (row >= 1) {
                 // Next move promotes
                 if (row == 1) {
-                    if(!board.hasPiece(row - 1, column)) {
+                    if (!board.hasPiece(row - 1, column)) {
                         for (Piece promotionPiece : promotionPieces) {
-                            possibleMoves.add(new Move(startSquare,new Square(row - 1, column), promotionPiece));
+                            possibleMoves.add(new Move(startSquare, new Square(row - 1, column), promotionPiece));
                         }
                     }
                     if (column > 0 && board.hasPiece(row - 1, column - 1) && board.getPieceAt(row - 1, column - 1).getSide().getOppositeSide() == side) {
                         for (Piece promotionPiece : promotionPieces) {
-                            possibleMoves.add(new Move(startSquare,new Square(row - 1, column - 1), promotionPiece));
+                            possibleMoves.add(new Move(startSquare, new Square(row - 1, column - 1), promotionPiece));
                         }
                     }
 
                     if (column < 7 && board.hasPiece(row - 1, column + 1) && board.getPieceAt(row - 1, column + 1).getSide().getOppositeSide() == side) {
                         for (Piece promotionPiece : promotionPieces) {
-                            possibleMoves.add(new Move(startSquare,new Square(row - 1, column + 1), promotionPiece));
+                            possibleMoves.add(new Move(startSquare, new Square(row - 1, column + 1), promotionPiece));
                         }
                     }
                 } else {
-                    if(!board.hasPiece(row - 1, column)) {
-                        possibleMoves.add(new Move(startSquare,new Square(row - 1, column)));
+                    if (!board.hasPiece(row - 1, column)) {
+                        possibleMoves.add(new Move(startSquare, new Square(row - 1, column)));
                     }
                     if (column > 0 && board.hasPiece(row - 1, column - 1) && board.getPieceAt(row - 1, column - 1).getSide().getOppositeSide() == side) {
-                        possibleMoves.add(new Move(startSquare,new Square(row - 1, column - 1)));
+                        possibleMoves.add(new Move(startSquare, new Square(row - 1, column - 1)));
                     }
 
                     if (column < 7 && board.hasPiece(row - 1, column + 1) && board.getPieceAt(row - 1, column + 1).getSide().getOppositeSide() == side) {
-                        possibleMoves.add(new Move(startSquare,new Square(row - 1, column + 1)));
+                        possibleMoves.add(new Move(startSquare, new Square(row - 1, column + 1)));
                     }
                 }
             }
 
             if (row == 6 && !board.hasPiece(row - 1, column) && !board.hasPiece(row - 2, column)) {
-                possibleMoves.add(new Move(startSquare,new Square(row - 2, column)));
+                possibleMoves.add(new Move(startSquare, new Square(row - 2, column)));
             }
         }
 
@@ -173,22 +173,22 @@ public class Pawn implements Piece {
         if (side == Side.WHITE) {
             if (7 - row >= 1) {
                 if (column > 0) {
-                    possibleMoves.add(new Move(startSquare,new Square(row + 1, column - 1)));
+                    possibleMoves.add(new Move(startSquare, new Square(row + 1, column - 1)));
                 }
 
                 if (column < 7) {
-                    possibleMoves.add(new Move(startSquare,new Square(row + 1, column + 1)));
+                    possibleMoves.add(new Move(startSquare, new Square(row + 1, column + 1)));
                 }
             }
 
         } else {
             if (row >= 1) {
                 if (column > 0) {
-                    possibleMoves.add(new Move(startSquare,new Square(row - 1, column - 1)));
+                    possibleMoves.add(new Move(startSquare, new Square(row - 1, column - 1)));
                 }
 
                 if (column < 7) {
-                    possibleMoves.add(new Move(startSquare,new Square(row - 1, column + 1)));
+                    possibleMoves.add(new Move(startSquare, new Square(row - 1, column + 1)));
                 }
             }
         }
@@ -217,6 +217,22 @@ public class Pawn implements Piece {
             return new Pawn(Side.WHITE);
         } else {
             return new Pawn(Side.BLACK);
+        }
+    }
+
+    public int zobristIndex() {
+        if (this.side.equals(Side.WHITE)) {
+            return 1;
+        } else {
+            return 7;
+        }
+    }
+
+    public double pieceValue() {
+        if (this.side.equals(Side.WHITE)) {
+            return 100;
+        } else {
+            return -100;
         }
     }
 
