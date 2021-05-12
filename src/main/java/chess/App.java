@@ -9,6 +9,7 @@ import chess.connection.LichessAPI;
 import chess.model.Profile;
 import chess.connection.*;
 import datastructureproject.bots.AlphaBetaBot;
+import datastructureproject.bots.MinimaxBot;
 import datastructureproject.bots.RandomBot;
 
 import java.io.BufferedReader;
@@ -40,6 +41,7 @@ public class App {
         */
         //ChessBot bot = new TestBot(); // Your bot here!
         // ChessBot bot = new RandomBot();
+        // ChessBot bot = new MinimaxBot();
         ChessBot bot = new AlphaBetaBot();
 
         if (isLichess) {

@@ -9,9 +9,8 @@ import datastructureproject.evaluators.DumbEvaluator;
 import datastructureproject.evaluators.Evaluator;
 import datastructureproject.pieces.Side;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class MinimaxBot implements ChessBot {
 
@@ -21,7 +20,9 @@ public class MinimaxBot implements ChessBot {
     // Implement interface for easy evaluator swapping
     private Evaluator evaluator;
     private Side side;
-    private final int depth = 3;
+    private int depth = 3;
+    private int evaluatedPositions = 0;
+    private boolean useGameState = true;
 
     public MinimaxBot() {
         this.board = new Board();
@@ -30,33 +31,60 @@ public class MinimaxBot implements ChessBot {
         this.evaluator = new DumbEvaluator();
     }
 
+    public MinimaxBot(Board board, List<Move> pastMoves, Evaluator evaluator, Side side, int depth, Boolean useGameState) {
+        this.board = board;
+        this.moveUtils = new MoveUtils();
+        this.pastMoves = pastMoves;
+        this.evaluator = evaluator;
+        this.side = side;
+        this.depth = depth;
+        // For testing
+        this.useGameState = useGameState;
+
+    }
+
+    public int getEvaluatedPositions() {
+        return evaluatedPositions;
+    }
+
     /**
      * @param gs Current gamestate
      * @return UCI String representation of a move
      */
     @Override
     public String nextMove(GameState gs) {
-        this.side = BotUtils.getSideFromGameState(gs);
-        BotUtils.parseGameState(gs, this.board, this.moveUtils, this.pastMoves, this.side);
+
+        long start = System.currentTimeMillis();
+        this.evaluatedPositions = 0;
+
+        if(useGameState) {
+            this.side = BotUtils.getSideFromGameState(gs);
+            BotUtils.parseGameState(gs, this.board, this.moveUtils, this.pastMoves, this.side);
+        }
 
         List<Move> moves = this.moveUtils.getAllPossibleMoves(this.board, this.side);
 
         if(moves.size() == 0) {
             System.out.println("Could not find any moves");
+            BotUtils.initializeGame(gs, this.board, this.pastMoves, this.side);
             return null;
         }
 
         Move bestMove = moves.get(0);
         double bestMoveScore = 0.0;
 
+        Map<Move, Double> moveMap = new HashMap<>();
+
+
         for (Move move : moves) {
             Board boardCopy = this.board.copyBoard();
             moveUtils.makeMove(move, boardCopy);
-            double evaluation = minimax(boardCopy, depth, side.getOppositeSide());
-            if (this.side.equals(Side.WHITE) && evaluation > bestMoveScore) {
+            double evaluation = this.minimax(boardCopy, depth, side.getOppositeSide());
+            moveMap.put(move, evaluation);
+            if (this.side.equals(Side.WHITE) && evaluation >= bestMoveScore) {
                 bestMove = move;
                 bestMoveScore = evaluation;
-            } else if(this.side.equals(Side.BLACK) && evaluation < bestMoveScore) {
+            } else if(this.side.equals(Side.BLACK) && evaluation <= bestMoveScore) {
                 bestMove = move;
                 bestMoveScore = evaluation;
             }
@@ -64,6 +92,15 @@ public class MinimaxBot implements ChessBot {
 
         moveUtils.makeMove(bestMove, this.board);
         pastMoves.add(bestMove);
+
+        long finish = System.currentTimeMillis();
+        long timeElapsed = finish - start;
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(timeElapsed);
+
+        System.out.println(String.format("TIME ELAPSED: %s min %s sec", Math.floor((double) seconds / 60), (seconds % 60)));
+        System.out.println("EVALUATED POSITIONS: " + this.evaluatedPositions);
+        System.out.println(moveMap);
+
         return bestMove.toUCIString();
     }
 
@@ -90,6 +127,7 @@ public class MinimaxBot implements ChessBot {
                 Board newBoard = board.copyBoard();
                 moveUtils.makeMove(move, newBoard);
                 evaluation = Math.max(evaluation, this.minimax(newBoard, depth - 1, side.getOppositeSide()));
+                this.evaluatedPositions++;
             }
 
             return evaluation;
@@ -113,6 +151,7 @@ public class MinimaxBot implements ChessBot {
                 Board newBoard = board.copyBoard();
                 moveUtils.makeMove(move, newBoard);
                 evaluation = Math.min(evaluation, this.minimax(newBoard, depth - 1, side.getOppositeSide()));
+                this.evaluatedPositions++;
             }
 
             return evaluation;

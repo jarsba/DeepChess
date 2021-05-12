@@ -430,7 +430,6 @@ public class MoveUtils {
                         (e1, e2) -> e1, LinkedHashMap::new));
 
 
-
         List<Move> sortedMoves = new ArrayList<>(sortedHashMap.keySet());
 
         if(side.equals(Side.WHITE)) {
@@ -498,6 +497,7 @@ public class MoveUtils {
     }
 
     public void makeMove(Move move, Board board) {
+        //System.out.println("MAKING MOVE " + move);
         Square startSquare = move.getStartSquare();
         Square endSquare = move.getEndSquare();
         Piece piece = board.getPieceAt(startSquare.getRow(), startSquare.getColumn());

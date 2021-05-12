@@ -21,13 +21,18 @@ public class BotUtils {
         }
     }
 
+    public static void initializeGame(GameState gs, Board board, List<Move> pastMoves, Side side) {
+        side = BotUtils.getSideFromGameState(gs);
+        board.initializePositions();
+        pastMoves.clear();
+    }
+
     public static void parseGameState(GameState gs, Board board, MoveUtils moveUtils, List<Move> pastMoves, Side side) {
         List<String> gsMoves = gs.moves;
 
         // If new game, make sure we have clear board and set correct side for moveUtils
         if(gsMoves.size() == 0 || (gsMoves.size() == 1 && side.equals(Side.BLACK))) {
-            board.initializePositions();
-            pastMoves.clear();
+            BotUtils.initializeGame(gs,board, pastMoves, side);
         }
 
         if(gs.moves.size() != pastMoves.size()) {

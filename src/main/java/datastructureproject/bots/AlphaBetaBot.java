@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class AlphaBetaBot implements ChessBot {
 
@@ -22,13 +23,32 @@ public class AlphaBetaBot implements ChessBot {
     private List<Move> pastMoves;
     private Evaluator evaluator;
     private Side side;
-    private final int depth = 3;
+    private int depth = 3;
+    private int evaluatedPositions = 0;
+    private boolean useGameState = true;
+    private boolean useMoveOrdering = true;
 
     public AlphaBetaBot() {
         this.board = new Board();
         this.moveUtils = new MoveUtils();
         this.pastMoves = new ArrayList<>();
         this.evaluator = new PieceSquareEvaluator();
+    }
+
+    public AlphaBetaBot(Board board, List<Move> pastMoves, Evaluator evaluator, Side side, int depth, Boolean useMoveOrdering, Boolean useGameState) {
+        this.board = board;
+        this.moveUtils = new MoveUtils();
+        this.pastMoves = pastMoves;
+        this.evaluator = evaluator;
+        this.side = side;
+        this.depth = depth;
+        this.useMoveOrdering = useMoveOrdering;
+        // For testing
+        this.useGameState = useGameState;
+    }
+
+    public int getEvaluatedPositions() {
+        return evaluatedPositions;
     }
 
     /**
@@ -38,17 +58,29 @@ public class AlphaBetaBot implements ChessBot {
     @Override
     public String nextMove(GameState gs) {
 
-        this.side = BotUtils.getSideFromGameState(gs);
+        System.out.println(this.useMoveOrdering);
 
-        BotUtils.parseGameState(gs, this.board, this.moveUtils, this.pastMoves, this.side);
+        long start = System.currentTimeMillis();
+
+        this.evaluatedPositions = 0;
+
+        if(useGameState) {
+            this.side = BotUtils.getSideFromGameState(gs);
+            BotUtils.parseGameState(gs, this.board, this.moveUtils, this.pastMoves, this.side);
+        }
+
         List<Move> moves = this.moveUtils.getAllPossibleMoves(this.board, this.side);
 
         if(moves.size() == 0) {
             System.out.println("Could not find any moves");
+            BotUtils.initializeGame(gs, this.board, this.pastMoves, this.side);
             return null;
         }
-        
-        moves = moveUtils.orderMoves(moves, this.board, this.side);
+
+        if(this.useMoveOrdering) {
+            System.out.println("USE MOVE ORDERING");
+            moves = moveUtils.orderMoves(moves, this.board, this.side);
+        }
 
         Move bestMove = null;
         double bestMoveScore;
@@ -64,29 +96,42 @@ public class AlphaBetaBot implements ChessBot {
         for (Move move : moves) {
             Board boardCopy = this.board.copyBoard();
             moveUtils.makeMove(move, boardCopy);
-            double evaluation = alphabeta(boardCopy, depth, side.getOppositeSide(), Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+            double evaluation = this.alphabeta(boardCopy, depth, side.getOppositeSide(), Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
             moveMap.put(move, evaluation);
-            if (this.side.equals(Side.WHITE) && evaluation > bestMoveScore) {
+            if (this.side.equals(Side.WHITE) && evaluation >= bestMoveScore) {
                 bestMove = move;
                 bestMoveScore = evaluation;
-            } else if(this.side.equals(Side.BLACK) && evaluation < bestMoveScore) {
+            } else if(this.side.equals(Side.BLACK) && evaluation <= bestMoveScore) {
                 bestMove = move;
                 bestMoveScore = evaluation;
             }
         }
 
-        System.out.println(moveMap);
-
         moveUtils.makeMove(bestMove, this.board);
         pastMoves.add(bestMove);
+
+        long finish = System.currentTimeMillis();
+        long timeElapsed = finish - start;
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(timeElapsed);
+
+        System.out.println(String.format("TIME ELAPSED: %s min %s sec", Math.floor((double) seconds / 60), (seconds % 60)));
+        System.out.println("EVALUATED POSITIONS: " + this.evaluatedPositions);
+        System.out.println(moveMap);
+
+
         return bestMove.toUCIString();
     }
 
 
     public double alphabeta(Board board, int depth, Side side, double alpha, double beta) {
-        if (side.equals(Side.WHITE)) {
-            List<Move> moves = moveUtils.getAllPossibleMoves(board, side);
+
+        List<Move> moves = moveUtils.getAllPossibleMoves(board, side);
+
+        if(this.useMoveOrdering && depth > 0) {
             moves = moveUtils.orderMoves(moves, board, side);
+        }
+
+        if (side.equals(Side.WHITE)) {
 
             if (moves.size() == 0) {
                 if (moveUtils.checkIfPositionInvalid(board, side)) {
@@ -106,6 +151,7 @@ public class AlphaBetaBot implements ChessBot {
                 Board newBoard = board.copyBoard();
                 moveUtils.makeMove(move, newBoard);
                 evaluation = Math.max(evaluation, this.alphabeta(newBoard, depth - 1, side.getOppositeSide(), alpha, beta));
+                this.evaluatedPositions++;
                 alpha = Math.max(alpha, evaluation);
                 if (alpha >= beta) {
                     return evaluation;
@@ -114,8 +160,6 @@ public class AlphaBetaBot implements ChessBot {
 
             return evaluation;
         } else {
-            List<Move> moves = moveUtils.getAllPossibleMoves(board, side);
-            moves = moveUtils.orderMoves(moves, board, side);
 
             if (moves.size() == 0) {
                 if (moveUtils.checkIfPositionInvalid(board, side)) {
@@ -135,6 +179,7 @@ public class AlphaBetaBot implements ChessBot {
                 Board newBoard = board.copyBoard();
                 moveUtils.makeMove(move, newBoard);
                 evaluation = Math.min(evaluation, this.alphabeta(newBoard, depth - 1, side.getOppositeSide(), alpha, beta));
+                this.evaluatedPositions++;
                 beta = Math.min(beta, evaluation);
                 if (alpha >= beta) {
                     return evaluation;

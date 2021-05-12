@@ -158,6 +158,7 @@ public class GameState {
      * @return A full, initial game state
      */
     public static GameState parseFromJson(String json) {
+        System.out.println(json);
         GameState gameState = new GameState();
         
         JSONObject jsonGameState = new JSONObject(json);
