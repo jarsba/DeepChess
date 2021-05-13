@@ -3,7 +3,6 @@ package datastructureproject.pieces;
 import datastructureproject.board.Board;
 import datastructureproject.board.Move;
 import datastructureproject.board.Square;
-import datastructureproject.MoveUtils;
 
 import java.util.ArrayList;
 import java.util.List;

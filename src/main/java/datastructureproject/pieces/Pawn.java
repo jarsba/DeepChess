@@ -1,6 +1,5 @@
 package datastructureproject.pieces;
 
-import datastructureproject.MoveUtils;
 import datastructureproject.board.Board;
 import datastructureproject.board.Move;
 import datastructureproject.board.Square;

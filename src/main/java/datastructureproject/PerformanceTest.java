@@ -1,6 +1,5 @@
 package datastructureproject;
 
-import chess.bot.ChessBot;
 import chess.engine.GameState;
 import datastructureproject.board.Board;
 import datastructureproject.bots.AlphaBetaBot;

@@ -1,12 +1,8 @@
 package datastructureproject.pieces;
 
-import datastructureproject.MoveUtils;
 import datastructureproject.board.Board;
 import datastructureproject.board.Move;
 import datastructureproject.board.Square;
-import datastructureproject.exceptions.PieceInWrongSquareException;
-import datastructureproject.exceptions.PieceNotFoundOnBoardException;
-import datastructureproject.exceptions.TooManyPiecesOnBoardException;
 
 import java.util.ArrayList;
 import java.util.List;

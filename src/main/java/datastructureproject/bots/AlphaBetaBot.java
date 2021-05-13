@@ -5,7 +5,6 @@ import chess.engine.GameState;
 import datastructureproject.MoveUtils;
 import datastructureproject.board.Board;
 import datastructureproject.board.Move;
-import datastructureproject.evaluators.DumbEvaluator;
 import datastructureproject.evaluators.Evaluator;
 import datastructureproject.evaluators.PieceSquareEvaluator;
 import datastructureproject.pieces.Side;

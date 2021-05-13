@@ -2,9 +2,7 @@ package datastructureproject.board;
 
 import datastructureproject.pieces.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Board {
@@ -17,6 +15,7 @@ public class Board {
     private Boolean whiteQueenSideCastlingAllowed = true;
     private Boolean blackKingSideCastlingAllowed = true;
     private Boolean blackQueenSideCastlingAllowed = true;
+
 
     public Board() {
         positions = new Piece[8][8];
@@ -128,6 +127,11 @@ public class Board {
         }
     }
 
+    /**
+     * Initialize board from FEN-string, mostly for testing purposes
+     *
+     * @param FEN
+     */
     public void initializeFromFEN(String FEN) {
         String[] array = FEN.split(" ");
 
@@ -248,6 +252,9 @@ public class Board {
         }
     }
 
+    /**
+     * @param move 
+     */
     public void makeMove(Move move) {
         Square startSquare = move.getStartSquare();
         Square endSquare = move.getEndSquare();
@@ -262,6 +269,9 @@ public class Board {
         }
     }
 
+    /**
+     * @param move
+     */
     public void makeCastlingMove(Move move) {
         Square startSquare = move.getStartSquare();
         Square endSquare = move.getEndSquare();
@@ -308,6 +318,11 @@ public class Board {
         }
     }
 
+    /**
+     *
+     * @param move
+     * @return Boolean
+     */
     public Boolean checkIfCastlingMove(Move move) {
         Square startSquare = move.getStartSquare();
         Square endSquare = move.getEndSquare();
@@ -329,6 +344,11 @@ public class Board {
 
     }
 
+    /**
+     * 
+     * @param move
+     * @param promoteTo
+     */
     public void makePromotionMove(Move move, Piece promoteTo) {
         Square startSquare = move.getStartSquare();
         Square endSquare = move.getEndSquare();
@@ -336,7 +356,11 @@ public class Board {
         this.setPieceAt(endSquare.getRow(), endSquare.getColumn(), promoteTo);
     }
 
-
+    /**
+     * 
+     * @param side
+     * @return Map<Square, Piece>
+     */
     public Map<Square, Piece> filterPiecesBySide(Side side) {
 
         Map<Square, Piece> filteredPieces = new HashMap<>();
@@ -355,6 +379,13 @@ public class Board {
         return filteredPieces;
     }
 
+
+    /**
+     * 
+     * @param side
+     * @param pieceType
+     * @return Map<Square, Piece>
+     */
     public Map<Square, Piece> filterPiecesBySideAndType(Side side, PieceType pieceType) {
 
         Map<Square, Piece> filteredPieces = new HashMap<>();
@@ -373,7 +404,10 @@ public class Board {
         return filteredPieces;
     }
 
-
+    /**
+     * 
+     * @return Board
+     */
     public Board copyBoard() {
         Piece[][] newPositions = new Piece[8][8];
         for (int row = 0; row < 8; row++) {
@@ -386,6 +420,11 @@ public class Board {
         return newBoard;
     }
 
+
+    /**
+     * 
+     * @return String
+     */
     @Override
     public String toString() {
         StringBuilder boardString = new StringBuilder("\n----- BOARD -----\n\n");

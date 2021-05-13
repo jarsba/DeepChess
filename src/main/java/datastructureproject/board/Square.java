@@ -1,15 +1,9 @@
 package datastructureproject.board;
 
-import datastructureproject.pieces.Rook;
-
-import java.util.Locale;
-import java.util.Map;
-
 public class Square implements Comparable<Square> {
 
     private final int row;
     private final int column;
-    private final String letters = "abcdefgh";
 
     public Square(int row, int column) {
         this.row = row;
@@ -42,6 +36,11 @@ public class Square implements Comparable<Square> {
         return String.format("%s%d", (char) (this.column + 'a'), this.row+1);
     }
 
+    /**
+     *
+     * @param algebraicNotationString
+     * @return Square
+     */
     public static Square fromAlgebraicNotation(String algebraicNotationString) {
         if(algebraicNotationString.length() != 2) {
             System.out.println(algebraicNotationString);

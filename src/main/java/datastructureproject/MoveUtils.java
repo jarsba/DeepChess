@@ -4,11 +4,7 @@ import datastructureproject.board.Board;
 import datastructureproject.board.Move;
 import datastructureproject.board.Square;
 import datastructureproject.evaluators.PieceSquareEvaluator;
-import datastructureproject.exceptions.PieceNotFoundOnBoardException;
 import datastructureproject.pieces.*;
-import datastructureproject.pieces.Piece;
-import datastructureproject.pieces.PieceType;
-import datastructureproject.pieces.Side;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -361,9 +357,18 @@ public class MoveUtils {
     }
 
     public List<Move> getAllPossibleMoves(Board board, Side side) {
+        Boolean isCheck = checkIfPositionInvalid(board, side);
+        if(isCheck) {
+            if(side.equals(Side.WHITE)) {
+                board.setWhiteKingSideCastlingAllowed(false);
+                board.setWhiteQueenSideCastlingAllowed(false);
+            } else {
+                board.setBlackKingSideCastlingAllowed(false);
+                board.setBlackQueenSideCastlingAllowed(false);
+            }
+        }
         List<Move> possibleMoves = new ArrayList<>();
         Map<Square, Piece> pieceMap = board.filterPiecesBySide(side);
-
         for (Map.Entry<Square, Piece> entry : pieceMap.entrySet()) {
             Square square = entry.getKey();
             Piece piece = entry.getValue();

@@ -1,6 +1,5 @@
 package datastructureproject.board;
 
-import com.github.bhlangonijr.chesslib.Constants;
 import datastructureproject.pieces.Piece;
 
 public class Move implements Comparable<Move> {
@@ -45,6 +44,11 @@ public class Move implements Comparable<Move> {
         return String.format("Move<%s, %s>", startSquare, endSquare);
     }
 
+    /**
+     *
+     * @param string
+     * @return Move
+     */
     public static Move fromUCIString(String string) {
 
         Square startSquare = Square.fromAlgebraicNotation(string.substring(0, 2));
@@ -70,6 +74,10 @@ public class Move implements Comparable<Move> {
         }
     }
 
+    /**
+     *
+     * @return String
+     */
     public String toUCIString() {
         if(this.promotionPiece == null) {
             return String.format("%s%s",this.startSquare.getAlgebraicNotation().toLowerCase(),this.endSquare.getAlgebraicNotation().toLowerCase());

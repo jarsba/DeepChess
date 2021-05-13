@@ -9,7 +9,10 @@ import datastructureproject.evaluators.DumbEvaluator;
 import datastructureproject.evaluators.Evaluator;
 import datastructureproject.pieces.Side;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class MinimaxBot implements ChessBot {
