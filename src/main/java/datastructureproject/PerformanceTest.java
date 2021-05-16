@@ -13,7 +13,6 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Use this class to write performance tests for your bot.
- * 
  */
 public class PerformanceTest {
 
@@ -27,7 +26,6 @@ public class PerformanceTest {
     public static void main(String[] args) {
         compareMinimaxToAlphaBeta();
     }
-
 
 
     public static void compareMinimaxToAlphaBeta() {

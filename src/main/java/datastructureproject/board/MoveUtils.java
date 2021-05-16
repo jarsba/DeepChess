@@ -1,8 +1,5 @@
-package datastructureproject;
+package datastructureproject.board;
 
-import datastructureproject.board.Board;
-import datastructureproject.board.Move;
-import datastructureproject.board.Square;
 import datastructureproject.evaluators.PieceSquareEvaluator;
 import datastructureproject.pieces.*;
 
@@ -75,7 +72,7 @@ public class MoveUtils {
         List<Square> possibleSquares = getSquaresBetween(srcRow, srcColumn, kingRow, kingColumn);
 
         // King is not "on the line" and king is not next to the piece
-        if (possibleSquares.size() == 0 && (Math.abs(srcRow-kingRow) > 1 || Math.abs(srcColumn-kingColumn) > 1)) {
+        if (possibleSquares.size() == 0 && (Math.abs(srcRow - kingRow) > 1 || Math.abs(srcColumn - kingColumn) > 1)) {
             return false;
         }
 
@@ -90,14 +87,14 @@ public class MoveUtils {
         // Check for pieces that can attack on the same row
         if (srcRow == kingRow) {
             if (srcColumn > kingColumn) {
-                for (int i = srcColumn+1; i < 8; i++) {
-                    if(board.hasPiece(srcRow, i)) {
+                for (int i = srcColumn + 1; i < 8; i++) {
+                    if (board.hasPiece(srcRow, i)) {
                         Piece piece = board.getPieceAt(srcRow, i);
                         if (piece.getSide().equals(side)) {
                             break;
                         } else {
                             PieceType pieceType = piece.getPieceType();
-                            if(pieceType.equals(PieceType.QUEEN) || pieceType.equals(PieceType.ROOK)) {
+                            if (pieceType.equals(PieceType.QUEEN) || pieceType.equals(PieceType.ROOK)) {
                                 return true;
                             } else {
                                 break;
@@ -106,14 +103,14 @@ public class MoveUtils {
                     }
                 }
             } else {
-                for (int i = srcColumn-1; i >= 0; i--) {
-                    if(board.hasPiece(srcRow, i)) {
+                for (int i = srcColumn - 1; i >= 0; i--) {
+                    if (board.hasPiece(srcRow, i)) {
                         Piece piece = board.getPieceAt(srcRow, i);
                         if (piece.getSide().equals(side)) {
                             break;
                         } else {
                             PieceType pieceType = piece.getPieceType();
-                            if(pieceType.equals(PieceType.QUEEN) || pieceType.equals(PieceType.ROOK)) {
+                            if (pieceType.equals(PieceType.QUEEN) || pieceType.equals(PieceType.ROOK)) {
                                 return true;
                             } else {
                                 break;
@@ -127,14 +124,14 @@ public class MoveUtils {
         } else if (srcColumn == kingColumn) {
 
             if (srcRow > kingRow) {
-                for (int i = srcRow+1; i < 8; i++) {
-                    if(board.hasPiece(i, srcColumn)) {
+                for (int i = srcRow + 1; i < 8; i++) {
+                    if (board.hasPiece(i, srcColumn)) {
                         Piece piece = board.getPieceAt(i, srcColumn);
                         if (piece.getSide().equals(side)) {
                             break;
                         } else {
                             PieceType pieceType = piece.getPieceType();
-                            if(pieceType.equals(PieceType.QUEEN) || pieceType.equals(PieceType.ROOK)) {
+                            if (pieceType.equals(PieceType.QUEEN) || pieceType.equals(PieceType.ROOK)) {
                                 return true;
                             } else {
                                 break;
@@ -161,12 +158,12 @@ public class MoveUtils {
             }
 
             // Check for pieces that can attack on the descending diagonal
-        } else if (srcRow+srcColumn == kingRow+kingColumn) {
+        } else if (srcRow + srcColumn == kingRow + kingColumn) {
             if (srcRow > kingRow) {
-                int minDistanceFromLimit = Math.min(Math.abs(srcRow-7), srcColumn);
+                int minDistanceFromLimit = Math.min(Math.abs(srcRow - 7), srcColumn);
                 for (int i = 1; i <= minDistanceFromLimit; i++) {
-                    if (board.hasPiece(srcRow+i, srcColumn-i)) {
-                        Piece piece = board.getPieceAt(srcRow+i, srcColumn-i);
+                    if (board.hasPiece(srcRow + i, srcColumn - i)) {
+                        Piece piece = board.getPieceAt(srcRow + i, srcColumn - i);
                         if (piece.getSide().equals(side)) {
                             break;
                         } else {
@@ -180,10 +177,10 @@ public class MoveUtils {
                     }
                 }
             } else {
-                int minDistanceFromLimit = Math.min(srcRow, Math.abs(srcColumn-7));
+                int minDistanceFromLimit = Math.min(srcRow, Math.abs(srcColumn - 7));
                 for (int i = 1; i <= minDistanceFromLimit; i++) {
-                    if (board.hasPiece(srcRow-i, srcColumn+i)) {
-                        Piece piece = board.getPieceAt(srcRow-i, srcColumn+i);
+                    if (board.hasPiece(srcRow - i, srcColumn + i)) {
+                        Piece piece = board.getPieceAt(srcRow - i, srcColumn + i);
                         if (piece.getSide().equals(side)) {
                             break;
                         } else {
@@ -200,12 +197,12 @@ public class MoveUtils {
             }
 
             // Check for pieces that can attack on the ascending diagonal
-        } else if (Math.abs(srcRow-kingRow) == Math.abs(srcColumn-kingColumn)) {
+        } else if (Math.abs(srcRow - kingRow) == Math.abs(srcColumn - kingColumn)) {
             if (srcRow > kingRow) {
-                int minDistanceFromLimit = Math.min((7-srcRow), (7-srcColumn));
+                int minDistanceFromLimit = Math.min((7 - srcRow), (7 - srcColumn));
                 for (int i = 1; i <= minDistanceFromLimit; i++) {
-                    if (board.hasPiece(srcRow+i, srcColumn+i)) {
-                        Piece piece = board.getPieceAt(srcRow+i, srcColumn+i);
+                    if (board.hasPiece(srcRow + i, srcColumn + i)) {
+                        Piece piece = board.getPieceAt(srcRow + i, srcColumn + i);
                         if (piece.getSide().equals(side)) {
                             break;
                         } else {
@@ -221,8 +218,8 @@ public class MoveUtils {
             } else {
                 int minDistanceFromLimit = Math.min(srcRow, srcColumn);
                 for (int i = 1; i <= minDistanceFromLimit; i++) {
-                    if (board.hasPiece(srcRow-i, srcColumn-i)) {
-                        Piece piece = board.getPieceAt(srcRow-i, srcColumn-i);
+                    if (board.hasPiece(srcRow - i, srcColumn - i)) {
+                        Piece piece = board.getPieceAt(srcRow - i, srcColumn - i);
                         if (piece.getSide().equals(side)) {
                             break;
                         } else {
@@ -247,7 +244,7 @@ public class MoveUtils {
 
         // Pieces on same row
         if (srcRow == destRow) {
-            for (int i = Math.min(srcColumn, destColumn)+1; i < Math.max(srcColumn, destColumn); i++ ) {
+            for (int i = Math.min(srcColumn, destColumn) + 1; i < Math.max(srcColumn, destColumn); i++) {
                 squaresBetween.add(new Square(srcRow, i));
             }
             return squaresBetween;
@@ -255,16 +252,16 @@ public class MoveUtils {
 
         // Pieces on same column
         if (srcColumn == destColumn) {
-            for (int i = Math.min(srcRow, destRow)+1; i < Math.max(srcRow, destRow); i++ ) {
+            for (int i = Math.min(srcRow, destRow) + 1; i < Math.max(srcRow, destRow); i++) {
                 squaresBetween.add(new Square(i, srcColumn));
             }
             return squaresBetween;
         }
 
         // Pieces on descending diagonal
-        if (srcColumn+srcRow == destColumn+destRow) {
-            int newColumn = Math.max(srcColumn, destColumn)-1;
-            for (int i = Math.min(srcRow, destRow)+1; i < Math.max(srcRow, destRow); i++ ) {
+        if (srcColumn + srcRow == destColumn + destRow) {
+            int newColumn = Math.max(srcColumn, destColumn) - 1;
+            for (int i = Math.min(srcRow, destRow) + 1; i < Math.max(srcRow, destRow); i++) {
                 squaresBetween.add(new Square(i, newColumn));
                 newColumn--;
             }
@@ -272,8 +269,8 @@ public class MoveUtils {
         }
 
         // Pieces on ascending diagonal
-        if (Math.abs(srcRow-destRow) == Math.abs(srcColumn-destColumn)) {
-            int newColumn = Math.min(srcColumn, destColumn)+1;
+        if (Math.abs(srcRow - destRow) == Math.abs(srcColumn - destColumn)) {
+            int newColumn = Math.min(srcColumn, destColumn) + 1;
             for (int i = Math.min(srcRow, destRow); i < Math.max(srcRow, destRow); i++) {
                 squaresBetween.add(new Square(i, newColumn));
                 newColumn++;
@@ -309,7 +306,7 @@ public class MoveUtils {
         }
     }
 
-    public Boolean checkIfSquareAttacked(Square attackedSquare, Board board, Side side)  {
+    public Boolean checkIfSquareAttacked(Square attackedSquare, Board board, Side side) {
         int row = attackedSquare.getRow();
         int column = attackedSquare.getColumn();
 
@@ -356,8 +353,8 @@ public class MoveUtils {
 
     public List<Move> getAllPossibleMoves(Board board, Side side) {
         Boolean isCheck = checkIfPositionInvalid(board, side);
-        if(isCheck) {
-            if(side.equals(Side.WHITE)) {
+        if (isCheck) {
+            if (side.equals(Side.WHITE)) {
                 board.setWhiteKingSideCastlingAllowed(false);
                 board.setWhiteQueenSideCastlingAllowed(false);
             } else {
@@ -375,7 +372,7 @@ public class MoveUtils {
             for (Move possibleMove : possibleMovesForPiece) {
                 Board newBoard = board.copyBoard();
                 newBoard.makeMove(possibleMove);
-                if(!checkIfPositionInvalid(newBoard, side)) {
+                if (!checkIfPositionInvalid(newBoard, side)) {
                     possibleMoves.add(possibleMove);
                 }
             }
@@ -396,7 +393,7 @@ public class MoveUtils {
 
             Piece pieceToMove = board.getPieceAt(startSquare);
 
-            if(board.hasPiece(endSquare)) {
+            if (board.hasPiece(endSquare)) {
                 Piece capturePiece = board.getPieceAt(endSquare);
                 double capturePieceValue = capturePiece.pieceValue();
                 moveScore += capturePieceValue;
@@ -430,7 +427,7 @@ public class MoveUtils {
 
         List<Move> sortedMoves = new ArrayList<>(sortedHashMap.keySet());
 
-        if(side.equals(Side.WHITE)) {
+        if (side.equals(Side.WHITE)) {
             Collections.reverse(sortedMoves);
         }
 
@@ -440,19 +437,19 @@ public class MoveUtils {
 
     // Method for checking if castling allowed, needed for situations where rook is captured
     public boolean canKingSideCastle(Board board, Side side) {
-        if(side.equals(Side.WHITE)) {
-            if(board.getWhiteKingSideCastlingAllowed()) {
-                if(board.hasPiece(0, 4) && board.hasPiece(0, 7) && !board.hasPiece(0, 5) && !board.hasPiece(0, 6)) {
-                    Piece kingPiece = board.getPieceAt(0,4);
+        if (side.equals(Side.WHITE)) {
+            if (board.getWhiteKingSideCastlingAllowed()) {
+                if (board.hasPiece(0, 4) && board.hasPiece(0, 7) && !board.hasPiece(0, 5) && !board.hasPiece(0, 6)) {
+                    Piece kingPiece = board.getPieceAt(0, 4);
                     Piece rookPiece = board.getPieceAt(0, 7);
                     return kingPiece.getPieceType().equals(PieceType.KING) && kingPiece.getSide().equals(Side.WHITE) && rookPiece.getPieceType().equals(PieceType.ROOK) && rookPiece.getSide().equals(Side.WHITE);
                 }
             }
 
         } else {
-            if(board.getBlackKingSideCastlingAllowed()) {
-                if(board.hasPiece(7, 4) && board.hasPiece(7, 7) && !board.hasPiece(7, 5) && !board.hasPiece(7, 6)) {
-                    Piece kingPiece = board.getPieceAt(7,4);
+            if (board.getBlackKingSideCastlingAllowed()) {
+                if (board.hasPiece(7, 4) && board.hasPiece(7, 7) && !board.hasPiece(7, 5) && !board.hasPiece(7, 6)) {
+                    Piece kingPiece = board.getPieceAt(7, 4);
                     Piece rookPiece = board.getPieceAt(7, 7);
                     return kingPiece.getPieceType().equals(PieceType.KING) && kingPiece.getSide().equals(Side.BLACK) && rookPiece.getPieceType().equals(PieceType.ROOK) && rookPiece.getSide().equals(Side.BLACK);
                 }
@@ -464,19 +461,19 @@ public class MoveUtils {
 
     // Method for checking if castling allowed, needed for situations where rook is captured
     public boolean canQueenSideCastle(Board board, Side side) {
-        if(side.equals(Side.WHITE)) {
-            if(board.getWhiteQueenSideCastlingAllowed()) {
-                if(board.hasPiece(0, 4) && board.hasPiece(0, 0) && !board.hasPiece(0, 3) && !board.hasPiece(0, 2) && !board.hasPiece(0, 1)) {
-                    Piece kingPiece = board.getPieceAt(0,4);
+        if (side.equals(Side.WHITE)) {
+            if (board.getWhiteQueenSideCastlingAllowed()) {
+                if (board.hasPiece(0, 4) && board.hasPiece(0, 0) && !board.hasPiece(0, 3) && !board.hasPiece(0, 2) && !board.hasPiece(0, 1)) {
+                    Piece kingPiece = board.getPieceAt(0, 4);
                     Piece rookPiece = board.getPieceAt(0, 0);
                     return kingPiece.getPieceType().equals(PieceType.KING) && kingPiece.getSide().equals(Side.WHITE) && rookPiece.getPieceType().equals(PieceType.ROOK) && rookPiece.getSide().equals(Side.WHITE);
                 }
             }
 
         } else {
-            if(board.getBlackQueenSideCastlingAllowed()) {
-                if(board.hasPiece(7, 4) && board.hasPiece(7, 0) && !board.hasPiece(7, 3) && !board.hasPiece(7, 2) && !board.hasPiece(7, 1)) {
-                    Piece kingPiece = board.getPieceAt(7,4);
+            if (board.getBlackQueenSideCastlingAllowed()) {
+                if (board.hasPiece(7, 4) && board.hasPiece(7, 0) && !board.hasPiece(7, 3) && !board.hasPiece(7, 2) && !board.hasPiece(7, 1)) {
+                    Piece kingPiece = board.getPieceAt(7, 4);
                     Piece rookPiece = board.getPieceAt(7, 0);
                     return kingPiece.getPieceType().equals(PieceType.KING) && kingPiece.getSide().equals(Side.BLACK) && rookPiece.getPieceType().equals(PieceType.ROOK) && rookPiece.getSide().equals(Side.BLACK);
                 }
@@ -510,34 +507,34 @@ public class MoveUtils {
             }
         }
         if (piece.getPieceType().equals(PieceType.ROOK) && (kingSideCastlingAllowed || queenSideCastlingAllowed)) {
-            if(side.equals(Side.WHITE)) {
-                if(startSquare.getRow() == 0 && startSquare.getColumn() == 0) {
+            if (side.equals(Side.WHITE)) {
+                if (startSquare.getRow() == 0 && startSquare.getColumn() == 0) {
                     board.setWhiteQueenSideCastlingAllowed(false);
-                } else if(startSquare.getRow() == 0 && startSquare.getColumn() == 7) {
+                } else if (startSquare.getRow() == 0 && startSquare.getColumn() == 7) {
                     board.setWhiteKingSideCastlingAllowed(false);
                 }
             } else {
-                if(startSquare.getRow() == 7 && startSquare.getColumn() == 0) {
+                if (startSquare.getRow() == 7 && startSquare.getColumn() == 0) {
                     board.setBlackKingSideCastlingAllowed(false);
-                } else if(startSquare.getRow() == 7 && startSquare.getColumn() == 7) {
+                } else if (startSquare.getRow() == 7 && startSquare.getColumn() == 7) {
                     board.setBlackKingSideCastlingAllowed(false);
                 }
             }
         }
 
-        if(board.hasPiece(endSquare.getRow(), endSquare.getColumn())) {
+        if (board.hasPiece(endSquare.getRow(), endSquare.getColumn())) {
             Piece endPiece = board.getPieceAt(endSquare.getRow(), endSquare.getColumn());
             if (endPiece.getPieceType().equals(PieceType.ROOK) && (kingSideCastlingAllowed || queenSideCastlingAllowed)) {
-                if(side.equals(Side.WHITE)) {
-                    if(endSquare.getRow() == 0 && endSquare.getColumn() == 0) {
+                if (side.equals(Side.WHITE)) {
+                    if (endSquare.getRow() == 0 && endSquare.getColumn() == 0) {
                         board.setWhiteQueenSideCastlingAllowed(false);
-                    } else if(endSquare.getRow() == 0 && endSquare.getColumn() == 7) {
+                    } else if (endSquare.getRow() == 0 && endSquare.getColumn() == 7) {
                         board.setWhiteKingSideCastlingAllowed(false);
                     }
                 } else {
-                    if(endSquare.getRow() == 7 && endSquare.getColumn() == 0) {
+                    if (endSquare.getRow() == 7 && endSquare.getColumn() == 0) {
                         board.setBlackKingSideCastlingAllowed(false);
-                    } else if(endSquare.getRow() == 7 && endSquare.getColumn() == 7) {
+                    } else if (endSquare.getRow() == 7 && endSquare.getColumn() == 7) {
                         board.setBlackKingSideCastlingAllowed(false);
                     }
                 }

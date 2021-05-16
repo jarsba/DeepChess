@@ -45,9 +45,9 @@ public class Zobrist {
 
         for (int row = 0; row < 8; row++) {
             for (int column = 0; column < 8; column++) {
-                if(board.hasPiece(row, column)) {
+                if (board.hasPiece(row, column)) {
                     Piece piece = board.getPieceAt(row, column);
-                    zobristHash ^= this.table[row][column][piece.zobristIndex()-1];
+                    zobristHash ^= this.table[row][column][piece.zobristIndex() - 1];
                 }
             }
         }

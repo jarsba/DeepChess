@@ -96,7 +96,7 @@ public class PieceSquareEvaluator implements Evaluator {
     }
 
     public static int[][] getLocationScoreTable(Piece piece) {
-        if(piece.getSide().equals(Side.WHITE)) {
+        if (piece.getSide().equals(Side.WHITE)) {
             switch (piece.getPieceType()) {
                 case BISHOP:
                     return bishopLocationScores;
@@ -163,7 +163,7 @@ public class PieceSquareEvaluator implements Evaluator {
             for (int j = 0; j < 8; j++) {
                 Piece piece = positions[i][j];
                 if (piece != null) {
-                    if(pieceScoreTable.containsKey(piece)) {
+                    if (pieceScoreTable.containsKey(piece)) {
                         Double pieceScore = pieceScoreTable.get(piece);
                         score += pieceScore;
                     }

@@ -49,17 +49,17 @@ public class ArrayListImp<E> {
     }
 
     public void remove(int index) {
-        if(index < 0 || index > this.size) {
+        if (index < 0 || index > this.size) {
             throw new IndexOutOfBoundsException(String.format("Index %s is out of bounds", index));
         }
-        if(this.array[index] == null) {
+        if (this.array[index] == null) {
             throw new NullPointerException(String.format("Index %s doesn't contain object", index));
         }
         this.array[index] = null;
 
         // Move all elements after the removal index one index down to fill the empty gap
-        for (int i = index+1; i <= this.size; i++) {
-            this.array[i-1] = this.array[i];
+        for (int i = index + 1; i <= this.size; i++) {
+            this.array[i - 1] = this.array[i];
         }
 
         size--;
@@ -67,7 +67,7 @@ public class ArrayListImp<E> {
 
     @SuppressWarnings("unchecked")
     public E get(int index) {
-        if(index < 0 || index > this.size) {
+        if (index < 0 || index > this.size) {
             throw new IndexOutOfBoundsException(String.format("Index %s is out of bounds", index));
         }
         return (E) this.array[index];

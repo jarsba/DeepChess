@@ -33,16 +33,15 @@ public class Square implements Comparable<Square> {
     }
 
     public String getAlgebraicNotation() {
-        return String.format("%s%d", (char) (this.column + 'a'), this.row+1);
+        return String.format("%s%d", (char) (this.column + 'a'), this.row + 1);
     }
 
     /**
-     *
      * @param algebraicNotationString
      * @return Square
      */
     public static Square fromAlgebraicNotation(String algebraicNotationString) {
-        if(algebraicNotationString.length() != 2) {
+        if (algebraicNotationString.length() != 2) {
             System.out.println(algebraicNotationString);
             throw new Error("String length incorrect");
         }
@@ -50,7 +49,7 @@ public class Square implements Comparable<Square> {
         algebraicNotationString = algebraicNotationString.toLowerCase();
 
         int column = algebraicNotationString.charAt(0) - 'a';
-        int row = Integer.parseInt(algebraicNotationString.substring(1,2))-1;
+        int row = Integer.parseInt(algebraicNotationString.substring(1, 2)) - 1;
         return new Square(row, column);
     }
 
@@ -84,7 +83,7 @@ public class Square implements Comparable<Square> {
         if (this.row > otherSquare.getRow()) {
             return 1;
         } else if (this.row == otherSquare.getRow()) {
-            if(this.column > otherSquare.getColumn()) {
+            if (this.column > otherSquare.getColumn()) {
                 return 1;
             } else if (this.column == otherSquare.getColumn()) {
                 return 0;

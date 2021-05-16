@@ -2,6 +2,7 @@ package datastructureproject;
 
 import datastructureproject.board.Board;
 import datastructureproject.board.Move;
+import datastructureproject.board.MoveUtils;
 import datastructureproject.board.Square;
 import datastructureproject.pieces.Side;
 import org.junit.*;

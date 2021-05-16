@@ -253,7 +253,7 @@ public class Board {
     }
 
     /**
-     * @param move 
+     * @param move
      */
     public void makeMove(Move move) {
         Square startSquare = move.getStartSquare();
@@ -319,7 +319,6 @@ public class Board {
     }
 
     /**
-     *
      * @param move
      * @return Boolean
      */
@@ -335,7 +334,8 @@ public class Board {
                 return true;
             } else if (startSquare.getRow() == 7 && startSquare.getColumn() == 4 && endSquare.getRow() == 7 && endSquare.getColumn() == 2) {
                 return true;
-            } else return startSquare.getRow() == 7 && startSquare.getColumn() == 4 && endSquare.getRow() == 7 && endSquare.getColumn() == 6;
+            } else
+                return startSquare.getRow() == 7 && startSquare.getColumn() == 4 && endSquare.getRow() == 7 && endSquare.getColumn() == 6;
         }
 
         return false;
@@ -343,7 +343,6 @@ public class Board {
     }
 
     /**
-     * 
      * @param move
      * @param promoteTo
      */
@@ -355,7 +354,6 @@ public class Board {
     }
 
     /**
-     * 
      * @param side
      * @return Map<Square, Piece>
      */
@@ -379,7 +377,6 @@ public class Board {
 
 
     /**
-     * 
      * @param side
      * @param pieceType
      * @return Map<Square, Piece>
@@ -403,7 +400,6 @@ public class Board {
     }
 
     /**
-     * 
      * @return Board
      */
     public Board copyBoard() {
@@ -420,7 +416,6 @@ public class Board {
 
 
     /**
-     * 
      * @return String
      */
     @Override

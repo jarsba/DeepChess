@@ -2,10 +2,15 @@ package datastructureproject.pieces;
 
 public interface Piece {
     PieceType getPieceType();
+
     Side getSide();
+
     String getUnicodeCharacter();
+
     String getPieceNotion();
+
     int zobristIndex();
+
     double pieceValue();
 
     static Piece fromPieceNotation(String pieceNotation) {

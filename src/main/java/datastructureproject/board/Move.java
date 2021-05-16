@@ -22,10 +22,15 @@ public class Move implements Comparable<Move> {
     public Square getStartSquare() {
         return this.startSquare;
     }
+
     public Square getEndSquare() {
         return this.endSquare;
     }
-    public Piece getPromotionPiece() { return this.promotionPiece; }
+
+    public Piece getPromotionPiece() {
+        return this.promotionPiece;
+    }
+
     public void setPromotionPiece(Piece piece) {
         this.promotionPiece = piece;
     }
@@ -45,7 +50,6 @@ public class Move implements Comparable<Move> {
     }
 
     /**
-     *
      * @param string
      * @return Move
      */
@@ -56,17 +60,17 @@ public class Move implements Comparable<Move> {
 
         if (string.length() == 4) {
             return new Move(startSquare, endSquare);
-        } else if(string.length() == 5) {
+        } else if (string.length() == 5) {
             // Lichess don't return promotion-piece type in capital if promotion is done to white
             Piece promotionPiece;
-            if(endSquare.getRow() == 7) {
+            if (endSquare.getRow() == 7) {
                 // Promotion piece for white
                 promotionPiece = Piece.fromPieceNotation(string.substring(4, 5).toUpperCase());
             } else if (endSquare.getRow() == 0) {
                 // Promotion piece for black
                 promotionPiece = Piece.fromPieceNotation(string.substring(4, 5).toLowerCase());
             } else {
-                throw new Error(String.format("Promotion done to wrong square: row %s, column %s", endSquare.getRow(), endSquare.getColumn() ));
+                throw new Error(String.format("Promotion done to wrong square: row %s, column %s", endSquare.getRow(), endSquare.getColumn()));
             }
             return new Move(startSquare, endSquare, promotionPiece);
         } else {
@@ -75,14 +79,13 @@ public class Move implements Comparable<Move> {
     }
 
     /**
-     *
      * @return String
      */
     public String toUCIString() {
-        if(this.promotionPiece == null) {
-            return String.format("%s%s",this.startSquare.getAlgebraicNotation().toLowerCase(),this.endSquare.getAlgebraicNotation().toLowerCase());
+        if (this.promotionPiece == null) {
+            return String.format("%s%s", this.startSquare.getAlgebraicNotation().toLowerCase(), this.endSquare.getAlgebraicNotation().toLowerCase());
         } else {
-            return String.format("%s%s%s",this.startSquare.getAlgebraicNotation().toLowerCase(), this.endSquare.getAlgebraicNotation().toLowerCase(), this.promotionPiece.getPieceNotion());
+            return String.format("%s%s%s", this.startSquare.getAlgebraicNotation().toLowerCase(), this.endSquare.getAlgebraicNotation().toLowerCase(), this.promotionPiece.getPieceNotion());
         }
     }
 
@@ -105,11 +108,11 @@ public class Move implements Comparable<Move> {
         Square endSquare = this.getEndSquare();
         Square otherEndSquare = otherMove.getEndSquare();
 
-        if(startSquare.compareTo(otherStartSquare) != 0) {
+        if (startSquare.compareTo(otherStartSquare) != 0) {
             return startSquare.compareTo(otherStartSquare);
         }
 
-        if(endSquare.compareTo(otherEndSquare) != 0) {
+        if (endSquare.compareTo(otherEndSquare) != 0) {
             return endSquare.compareTo(otherEndSquare);
         }
 

@@ -1,7 +1,7 @@
 package datastructureproject.bots;
 
 import chess.engine.GameState;
-import datastructureproject.MoveUtils;
+import datastructureproject.board.MoveUtils;
 import datastructureproject.board.Board;
 import datastructureproject.board.Move;
 import datastructureproject.pieces.Side;
@@ -14,7 +14,7 @@ import java.util.List;
 public class BotUtils {
 
     public static datastructureproject.pieces.Side getSideFromGameState(GameState gs) {
-        if(gs.playing.equals(chess.model.Side.WHITE)) {
+        if (gs.playing.equals(chess.model.Side.WHITE)) {
             return datastructureproject.pieces.Side.WHITE;
         } else {
             return datastructureproject.pieces.Side.BLACK;
@@ -31,25 +31,19 @@ public class BotUtils {
         List<String> gsMoves = gs.moves;
 
         // If new game, make sure we have clear board and set correct side for moveUtils
-        if(gsMoves.size() == 0 || (gsMoves.size() == 1 && side.equals(Side.BLACK))) {
-            BotUtils.initializeGame(gs,board, pastMoves, side);
+        if (gsMoves.size() == 0 || (gsMoves.size() == 1 && side.equals(Side.BLACK))) {
+            BotUtils.initializeGame(gs, board, pastMoves, side);
         }
 
-        if(gs.moves.size() != pastMoves.size()) {
+        if (gs.moves.size() != pastMoves.size()) {
             for (int i = 0; i < gs.moves.size(); i++) {
-                boolean ownMove;
-                if (side.equals(datastructureproject.pieces.Side.WHITE)) {
-                    ownMove = i % 2 == 0;
-                } else {
-                    ownMove = i % 2 != 0;
-                }
 
                 String moveString = gs.moves.get(i);
                 Move gsMove = Move.fromUCIString(moveString);
 
-                if(pastMoves.size() > i) {
+                if (pastMoves.size() > i) {
                     Move pastMove = pastMoves.get(i);
-                    if(gsMove.equals(pastMove)) {
+                    if (gsMove.equals(pastMove)) {
                         continue;
                     } else {
                         throw new Error("gsMoves and pastMoves histories differ!");

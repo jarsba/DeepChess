@@ -21,7 +21,7 @@ public class RandomImp {
     }
 
     public int nextInt(int lowerBound, int upperBound) {
-        return lowerBound + MathImp.abs(((int) System.nanoTime() % (upperBound-lowerBound)));
+        return lowerBound + MathImp.abs(((int) System.nanoTime() % (upperBound - lowerBound)));
     }
 
     public long nextLong() {
@@ -33,6 +33,6 @@ public class RandomImp {
     }
 
     public long nextLong(long lowerBound, long upperBound) {
-        return lowerBound + (System.nanoTime() % (upperBound-lowerBound));
+        return lowerBound + (System.nanoTime() % (upperBound - lowerBound));
     }
 }

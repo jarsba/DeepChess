@@ -2,7 +2,7 @@ package datastructureproject.bots;
 
 import chess.bot.ChessBot;
 import chess.engine.GameState;
-import datastructureproject.MoveUtils;
+import datastructureproject.board.MoveUtils;
 import datastructureproject.board.Board;
 import datastructureproject.board.Move;
 import datastructureproject.pieces.Side;
@@ -34,7 +34,7 @@ public class RandomBot implements ChessBot {
         this.side = BotUtils.getSideFromGameState(gs);
         BotUtils.parseGameState(gs, this.board, this.moveUtils, this.pastMoves, this.side);
         List<Move> moves = this.moveUtils.getAllPossibleMoves(this.board, this.side);
-        if(moves.size() == 0) {
+        if (moves.size() == 0) {
             System.out.println("Could not find any moves");
             return null;
         }

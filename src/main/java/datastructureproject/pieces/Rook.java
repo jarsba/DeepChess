@@ -57,8 +57,8 @@ public class Rook implements Piece {
         Side side = board.getPieceAt(row, column).getSide();
 
         for (int i = row + 1; i <= 7; i++) {
-            if(board.hasPiece(i, column)) {
-                if(board.getPieceAt(i, column).getSide().equals(side)) {
+            if (board.hasPiece(i, column)) {
+                if (board.getPieceAt(i, column).getSide().equals(side)) {
                     break;
                 } else {
                     possibleMoves.add(new Move(startSquare, new Square(i, column)));
@@ -69,8 +69,8 @@ public class Rook implements Piece {
         }
 
         for (int i = row - 1; i >= 0; i--) {
-            if(board.hasPiece(i, column)) {
-                if(board.getPieceAt(i, column).getSide().equals(side)) {
+            if (board.hasPiece(i, column)) {
+                if (board.getPieceAt(i, column).getSide().equals(side)) {
                     break;
                 } else {
                     possibleMoves.add(new Move(startSquare, new Square(i, column)));
@@ -81,8 +81,8 @@ public class Rook implements Piece {
         }
 
         for (int i = column + 1; i <= 7; i++) {
-            if(board.hasPiece(row, i)) {
-                if(board.getPieceAt(row, i).getSide().equals(side)) {
+            if (board.hasPiece(row, i)) {
+                if (board.getPieceAt(row, i).getSide().equals(side)) {
                     break;
                 } else {
                     possibleMoves.add(new Move(startSquare, new Square(row, i)));
@@ -93,8 +93,8 @@ public class Rook implements Piece {
         }
 
         for (int i = column - 1; i >= 0; i--) {
-            if(board.hasPiece(row, i)) {
-                if(board.getPieceAt(row, i).getSide().equals(side)) {
+            if (board.hasPiece(row, i)) {
+                if (board.getPieceAt(row, i).getSide().equals(side)) {
                     break;
                 } else {
                     possibleMoves.add(new Move(startSquare, new Square(row, i)));
@@ -107,7 +107,7 @@ public class Rook implements Piece {
     }
 
     public String getUnicodeCharacter() {
-        if(this.side.equals(Side.WHITE)) {
+        if (this.side.equals(Side.WHITE)) {
             return "\u2656";
         } else {
             return "\u265C";
