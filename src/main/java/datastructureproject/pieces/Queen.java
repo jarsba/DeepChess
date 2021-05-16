@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Queen implements Piece {
     private final PieceType pieceType = PieceType.QUEEN;
-    private Side side;
+    private final Side side;
 
     public Queen(Side side) {
         this.side = side;

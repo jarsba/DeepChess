@@ -28,6 +28,10 @@ public class ArrayListImp<E> {
         return this.size == 0;
     }
 
+    public int size() {
+        return this.size;
+    }
+
     public void add(E object) {
         if (this.size == this.array.length) {
             this.extend();
@@ -57,6 +61,8 @@ public class ArrayListImp<E> {
         for (int i = index+1; i <= this.size; i++) {
             this.array[i-1] = this.array[i];
         }
+
+        size--;
     }
 
     @SuppressWarnings("unchecked")

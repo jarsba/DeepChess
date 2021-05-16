@@ -2,16 +2,15 @@ package chess.connection;
 
 import chess.bot.TestBot;
 import chess.engine.GameState;
-
-import static org.junit.Assert.assertEquals;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Assert.*;
+
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.InputStreamReader;
+
+import static org.junit.Assert.assertEquals;
 
 public class XBoardHandlerTest {
     private TestBot bot;
@@ -115,7 +114,7 @@ public class XBoardHandlerTest {
         XBoardHandler xb = new XBoardHandler(bot, in);
         xb.run();
         
-        assertEquals((long) 300000, xb.getGameState().getRemainingTime());
+        assertEquals(300000, xb.getGameState().getRemainingTime());
     }
 
     @Test
@@ -128,7 +127,7 @@ public class XBoardHandlerTest {
         xb.run();
 
 
-        assertEquals((long) 200000, xb.getGameState().getRemainingTimeOpponent());
+        assertEquals(200000, xb.getGameState().getRemainingTimeOpponent());
     }
     @Test
     public void xBoardHandlerIsAbleToMakeNewMoves() {

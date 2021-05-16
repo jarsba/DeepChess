@@ -3,7 +3,6 @@ package datastructureproject.piece;
 import datastructureproject.board.Move;
 import datastructureproject.board.Square;
 import datastructureproject.pieces.King;
-import datastructureproject.pieces.Queen;
 import datastructureproject.pieces.Side;
 import org.junit.*;
 

@@ -3,15 +3,13 @@ package datastructureproject;
 import datastructureproject.board.Board;
 import datastructureproject.board.Move;
 import datastructureproject.board.Square;
-import datastructureproject.exceptions.PieceNotFoundOnBoardException;
-import datastructureproject.pieces.*;
+import datastructureproject.pieces.Side;
 import org.junit.*;
+import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 public class MoveUtilsTest {
 
@@ -44,7 +42,6 @@ public class MoveUtilsTest {
 
     @Test
     public void boardInitializationWorks() {
-        System.out.println(this.board);
         assert (true);
     }
 
@@ -52,11 +49,44 @@ public class MoveUtilsTest {
     public void rightPossibleMovesFromStart() {
         List<Move> possibleMovesFromStart = moveUtils.getAllPossibleMoves(board, Side.WHITE);
 
-        for (Move move : possibleMovesFromStart) {
-            System.out.println(move.toUCIString());
-        }
-
         assert possibleMovesFromStart.size() == 20;
+    }
+
+    @Test
+    public void getSquaresBetweenReturnsCorrectSquares() {
+        List<Square> squaresBetween = moveUtils.getSquaresBetween(1, 1, 1, 6);
+        List<Square> correctSquares = Arrays.asList(
+                new Square(1,2),
+                new Square(1,3),
+                new Square(1,4),
+                new Square(1,5)
+        );
+
+        assertEquals(correctSquares, squaresBetween);
+    }
+
+    @Test
+    public void getSquaresBetweenReturnsEmptyList() {
+        List<Square> squaresBetween = moveUtils.getSquaresBetween(1, 1, 4, 7);
+        List<Square> correctSquares = new ArrayList<>();
+
+        assertEquals(correctSquares, squaresBetween);
+    }
+
+    @Test
+    public void checkIfSquareAttackedReturnsTrue() {
+        String FEN = "rnbqkbnr/ppp1pppp/2p5/8/8/4P3/PPP1PPPP/RNBQKBNR w KQkq - 0 1";
+        this.board.initializeFromFEN(FEN);
+        assertTrue(moveUtils.checkIfSquareAttacked(new Square(0, 3), this.board, Side.WHITE));
+
+    }
+
+    @Test
+    public void checkIfSquareAttackedReturnsFalse() {
+        String FEN = "rnbqkbnr/ppp1pppp/2p5/8/8/4P3/PPP1PPPP/RNBQKBNR w KQkq - 0 1";
+        this.board.initializeFromFEN(FEN);
+
+        assertFalse(moveUtils.checkIfSquareAttacked(new Square(1, 6), this.board, Side.WHITE));
     }
 
 }

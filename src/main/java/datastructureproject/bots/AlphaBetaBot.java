@@ -17,10 +17,10 @@ import java.util.concurrent.TimeUnit;
 
 public class AlphaBetaBot implements ChessBot {
 
-    private Board board;
-    private MoveUtils moveUtils;
-    private List<Move> pastMoves;
-    private Evaluator evaluator;
+    private final Board board;
+    private final MoveUtils moveUtils;
+    private final List<Move> pastMoves;
+    private final Evaluator evaluator;
     private Side side;
     private int depth = 3;
     private int evaluatedPositions = 0;

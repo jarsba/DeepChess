@@ -12,9 +12,9 @@ import java.util.List;
 import java.util.Random;
 
 public class RandomBot implements ChessBot {
-    private Board board;
-    private MoveUtils moveUtils;
-    private List<Move> pastMoves;
+    private final Board board;
+    private final MoveUtils moveUtils;
+    private final List<Move> pastMoves;
     private Side side;
     Random random;
 

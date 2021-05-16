@@ -10,7 +10,7 @@ import java.util.List;
 public class Bishop implements Piece {
 
     private final PieceType pieceType = PieceType.BISHOP;
-    private Side side;
+    private final Side side;
 
     public Bishop(Side side) {
         this.side = side;

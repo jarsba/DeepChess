@@ -1,14 +1,11 @@
 package datastructureproject.piece;
 
-import datastructureproject.board.Board;
 import datastructureproject.board.Move;
 import datastructureproject.board.Square;
 import datastructureproject.pieces.Bishop;
-import datastructureproject.pieces.Queen;
 import datastructureproject.pieces.Side;
 import org.junit.*;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;

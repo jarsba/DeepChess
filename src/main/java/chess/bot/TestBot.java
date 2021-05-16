@@ -5,17 +5,20 @@
 package chess.bot;
 
 import chess.engine.GameState;
+import com.github.bhlangonijr.chesslib.Board;
+import com.github.bhlangonijr.chesslib.Piece;
+import com.github.bhlangonijr.chesslib.Square;
 import com.github.bhlangonijr.chesslib.move.Move;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import com.github.bhlangonijr.chesslib.move.*;
+import com.github.bhlangonijr.chesslib.move.MoveGenerator;
+import com.github.bhlangonijr.chesslib.move.MoveGeneratorException;
+import com.github.bhlangonijr.chesslib.move.MoveList;
 
 import java.util.Random;
-
-import com.github.bhlangonijr.chesslib.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
     
 public class TestBot implements ChessBot {
-    private Random random; 
+    private final Random random;
     private Board b;
 
     public TestBot() {

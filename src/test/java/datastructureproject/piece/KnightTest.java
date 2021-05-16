@@ -2,10 +2,8 @@ package datastructureproject.piece;
 
 import datastructureproject.board.Move;
 import datastructureproject.board.Square;
-import datastructureproject.pieces.King;
 import datastructureproject.pieces.Knight;
 import datastructureproject.pieces.Side;
-import org.checkerframework.checker.units.qual.K;
 import org.junit.*;
 
 import java.util.Arrays;

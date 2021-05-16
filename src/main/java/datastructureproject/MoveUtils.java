@@ -349,9 +349,7 @@ public class MoveUtils {
     public Boolean checkIfOwnPiece(int srcRow, int srcColumn, Board board, Side side) {
         Piece piece = board.getPieceAt(srcRow, srcColumn);
         if (piece != null) {
-            if (piece.getSide() == side) {
-                return true;
-            }
+            return piece.getSide() == side;
         }
         return false;
     }
@@ -373,7 +371,6 @@ public class MoveUtils {
             Square square = entry.getKey();
             Piece piece = entry.getValue();
 
-            // if (!isPieceBlockingCheck(square.getRow(), square.getColumn(), side, board)) {
             List<Move> possibleMovesForPiece = getPossibleMovesForPiece(square, piece, board);
             for (Move possibleMove : possibleMovesForPiece) {
                 Board newBoard = board.copyBoard();
@@ -382,10 +379,6 @@ public class MoveUtils {
                     possibleMoves.add(possibleMove);
                 }
             }
-
-            //} else {
-            //    System.out.printf("Piece at row %s column %s blocking check%n", square.getRow(), square.getColumn());
-            //}
         }
 
         return possibleMoves;
@@ -452,9 +445,7 @@ public class MoveUtils {
                 if(board.hasPiece(0, 4) && board.hasPiece(0, 7) && !board.hasPiece(0, 5) && !board.hasPiece(0, 6)) {
                     Piece kingPiece = board.getPieceAt(0,4);
                     Piece rookPiece = board.getPieceAt(0, 7);
-                    if (kingPiece.getPieceType().equals(PieceType.KING) && kingPiece.getSide().equals(Side.WHITE) && rookPiece.getPieceType().equals(PieceType.ROOK) && rookPiece.getSide().equals(Side.WHITE)) {
-                        return true;
-                    }
+                    return kingPiece.getPieceType().equals(PieceType.KING) && kingPiece.getSide().equals(Side.WHITE) && rookPiece.getPieceType().equals(PieceType.ROOK) && rookPiece.getSide().equals(Side.WHITE);
                 }
             }
 
@@ -463,9 +454,7 @@ public class MoveUtils {
                 if(board.hasPiece(7, 4) && board.hasPiece(7, 7) && !board.hasPiece(7, 5) && !board.hasPiece(7, 6)) {
                     Piece kingPiece = board.getPieceAt(7,4);
                     Piece rookPiece = board.getPieceAt(7, 7);
-                    if (kingPiece.getPieceType().equals(PieceType.KING) && kingPiece.getSide().equals(Side.BLACK) && rookPiece.getPieceType().equals(PieceType.ROOK) && rookPiece.getSide().equals(Side.BLACK)) {
-                        return true;
-                    }
+                    return kingPiece.getPieceType().equals(PieceType.KING) && kingPiece.getSide().equals(Side.BLACK) && rookPiece.getPieceType().equals(PieceType.ROOK) && rookPiece.getSide().equals(Side.BLACK);
                 }
 
             }
@@ -480,9 +469,7 @@ public class MoveUtils {
                 if(board.hasPiece(0, 4) && board.hasPiece(0, 0) && !board.hasPiece(0, 3) && !board.hasPiece(0, 2) && !board.hasPiece(0, 1)) {
                     Piece kingPiece = board.getPieceAt(0,4);
                     Piece rookPiece = board.getPieceAt(0, 0);
-                    if (kingPiece.getPieceType().equals(PieceType.KING) && kingPiece.getSide().equals(Side.WHITE) && rookPiece.getPieceType().equals(PieceType.ROOK) && rookPiece.getSide().equals(Side.WHITE)) {
-                        return true;
-                    }
+                    return kingPiece.getPieceType().equals(PieceType.KING) && kingPiece.getSide().equals(Side.WHITE) && rookPiece.getPieceType().equals(PieceType.ROOK) && rookPiece.getSide().equals(Side.WHITE);
                 }
             }
 
@@ -491,9 +478,7 @@ public class MoveUtils {
                 if(board.hasPiece(7, 4) && board.hasPiece(7, 0) && !board.hasPiece(7, 3) && !board.hasPiece(7, 2) && !board.hasPiece(7, 1)) {
                     Piece kingPiece = board.getPieceAt(7,4);
                     Piece rookPiece = board.getPieceAt(7, 0);
-                    if (kingPiece.getPieceType().equals(PieceType.KING) && kingPiece.getSide().equals(Side.BLACK) && rookPiece.getPieceType().equals(PieceType.ROOK) && rookPiece.getSide().equals(Side.BLACK)) {
-                        return true;
-                    }
+                    return kingPiece.getPieceType().equals(PieceType.KING) && kingPiece.getSide().equals(Side.BLACK) && rookPiece.getPieceType().equals(PieceType.ROOK) && rookPiece.getSide().equals(Side.BLACK);
                 }
             }
         }
@@ -502,7 +487,6 @@ public class MoveUtils {
     }
 
     public void makeMove(Move move, Board board) {
-        //System.out.println("MAKING MOVE " + move);
         Square startSquare = move.getStartSquare();
         Square endSquare = move.getEndSquare();
         Piece piece = board.getPieceAt(startSquare.getRow(), startSquare.getColumn());

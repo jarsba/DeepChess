@@ -2,9 +2,7 @@ package datastructureproject.piece;
 
 import datastructureproject.board.Move;
 import datastructureproject.board.Square;
-import datastructureproject.pieces.Knight;
 import datastructureproject.pieces.Pawn;
-import datastructureproject.pieces.Rook;
 import datastructureproject.pieces.Side;
 import org.junit.*;
 

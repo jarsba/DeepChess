@@ -2,7 +2,7 @@ package datastructureproject.datastructures;
 
 public class RandomImp {
 
-    private long seed;
+    private final long seed;
 
     public RandomImp() {
         this.seed = System.nanoTime();
@@ -13,15 +13,15 @@ public class RandomImp {
     }
 
     public int nextInt() {
-        return (int) System.nanoTime() % Integer.MAX_VALUE;
+        return MathImp.abs((int) System.nanoTime() % Integer.MAX_VALUE);
     }
 
     public int nextInt(int upperBound) {
-        return (int) System.nanoTime() % upperBound;
+        return MathImp.abs((int) (System.nanoTime() % upperBound));
     }
 
     public int nextInt(int lowerBound, int upperBound) {
-        return lowerBound + ((int) System.nanoTime() % (upperBound-lowerBound));
+        return lowerBound + MathImp.abs(((int) System.nanoTime() % (upperBound-lowerBound)));
     }
 
     public long nextLong() {

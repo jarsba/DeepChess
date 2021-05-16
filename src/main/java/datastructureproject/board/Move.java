@@ -115,7 +115,7 @@ public class Move implements Comparable<Move> {
 
         return 0;
 
-    };
+    }
 
 
 }

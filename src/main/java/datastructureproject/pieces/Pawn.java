@@ -10,7 +10,7 @@ import java.util.List;
 public class Pawn implements Piece {
 
     private final PieceType pieceType = PieceType.PAWN;
-    private Side side;
+    private final Side side;
 
     public Pawn(Side side) {
         this.side = side;

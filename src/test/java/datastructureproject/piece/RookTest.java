@@ -2,18 +2,15 @@ package datastructureproject.piece;
 
 import datastructureproject.board.Move;
 import datastructureproject.board.Square;
-import datastructureproject.pieces.Piece;
 import datastructureproject.pieces.Rook;
 import datastructureproject.pieces.Side;
 import org.junit.*;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 public class RookTest {
 

@@ -5,7 +5,7 @@
  */
 package chess.model;
 
-import org.json.*;
+import org.json.JSONObject;
 
 /**
  * Lichess profile data

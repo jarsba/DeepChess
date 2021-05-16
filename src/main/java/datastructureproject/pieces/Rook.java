@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Rook implements Piece {
     private final PieceType pieceType = PieceType.ROOK;
-    private Side side;
+    private final Side side;
 
     public Rook(Side side) {
         this.side = side;

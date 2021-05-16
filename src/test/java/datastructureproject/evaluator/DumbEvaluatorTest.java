@@ -40,4 +40,22 @@ public class DumbEvaluatorTest {
         assert score == 0.0;
     }
 
+    @Test
+    public void boardEvaluationReturnsWinningForWhite() {
+        String FEN = "4kbnr/1ppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQk - 0 1";
+        this.board.initializeFromFEN(FEN);
+
+        Double score = this.evaluator.evaluateBoard(this.board);
+        assert score == 2300.00;
+    }
+
+    @Test
+    public void boardEvaluationReturnsWinningForBlack() {
+        String FEN = "rnbqk2r/1ppppppp/8/8/8/8/2PPPPPP/R2QK1N1 w Qkq - 0 1";
+        this.board.initializeFromFEN(FEN);
+
+        Double score = this.evaluator.evaluateBoard(this.board);
+        assert score == -1100;
+    }
+
 }

@@ -13,7 +13,7 @@ public class PieceSquareEvaluator implements Evaluator {
 
     Map<Piece, Double> pieceScoreTable = new HashMap<>();
 
-    // All scores for white, for black table is flipped
+    // All scores are for white, for black table is flipped
     public static final int[][] pawnLocationScores = {
             {0, 0, 0, 0, 0, 0, 0, 0},
             {5, 10, 10, -20, -20, 10, 10, 5},

@@ -7,7 +7,6 @@ package logging;
 
 import java.io.FileWriter;
 import java.io.IOException;
-// import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -88,17 +87,17 @@ public class Logger {
         String messageWithDate;
         
         if (useStdOut) {
-            messageWithDate = LocalDateTime.now().toString() + textInGreen(" MESSAGE: ") + message;
+            messageWithDate = LocalDateTime.now() + textInGreen(" MESSAGE: ") + message;
             System.out.println(messageWithDate);
         }
         
         if (useMemory) {
-            messageWithDate = LocalDateTime.now().toString() + " MESSAGE: " + message;
+            messageWithDate = LocalDateTime.now() + " MESSAGE: " + message;
             inMemoryLog.add(messageWithDate);
         }
         
         if (useLogFile) {
-            messageWithDate = LocalDateTime.now().toString() + " MESSAGE: " + message;
+            messageWithDate = LocalDateTime.now() + " MESSAGE: " + message;
             
             FileWriter out = null;
             try {
@@ -125,17 +124,17 @@ public class Logger {
         String messageWithDate;
         
         if (useStdOut) {
-            messageWithDate = LocalDateTime.now().toString() + textInRed(" ERROR: ") + message;
+            messageWithDate = LocalDateTime.now() + textInRed(" ERROR: ") + message;
             System.out.println(messageWithDate);
         }
         
         if (useMemory) {
-            messageWithDate = LocalDateTime.now().toString() + " ERROR: " + message;
+            messageWithDate = LocalDateTime.now() + " ERROR: " + message;
             inMemoryLog.add(messageWithDate);
         }
         
         if (useLogFile) {
-            messageWithDate = LocalDateTime.now().toString() + " ERROR: " + message;
+            messageWithDate = LocalDateTime.now() + " ERROR: " + message;
             
             FileWriter out = null;
             try {

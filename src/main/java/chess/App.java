@@ -4,13 +4,10 @@
 package chess;
 
 import chess.bot.ChessBot;
-import chess.bot.TestBot;
 import chess.connection.LichessAPI;
+import chess.connection.XBoardHandler;
 import chess.model.Profile;
-import chess.connection.*;
 import datastructureproject.bots.AlphaBetaBot;
-import datastructureproject.bots.MinimaxBot;
-import datastructureproject.bots.RandomBot;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

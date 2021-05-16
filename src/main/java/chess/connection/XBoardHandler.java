@@ -2,19 +2,20 @@ package chess.connection;
 
 import chess.bot.ChessBot;
 import chess.engine.GameState;
-import java.io.BufferedReader;
-import java.io.IOException;
 import chess.model.Side;
 import logging.Logger;
+
+import java.io.BufferedReader;
+import java.io.IOException;
 /**
  * Class for handling game input coming from XBoard
  */
 public class XBoardHandler {
-    private ChessBot bot;
+    private final ChessBot bot;
     private GameState gamestate;
-    private BufferedReader in;
+    private final BufferedReader in;
 
-    private Logger logger;
+    private final Logger logger;
     
     /**
      * Initializes XBoardHandler with a given Bot and a reader to the input pipe

@@ -94,5 +94,5 @@ public class Square implements Comparable<Square> {
         } else {
             return -1;
         }
-    };
+    }
 }

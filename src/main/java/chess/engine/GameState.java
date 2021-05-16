@@ -5,12 +5,12 @@
  */
 package chess.engine;
 
+import chess.model.Side;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Arrays;
-import chess.model.Side;
 import java.util.stream.Collectors;
-
-import org.json.JSONObject;
 
 /**
  * Stores the state of a game of chess

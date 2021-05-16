@@ -6,15 +6,16 @@
 package chess.connection;
 
 import chess.bot.ChessBot;
-import chess.model.Event;
 import chess.engine.GameState;
+import chess.model.Event;
 import chess.model.Profile;
 import chess.model.Side;
+import logging.Logger;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.logging.Level;
-import logging.Logger;
 
 /**
  * Java implementation of the Lichess.org HTTP API for chess bots
@@ -22,13 +23,13 @@ import logging.Logger;
 public class LichessAPI {
 
     private final String token;
-    private ChessBot bot;
+    private final ChessBot bot;
     private String gameId;
     private String playerId;
-    private Logger logger;
-    private HTTPIOFactory httpFactory;
+    private final Logger logger;
+    private final HTTPIOFactory httpFactory;
 
-    private HashMap<String, String> headers;
+    private final HashMap<String, String> headers;
 
     /**
      * Create a LichessAPI object with a given bot and a bot token

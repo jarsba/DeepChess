@@ -1,9 +1,8 @@
 package datastructureproject.datastructures;
 
-import datastructureproject.datastructures.MathImp;
-
 /**
  * Hashmap implementation using linked lists
+ *
  * @param <K>
  * @param <V>
  */
@@ -44,7 +43,7 @@ public class HashMapImp<K, V> {
                     currentEntry.value = value;
                     return;
                 }
-                if(currentEntry.next == null) {
+                if (currentEntry.next == null) {
                     currentEntry.next = newEntry;
                     this.size++;
                     return;
@@ -65,6 +64,41 @@ public class HashMapImp<K, V> {
             entry = entry.next;
         }
         return null;
+    }
+
+    public int size() {
+        return this.size;
+    }
+
+    public void clear() {
+        this.size = 0;
+        this.map = new Entry[map.length];
+    }
+
+    public void remove(K key) {
+        for (int i = 0; i < map.length; i++) {
+            Entry<K, V> entry = map[i];
+            Entry<K, V> prev = null;
+            boolean found = false;
+            while (entry != null) {
+                if (entry.key.equals(key)) {
+                    found = true;
+                    if (prev == null) {
+                        map[i] = null;
+                    } else {
+                        prev.next = entry.next;
+                    }
+                    break;
+                } else {
+                    entry = entry.next;
+                    prev = entry;
+                }
+            }
+            if (found) {
+                size--;
+                break;
+            }
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -96,7 +130,6 @@ public class HashMapImp<K, V> {
             this.next = next;
         }
     }
-
 
 
 }
