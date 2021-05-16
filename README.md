@@ -18,4 +18,4 @@ Projektityö Tietorakenteet ja algoritmit harjoitustyöhön. Projekti forkattu s
 | Loppupalautus | [Toteutusdokumentti](https://github.com/jarsba/DeepChess/blob/master/documentation/toteutusdokumentti.md) |
 | Loppupalautus | [Testausdokumentti](https://github.com/jarsba/DeepChess/blob/master/documentation/testausdokumentti.md) |
 | Loppupalautus | [Käyttöohje](https://github.com/jarsba/DeepChess/blob/master/documentation/käyttöohje.md) |
-| Release | [Release]() |
+| Release | [Release v0.0.1](https://github.com/jarsba/DeepChess/releases/tag/v0.0.1) |
